@@ -9,7 +9,7 @@
 namespace Andre\Bionic\Contracts;
 
 
-interface WebHookEventInterface
+interface WebHookEventInterface extends DataWrapperInterface
 {
 
 }

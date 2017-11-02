@@ -9,7 +9,7 @@
 namespace Andre\Bionic\Contracts;
 
 
-interface MessageInterface
+interface MessageInterface extends DataWrapperInterface
 {
 
 }

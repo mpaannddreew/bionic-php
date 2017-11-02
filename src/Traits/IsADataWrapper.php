@@ -6,12 +6,15 @@
  * Time: 11:20 AM
  */
 
+namespace Andre\Bionic\Traits;
+
+
 trait IsADataWrapper
 {
     /**
      * @var array
      */
-    protected $data;
+    protected $data = [];
 
     /**
      * @return array

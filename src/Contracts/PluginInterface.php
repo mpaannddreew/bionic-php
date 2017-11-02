@@ -9,11 +9,12 @@
 namespace Andre\Bionic\Contracts;
 
 
-use Evenement\EventEmitterInterface;
+use Andre\Bionic\AbstractMessage;
+use Andre\Bionic\AbstractBionicClient;
 
 interface PluginInterface
 {
-    public function attachEvents(EventEmitterInterface $emitter);
+    public function emitEvents(AbstractBionicClient $client);
 
-    public function send(MessageInterface $message);
+    public function send(AbstractMessage $message);
 }

@@ -9,11 +9,14 @@
 namespace Andre\Bionic\Contracts;
 
 
+use Andre\Bionic\AbstractMessage;
+use Andre\Bionic\AbstractWebHookEvent;
+
 interface BionicInterface
 {
-    public function receive(WebHookEventInterface $event);
+    public function receive(AbstractWebHookEvent $event);
 
     public function execute();
 
-    public function send(MessageInterface $message);
+    public function send(AbstractMessage $message);
 }
