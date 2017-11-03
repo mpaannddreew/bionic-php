@@ -11,14 +11,14 @@ namespace Andre\Bionic\Plugins;
 
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\AbstractWebHookEvent;
-use Andre\Bionic\AbstractBionicClient;
+use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Contracts\PluginInterface;
 use GuzzleHttp\Client as HttpClient;
 
 abstract class AbstractBionicPlugin implements PluginInterface
 {
     /**
-     * @var AbstractBionicClient
+     * @var AbstractBionic
      */
     protected $client;
 
@@ -36,6 +36,11 @@ abstract class AbstractBionicPlugin implements PluginInterface
      * @var AbstractWebHookEvent
      */
     protected $webHookEvent;
+
+    /**
+     * @var array
+     */
+    protected $webHookData;
 
     /**
      * @var HttpClient
@@ -72,7 +77,7 @@ abstract class AbstractBionicPlugin implements PluginInterface
     /**
      * @return array
      */
-    protected abstract function getClientOptions();
+    protected abstract function defineHttpClientOptions();
 
     /**
      * create new http client
@@ -81,17 +86,22 @@ abstract class AbstractBionicPlugin implements PluginInterface
      */
     protected function newHttpClient()
     {
-        $options = $this->getClientOptions();
+        $options = $this->defineHttpClientOptions();
         return new HttpClient($options);
     }
 
     /**
      * set web hook event
      */
-    protected function setWebHookEvent()
+    protected function setWebHookData()
     {
-        $this->webHookEvent = $this->client->getWebHookEvent();
+        $this->webHookData = $this->client->getWebHookData();
     }
+
+    /**
+     * create a new web hook event from web hook data
+     */
+    abstract protected function createWebHookEvent();
 
     /**
      * register event listeners
@@ -108,9 +118,10 @@ abstract class AbstractBionicPlugin implements PluginInterface
     /**
      * run client tasks
      */
-    protected function runClientTasks()
+    protected function runPluginTasks()
     {
-        $this->setWebHookEvent();
+        $this->setWebHookData();
+        $this->createWebHookEvent();
         $this->registerEvents();
     }
 

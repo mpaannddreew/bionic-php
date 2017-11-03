@@ -24,4 +24,12 @@ abstract class AbstractWebHookEvent implements WebHookEventInterface
     {
         $this->data = $data;
     }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
 }

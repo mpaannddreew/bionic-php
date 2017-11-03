@@ -14,7 +14,7 @@ use Andre\Bionic\Contracts\BionicInterface;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
 use Evenement\EventEmitter;
 
-abstract class AbstractBionicClient extends EventEmitter implements BionicInterface
+abstract class AbstractBionic extends EventEmitter implements BionicInterface
 {
     /**
      * @var AbstractBionicPlugin
@@ -27,36 +27,52 @@ abstract class AbstractBionicClient extends EventEmitter implements BionicInterf
     protected $executed = False;
 
     /**
-     * @var AbstractWebHookEvent
+     * @var array
      */
-    protected $webHookEvent;
+    protected $webHookData;
 
     /**
-     * @var AbstractMessage
+     * AbstractBionicClient constructor.
      */
-    protected $message;
+    public function __construct(){}
 
     /**
-     * Client constructor.
+     * set plugin to use
+     *
      * @param AbstractBionicPlugin $plugin
+     * @return $this
      */
-    public function __construct(AbstractBionicPlugin $plugin)
+    public function setPlugin(AbstractBionicPlugin $plugin)
     {
         $this->plugin = $plugin;
+        return $this;
     }
 
     /**
      * Receive incoming web hook event
      *
-     * @param AbstractWebHookEvent $event
-     * @return $this
+     * @param array $webHookData
      */
-    public function receive(AbstractWebHookEvent $event)
+    public function receive($webHookData)
     {
-        $this->webHookEvent = $event;
-        return $this;
+        $this->webHookData = $webHookData;
+        $this->execute();
     }
 
+    /**
+     * execute client
+     */
+    public function execute(){
+        if ($this->isExecuted())
+            return;
+
+        $this->hasExecuted();
+        $this->plugin->emitEvents($this);
+    }
+
+    /**
+     * has client executed
+     */
     protected function hasExecuted()
     {
         $this->executed = True;
@@ -79,18 +95,10 @@ abstract class AbstractBionicClient extends EventEmitter implements BionicInterf
     }
 
     /**
-     * @return AbstractWebHookEvent
+     * @return array
      */
-    public function getWebHookEvent()
+    public function getWebHookData()
     {
-        return $this->webHookEvent;
-    }
-
-    /**
-     * @return AbstractMessage
-     */
-    public function getMessage()
-    {
-        return $this->message;
+        return $this->webHookData;
     }
 }

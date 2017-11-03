@@ -10,11 +10,11 @@ namespace Andre\Bionic\Contracts;
 
 
 use Andre\Bionic\AbstractMessage;
-use Andre\Bionic\AbstractBionicClient;
+use Andre\Bionic\AbstractBionic;
 
 interface PluginInterface
 {
-    public function emitEvents(AbstractBionicClient $client);
+    public function emitEvents(AbstractBionic $client);
 
     public function send(AbstractMessage $message);
 }

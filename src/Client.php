@@ -9,27 +9,7 @@
 namespace Andre\Bionic;
 
 
-class Client extends AbstractBionicClient
+class Client extends AbstractBionic
 {
-    /**
-     * execute client
-     */
-    public function execute(){
-        if ($this->isExecuted())
-            return;
 
-        $this->hasExecuted();
-        $this->plugin->emitEvents($this);
-    }
-
-    /**
-     * send message
-     *
-     * @param AbstractMessage $message
-     */
-    public function send(AbstractMessage $message)
-    {
-        $this->message = $message;
-        $this->plugin->send($this->message);
-    }
 }
