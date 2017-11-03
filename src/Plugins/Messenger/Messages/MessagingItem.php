@@ -61,6 +61,11 @@ class MessagingItem extends AbstractMessage
     protected $delivery = [];
 
     /**
+     * @var array $read
+     */
+    protected $read = [];
+
+    /**
      * @return Sender
      */
     public function getSender()
@@ -96,42 +101,68 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return PostBack|null
      */
     public function getPostback()
     {
-        return $this->postback;
+        if ($this->postback)
+            return new PostBack($this->postback);
+
+        return null;
     }
 
     /**
-     * @return array
+     * @return Referral|null
      */
     public function getReferral()
     {
-        return $this->referral;
+        if ($this->referral)
+            return new Referral($this->referral);
+
+        return null;
     }
 
     /**
-     * @return array
+     * @return Optin|null
      */
     public function getOptin()
     {
-        return $this->optin;
+        if ($this->optin)
+            return new Optin($this->optin);
+
+        return null;
     }
 
     /**
-     * @return array
+     * @return AccountLinking|null
      */
     public function getAccountLinking()
     {
-        return $this->account_linking;
+        if ($this->account_linking)
+            return new AccountLinking($this->account_linking);
+
+        return null;
     }
 
     /**
-     * @return array
+     * @return Delivery|null
      */
     public function getDelivery()
     {
-        return $this->delivery;
+        if ($this->delivery)
+            return new Delivery($this->delivery);
+
+        return null;
+    }
+
+    /**
+     * @return Read|null
+     */
+    public function getRead()
+    {
+        if ($this->delivery)
+            return new Read($this->read);
+
+        return null;
     }
 }

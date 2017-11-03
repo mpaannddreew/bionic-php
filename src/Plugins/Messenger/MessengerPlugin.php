@@ -113,24 +113,28 @@ class MessengerPlugin extends AbstractBionicPlugin
                     }
                 }
 
-                if ($messagingItem->getPostback()){
-
+                if ($post_back = $messagingItem->getPostback()){
+                    $this->client->emit('messenger.entry.postback', [$this, $sender, $recipient, $post_back]);
                 }
 
-                if ($messagingItem->getReferral()){
-
+                if ($referral = $messagingItem->getReferral()){
+                    $this->client->emit('messenger.entry.referral', [$this, $sender, $recipient, $referral]);
                 }
 
-                if ($messagingItem->getOptin()){
-
+                if ($optin = $messagingItem->getOptin()){
+                    $this->client->emit('messenger.entry.optin', [$this, $sender, $recipient, $optin]);
                 }
 
-                if ($messagingItem->getAccountLinking()){
-
+                if ($account_linking = $messagingItem->getAccountLinking()){
+                    $this->client->emit('messenger.entry.account_linking', [$this, $sender, $recipient, $account_linking]);
                 }
 
-                if ($messagingItem->getDelivery()){
+                if ($delivery = $messagingItem->getDelivery()){
+                    $this->client->emit('messenger.entry.delivery', [$this, $sender, $recipient, $delivery]);
+                }
 
+                if ($read = $messagingItem->getRead()){
+                    $this->client->emit('messenger.entry.read', [$this, $sender, $recipient, $read]);
                 }
             }
         }
