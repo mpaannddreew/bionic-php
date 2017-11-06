@@ -11,7 +11,7 @@ namespace Andre\Bionic\Plugins\Messenger;
 
 use Andre\Bionic\AbstractMessage;
 
-class Profile extends AbstractMessage
+class UserProfile extends AbstractMessage
 {
     /**
      * @var string $id

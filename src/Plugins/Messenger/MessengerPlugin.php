@@ -50,25 +50,14 @@ class MessengerPlugin extends AbstractBionicPlugin
     {
         parent::__construct($config);
         $this->httpClient = $this->newHttpClient();
-        if ($this->page_access_token)
-            $this->editUrl($this->page_access_token);
     }
 
     /**
      * @param mixed $page_access_token
      */
-    public function changePageAccessToken($page_access_token)
+    public function setPageAccessToken($page_access_token)
     {
         $this->page_access_token = $page_access_token;
-        $this->editUrl($this->page_access_token);
-    }
-
-    /**
-     * @param $page_access_token
-     */
-    protected function editUrl($page_access_token)
-    {
-        $this->messaging_url = $this->messaging_url . $page_access_token;
     }
 
     /**
@@ -268,6 +257,6 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function sendMessage($data)
     {
-        return $this->httpClient->post($this->messaging_url, ['json' => $data]);
+        return $this->httpClient->post($this->messaging_url . $this->page_access_token, ['json' => $data]);
     }
 }

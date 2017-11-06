@@ -10,7 +10,7 @@ namespace Andre\Bionic\Plugins\Messenger\Traits;
 
 
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\AbstractEndPoint;
-use Andre\Bionic\Plugins\Messenger\Profile;
+use Andre\Bionic\Plugins\Messenger\UserProfile;
 
 trait AccessesUserProfile
 {
@@ -21,15 +21,15 @@ trait AccessesUserProfile
 
     /**
      * @param AbstractEndPoint $user
-     * @return Profile|null
+     * @return UserProfile|null
      */
-    public function getProfile(AbstractEndPoint $user)
+    public function getUserProfile(AbstractEndPoint $user)
     {
         $this->profile_access_url = str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, str_replace('{PSID}', $user->getId(), $this->profile_access_url));
 
         try{
             $response = $this->httpClient->get($this->profile_access_url)->getBody()->getContents();
-            return new Profile((array)json_decode($response));
+            return new UserProfile((array)json_decode($response));
         }catch (\Exception $exception){
             return null;
         }

@@ -2,16 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: andre
- * Date: 2017-11-05
- * Time: 10:43 PM
+ * Date: 2017-11-06
+ * Time: 5:33 PM
  */
 
-namespace Andre\Bionic\Plugins\Messenger;
+namespace Andre\Bionic\Plugins\Messenger\BotProfile;
 
 
 use Andre\Bionic\AbstractMessage;
 
-class PersistentMenu extends AbstractMessage
+class PersistentMenuItem extends AbstractMessage
 {
     /**
      * @var array $call_to_actions
@@ -84,6 +84,4 @@ class PersistentMenu extends AbstractMessage
         $this->data['type'] = $this->getType();
         return $this;
     }
-
-
 }
