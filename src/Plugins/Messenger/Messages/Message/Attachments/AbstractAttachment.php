@@ -70,7 +70,7 @@ abstract class AbstractAttachment extends AbstractMessage
     /**
      * set type
      */
-    abstract public function setType();
+    abstract protected function setType();
 
     /**
      * @param array $payload

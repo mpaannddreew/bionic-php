@@ -17,7 +17,7 @@ abstract class AbstractTemplate extends AbstractAttachment
     /**
      * set type
      */
-    public function setType()
+    protected function setType()
     {
         $this->type = self::TEMPLATE;
     }

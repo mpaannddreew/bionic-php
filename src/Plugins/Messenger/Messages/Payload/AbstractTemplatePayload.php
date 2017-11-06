@@ -48,6 +48,6 @@ abstract class AbstractTemplatePayload extends AbstractMessage
     /**
      * set template type
      */
-    abstract public function setTemplateType();
+    abstract protected function setTemplateType();
 
 }

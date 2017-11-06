@@ -19,7 +19,7 @@ class GenericTemplatePayload extends AbstractTemplatePayload
     /**
      * set template type
      */
-    public function setTemplateType()
+    protected function setTemplateType()
     {
         $this->template_type = self::GENERIC;
     }

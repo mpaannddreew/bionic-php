@@ -15,7 +15,7 @@ class MarkSeen extends AbstractSenderAction
     /**
      * set sender action
      */
-    public function setSenderAction()
+    protected function setSenderAction()
     {
         $this->sender_action = self::MARK_SEEN;
     }

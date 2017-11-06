@@ -22,9 +22,14 @@ class ListTemplatePayload extends AbstractTemplatePayload
     protected $top_element_style;
 
     /**
+     * @var array $buttons
+     */
+    protected $buttons = [];
+
+    /**
      * set template type
      */
-    public function setTemplateType()
+    protected function setTemplateType()
     {
         $this->template_type = self::LIST_;
     }
@@ -66,6 +71,27 @@ class ListTemplatePayload extends AbstractTemplatePayload
         $this->data['top_element_style'] = $this->getTopElementStyle();
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getButtons()
+    {
+        return $this->buttons;
+    }
+
+    /**
+     * @param array $buttons
+     * @return $this
+     */
+    public function setButtons($buttons)
+    {
+        $this->buttons = $buttons;
+        $this->data['buttons'] = $this->getButtons();
+        return $this;
+    }
+
+
 
 
 }

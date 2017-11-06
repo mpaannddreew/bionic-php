@@ -15,7 +15,7 @@ class Audio extends AbstractAttachment
     /**
      * set type
      */
-    public function setType()
+    protected function setType()
     {
         $this->type = self::AUDIO;
     }

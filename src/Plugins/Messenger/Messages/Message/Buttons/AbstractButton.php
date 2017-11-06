@@ -40,7 +40,7 @@ abstract class AbstractButton extends AbstractMessage
         if(!$this->getType())
         {
             $this->setType();
-            $this['type'] = $this->getType();
+            $this->data['type'] = $this->getType();
         }
     }
 

@@ -18,11 +18,15 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\MarkSeen;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\TypingOff;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\TypingOn;
 use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Traits\AccessesUserProfile;
+use Andre\Bionic\Plugins\Messenger\Traits\ManagesBotProfile;
 use GuzzleHttp\Client as HttpClient;
 
 
 class MessengerPlugin extends AbstractBionicPlugin
 {
+    use AccessesUserProfile, ManagesBotProfile;
+
     /**
      * @var HttpClient
      */
@@ -31,7 +35,7 @@ class MessengerPlugin extends AbstractBionicPlugin
     /**
      * @var string
      */
-    protected $url = "https://graph.facebook.com/v2.6/me/messages?access_token=";
+    protected $messaging_url = "https://graph.facebook.com/v2.10/me/messages?access_token=";
 
     /**
      * @var $page_access_token
@@ -64,7 +68,7 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function editUrl($page_access_token)
     {
-        $this->url = $this->url . $page_access_token;
+        $this->messaging_url = $this->messaging_url . $page_access_token;
     }
 
     /**
@@ -172,6 +176,19 @@ class MessengerPlugin extends AbstractBionicPlugin
     }
 
     /**
+     * send plain text
+     *
+     * @param string $text
+     * @param array $quick_replies
+     * @param AbstractEndPoint $recipient
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function sendPlainText($text, $quick_replies = [], AbstractEndPoint $recipient)
+    {
+        return $this->sendText(new Text(['text' => $text]), $quick_replies, $recipient);
+    }
+
+    /**
      * send text message
      *
      * @param Text $message
@@ -187,19 +204,13 @@ class MessengerPlugin extends AbstractBionicPlugin
         ];
 
         if ($quick_replies)
-        {
-            $data['message']['quick_replies'] = [];
-            foreach ($quick_replies as $quick_reply)
-            {
-                array_push($data['message']['quick_replies'], $quick_reply->toArray());
-            }
-        }
+            $data['message']['quick_replies'] = $quick_replies;
 
-        return $this->send($data);
+        return $this->sendMessage($data);
     }
 
     /**
-     * send audio message
+     * send an attachment message
      *
      * @param AbstractAttachment $message
      * @param AbstractEndPoint $recipient
@@ -207,7 +218,7 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     public function sendAttachment(AbstractAttachment $message, AbstractEndPoint $recipient)
     {
-        return $this->send([
+        return $this->sendMessage([
             'recipient' => $recipient->toArray(),
             'message' => [
                 'attachment' => $message->toArray()
@@ -216,6 +227,8 @@ class MessengerPlugin extends AbstractBionicPlugin
     }
 
     /**
+     * send action
+     *
      * @param AbstractEndPoint $recipient
      * @param string $type
      */
@@ -245,10 +258,7 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function sendSenderAction(AbstractSenderAction $message, AbstractEndPoint $recipient)
     {
-        return $this->send([
-            'recipient' => $recipient->toArray(),
-            'sender_action' => $message->toArray()['sender_action']
-        ]);
+        return $this->sendMessage(array_merge(['recipient' => $recipient->toArray()], $message->toArray()));
     }
 
     /**
@@ -256,8 +266,8 @@ class MessengerPlugin extends AbstractBionicPlugin
      * @param $data
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function send($data)
+    protected function sendMessage($data)
     {
-        return $this->httpClient->post($this->url, ['json' => $data]);
+        return $this->httpClient->post($this->messaging_url, ['json' => $data]);
     }
 }

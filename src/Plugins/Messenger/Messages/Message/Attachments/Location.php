@@ -27,7 +27,7 @@ class Location extends AbstractAttachment
     /**
      * set type
      */
-    public function setType()
+    protected function setType()
     {
         $this->type = self::LOCATION;
     }

@@ -15,7 +15,7 @@ class TypingOn extends AbstractSenderAction
     /**
      * set sender action
      */
-    public function setSenderAction()
+    protected function setSenderAction()
     {
         $this->sender_action = self::TYPING_ON;
     }

@@ -1,0 +1,37 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: andre
+ * Date: 2017-11-06
+ * Time: 1:46 PM
+ */
+
+namespace Andre\Bionic\Plugins\Messenger\Traits;
+
+
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\AbstractEndPoint;
+use Andre\Bionic\Plugins\Messenger\Profile;
+
+trait AccessesUserProfile
+{
+    /**
+     * @var string $profile_access_url
+     */
+    protected $profile_access_url = "https://graph.facebook.com/v2.10/{PSID}?fields=first_name,last_name,profile_pic&access_token={PAGE_ACCESS_TOKEN}";
+
+    /**
+     * @param AbstractEndPoint $user
+     * @return Profile|null
+     */
+    public function getProfile(AbstractEndPoint $user)
+    {
+        $this->profile_access_url = str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, str_replace('{PSID}', $user->getId(), $this->profile_access_url));
+
+        try{
+            $response = $this->httpClient->get($this->profile_access_url)->getBody()->getContents();
+            return new Profile((array)json_decode($response));
+        }catch (\Exception $exception){
+            return null;
+        }
+    }
+}

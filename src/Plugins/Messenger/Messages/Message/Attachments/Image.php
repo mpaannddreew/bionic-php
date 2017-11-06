@@ -16,7 +16,7 @@ class Image extends AbstractAttachment
     /**
      * set type
      */
-    public function setType()
+    protected function setType()
     {
         $this->type = self::IMAGE;
     }
