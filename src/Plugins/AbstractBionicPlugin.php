@@ -70,24 +70,11 @@ abstract class AbstractBionicPlugin implements PluginInterface
     abstract protected function createWebHookEvent();
 
     /**
-     * register event listeners
-     */
-    protected function registerListeners()
-    {
-        foreach ($this->bionic->getListen() as $event => $listeners){
-            foreach ($listeners as $listener){
-                $this->bionic->on($event, $listener);
-            }
-        }
-    }
-
-    /**
      * run client tasks
      */
     protected function runPluginTasks()
     {
         $this->setWebHookData();
         $this->createWebHookEvent();
-        $this->registerListeners();
     }
 }

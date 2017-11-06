@@ -75,6 +75,19 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
         $this->listen[$event][] = $listener;
     }
 
+
+    /**
+     * register event listeners
+     */
+    protected function registerEventListeners()
+    {
+        foreach ($this->listen as $event => $listeners){
+            foreach ($listeners as $listener){
+                $this->on($event, $listener);
+            }
+        }
+    }
+
     /**
      * execute client
      */
@@ -83,6 +96,7 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
             return;
 
         $this->hasExecuted();
+        $this->registerEventListeners();
         $this->plugin->emitEvents($this);
     }
 
