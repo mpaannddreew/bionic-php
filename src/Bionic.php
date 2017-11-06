@@ -9,7 +9,7 @@
 namespace Andre\Bionic;
 
 
-class Client extends AbstractBionic
+class Bionic extends AbstractBionic
 {
 
 }

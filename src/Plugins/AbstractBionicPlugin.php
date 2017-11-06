@@ -9,28 +9,21 @@
 namespace Andre\Bionic\Plugins;
 
 
-use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\AbstractWebHookEvent;
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Contracts\PluginInterface;
-use GuzzleHttp\Client as HttpClient;
 
 abstract class AbstractBionicPlugin implements PluginInterface
 {
     /**
      * @var AbstractBionic
      */
-    protected $client;
+    protected $bionic;
 
     /**
      * @var array
      */
     protected $config;
-
-    /**
-     * @var string
-     */
-    protected $url;
 
     /**
      * @var AbstractWebHookEvent
@@ -43,16 +36,6 @@ abstract class AbstractBionicPlugin implements PluginInterface
     protected $webHookData;
 
     /**
-     * @var HttpClient
-     */
-    protected $httpClient;
-
-    /**
-     * @var array
-     */
-    protected $listen = [];
-
-    /**
      * AbstractBionicPlugin constructor.
      * @param array $config
      */
@@ -60,7 +43,6 @@ abstract class AbstractBionicPlugin implements PluginInterface
     {
         $this->config = $config;
         $this->setUpConfigurations();
-        $this->httpClient = $this->newHttpClient();
     }
 
     /**
@@ -75,27 +57,11 @@ abstract class AbstractBionicPlugin implements PluginInterface
     }
 
     /**
-     * @return array
-     */
-    protected abstract function defineHttpClientOptions();
-
-    /**
-     * create new http client
-     *
-     * @return HttpClient
-     */
-    protected function newHttpClient()
-    {
-        $options = $this->defineHttpClientOptions();
-        return new HttpClient($options);
-    }
-
-    /**
      * set web hook event
      */
     protected function setWebHookData()
     {
-        $this->webHookData = $this->client->getWebHookData();
+        $this->webHookData = $this->bionic->getWebHookData();
     }
 
     /**
@@ -106,11 +72,11 @@ abstract class AbstractBionicPlugin implements PluginInterface
     /**
      * register event listeners
      */
-    protected function registerEvents()
+    protected function registerListeners()
     {
-        foreach ($this->listen as $key => $value){
-            foreach ($value as $listener){
-                $this->client->on($key, $listener);
+        foreach ($this->bionic->getListen() as $event => $listeners){
+            foreach ($listeners as $listener){
+                $this->bionic->on($event, $listener);
             }
         }
     }
@@ -122,17 +88,6 @@ abstract class AbstractBionicPlugin implements PluginInterface
     {
         $this->setWebHookData();
         $this->createWebHookEvent();
-        $this->registerEvents();
-    }
-
-    /**
-     * send message
-     *
-     * @param AbstractMessage $message
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function send(AbstractMessage $message)
-    {
-        return $this->httpClient->post($this->url, ['json' => $message->toArray()]);
+        $this->registerListeners();
     }
 }

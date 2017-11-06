@@ -22,14 +22,19 @@ use Exception;
 class Message extends AbstractMessage
 {
     /**
-     * @var $mid
+     * @var string $mid
      */
     protected $mid;
 
     /**
-     * @var $text
+     * @var string $text
      */
     protected $text;
+
+    /**
+     * @var int $seq
+     */
+    protected $seq;
 
     /**
      * @var boolean $is_echo
@@ -37,7 +42,7 @@ class Message extends AbstractMessage
     protected $is_echo = False;
 
     /**
-     * @var $app_id
+     * @var int $app_id
      */
     protected $app_id;
 
@@ -109,7 +114,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * @return int mixed
      */
     public function getMid()
     {
@@ -117,19 +122,25 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * @return Text
      */
     public function getText()
     {
-        return $this->text;
+        if ($this->text)
+            return (new Text())->setText($this->text);
+
+        return null;
     }
 
     /**
-     * @return QuickReply
+     * @return QuickReply|null
      */
     public function getQuickReply()
     {
-        return new QuickReply($this->quick_reply);
+        if ($this->quick_reply)
+            return new QuickReply($this->quick_reply);
+
+        return null;
     }
 
     /**
@@ -157,7 +168,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getAppId()
     {
@@ -170,5 +181,13 @@ class Message extends AbstractMessage
     public function getMetadata()
     {
         return $this->metadata;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSeq()
+    {
+        return $this->seq;
     }
 }

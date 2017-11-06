@@ -9,7 +9,6 @@
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments;
 
 
-use Andre\Bionic\Plugins\Messenger\Messages\Message\AbstractAttachment;
 
 class Fallback extends AbstractAttachment
 {
@@ -19,7 +18,7 @@ class Fallback extends AbstractAttachment
     protected $title;
 
     /**
-     * @var $URL
+     * @var string $URL
      */
     protected $URL;
 
@@ -32,10 +31,40 @@ class Fallback extends AbstractAttachment
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getURL()
     {
         return $this->URL;
+    }
+
+    /**
+     * set type
+     */
+    public function setType()
+    {
+        $this->type = self::FALLBACK;
+    }
+
+    /**
+     * @param string $title
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        $this->data['title'] = $this->getTitle();
+        return $this;
+    }
+
+    /**
+     * @param string $URL
+     * @return $this
+     */
+    public function setURL($URL)
+    {
+        $this->URL = $URL;
+        $this->data['URL'] = $this->getURL();
+        return $this;
     }
 }

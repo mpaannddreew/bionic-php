@@ -9,9 +9,14 @@
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments;
 
 
-use Andre\Bionic\Plugins\Messenger\Messages\Message\AbstractAttachment;
 
 class Audio extends AbstractAttachment
 {
-
+    /**
+     * set type
+     */
+    public function setType()
+    {
+        $this->type = self::AUDIO;
+    }
 }

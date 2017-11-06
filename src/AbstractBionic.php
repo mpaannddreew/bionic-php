@@ -32,6 +32,11 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     protected $webHookData;
 
     /**
+     * @var array
+     */
+    protected $listen = [];
+
+    /**
      * AbstractBionicClient constructor.
      */
     public function __construct(){}
@@ -60,6 +65,17 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     }
 
     /**
+     * register an event listener
+     *
+     * @param $event
+     * @param $listener
+     */
+    public function listen($event, $listener)
+    {
+        $this->listen[$event][] = $listener;
+    }
+
+    /**
      * execute client
      */
     public function execute(){
@@ -84,6 +100,14 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     public function getPlugin()
     {
         return $this->plugin;
+    }
+
+    /**
+     * @return array
+     */
+    public function getListen()
+    {
+        return $this->listen;
     }
 
     /**

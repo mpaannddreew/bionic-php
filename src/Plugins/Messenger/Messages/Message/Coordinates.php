@@ -14,17 +14,17 @@ use Andre\Bionic\AbstractMessage;
 class Coordinates extends AbstractMessage
 {
     /**
-     * @var $lat
+     * @var float $lat
      */
     protected $lat;
 
     /**
-     * @var $long
+     * @var float $long
      */
     protected $long;
 
     /**
-     * @return mixed
+     * @return float
      */
     public function getLat()
     {
@@ -32,7 +32,7 @@ class Coordinates extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * @return float
      */
     public function getLong()
     {

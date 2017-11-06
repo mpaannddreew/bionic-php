@@ -11,10 +11,11 @@ namespace Andre\Bionic;
 
 use Andre\Bionic\Contracts\WebHookEventInterface;
 use Andre\Bionic\Traits\IsADataWrapper;
+use Andre\Bionic\Traits\SetsProperties;
 
 abstract class AbstractWebHookEvent implements WebHookEventInterface
 {
-    use IsADataWrapper;
+    use IsADataWrapper, SetsProperties;
 
     /**
      * AbstractWebHookEvent constructor.
@@ -23,6 +24,7 @@ abstract class AbstractWebHookEvent implements WebHookEventInterface
     public function __construct($data)
     {
         $this->data = $data;
+        $this->setProperties();
     }
 
     /**

@@ -26,7 +26,7 @@ class MessagingItem extends AbstractMessage
     protected $recipient = [];
 
     /**
-     * @var $timestamp
+     * @var int $timestamp
      */
     protected $timestamp;
 
@@ -82,7 +82,7 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getTimestamp()
     {

@@ -9,8 +9,6 @@
 namespace Andre\Bionic\Contracts;
 
 
-use Andre\Bionic\AbstractMessage;
-use Andre\Bionic\AbstractWebHookEvent;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
 
 interface BionicInterface
@@ -18,6 +16,8 @@ interface BionicInterface
     public function setPlugin(AbstractBionicPlugin $plugin);
 
     public function receive($data);
+
+    public function listen($event, $listener);
 
     public function execute();
 }

@@ -11,9 +11,23 @@ namespace Andre\Bionic\Plugins\Messenger;
 
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\AbstractEndPoint;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\AbstractSenderAction;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\MarkSeen;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\TypingOff;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\TypingOn;
+use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use GuzzleHttp\Client as HttpClient;
+
 
 class MessengerPlugin extends AbstractBionicPlugin
 {
+    /**
+     * @var HttpClient
+     */
+    protected $httpClient;
+
     /**
      * @var string
      */
@@ -24,9 +38,14 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected $page_access_token;
 
-    public function __construct(array $config = [])
+    /**
+     * MessengerPlugin constructor.
+     * @param array $config
+     */
+    public function __construct($config = [])
     {
         parent::__construct($config);
+        $this->httpClient = $this->newHttpClient();
         if ($this->page_access_token)
             $this->editUrl($this->page_access_token);
     }
@@ -40,32 +59,37 @@ class MessengerPlugin extends AbstractBionicPlugin
         $this->editUrl($this->page_access_token);
     }
 
+    /**
+     * @param $page_access_token
+     */
     protected function editUrl($page_access_token)
     {
         $this->url = $this->url . $page_access_token;
     }
 
     /**
-     * @param AbstractBionic $client
+     * @param AbstractBionic $bionic
      */
-    public function emitEvents(AbstractBionic $client)
+    public function emitEvents(AbstractBionic $bionic)
     {
-        $this->client = $client;
+        $this->bionic = $bionic;
         $this->runPluginTasks();
         $this->iterateOverEntryMessages();
     }
 
     /**
-     * @return array
+     * create new http client
+     *
+     * @return HttpClient
      */
-    protected function defineHttpClientOptions()
+    protected function newHttpClient()
     {
-        return [
+        return new HttpClient([
             'headers' => [
                 'Content-Type' => 'application/json'
             ],
             'verify' => false
-        ];
+        ]);
     }
 
     /**
@@ -81,62 +105,159 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function iterateOverEntryMessages()
     {
-        if ($entryMessages = $this->webHookEvent->getEntryMessages())
-            $this->client->emit('messenger.entry', [$this, $entryMessages]);
+        if ($entryItems = $this->webHookEvent->getEntryItems())
+            $this->bionic->emit('entry', [$this, $entryItems]);
 
-        foreach ($this->webHookEvent->getEntryMessages() as $entryMessage)
+        foreach ($this->webHookEvent->getEntryItems() as $entryItem)
         {
-            $this->client->emit('messenger.entry.message', [$this, $entryMessage]);
+            $this->bionic->emit('entry.item', [$this, $entryItem]);
 
-            foreach ($entryMessage->getMessagingItems() as $messagingItem)
+            if ($messagingItems = $entryItem->getMessagingItems())
+                $this->bionic->emit('messaging', [$this, $messagingItems]);
+
+            foreach ($entryItem->getMessagingItems() as $messagingItem)
             {
+                $this->bionic->emit('messaging.item', [$this, $messagingItem]);
+
                 $sender = $messagingItem->getSender();
                 $recipient = $messagingItem->getRecipient();
 
-                if ($messagingItem->getMessage()){
-                    $message = $messagingItem->getMessage();
+                if ($message = $messagingItem->getMessage()){
+
                     if ($message->isEcho())
                     {
-                        $this->client->emit('messenger.entry.message.echo', [$this, $sender, $recipient, $message]);
+                        $this->bionic->emit('message.echo', [$this, $sender, $recipient, $message]);
                     }else {
+                        $this->bionic->emit('message', [$this, $sender, $recipient, $message]);
+
                         if ($message->getText())
-                            $this->client->emit('messenger.entry.message.text', [$this, $sender, $recipient, $message]);
+                            $this->bionic->emit('message.text', [$this, $sender, $recipient, $message->getText(), $message->getQuickReply()]);
 
                         if ($attachments = $message->getAttachmentItems())
                         {
-                            $this->client->emit('messenger.entry.message.attachments', [$this, $sender, $recipient, $attachments]);
+                            $this->bionic->emit('message.attachments', [$this, $sender, $recipient, $attachments]);
                             foreach ($attachments as $attachment)
                             {
-                                $this->client->emit('messenger.entry.message.attachments.' . $attachment->getType(), [$this, $sender, $recipient, $attachment]);
+                                $this->bionic->emit('message.attachments.' . $attachment->getType(), [$this, $sender, $recipient, $attachment]);
                             }
                         }
                     }
                 }
 
                 if ($post_back = $messagingItem->getPostback()){
-                    $this->client->emit('messenger.entry.postback', [$this, $sender, $recipient, $post_back]);
+                    $this->bionic->emit('postback', [$this, $sender, $recipient, $post_back]);
                 }
 
                 if ($referral = $messagingItem->getReferral()){
-                    $this->client->emit('messenger.entry.referral', [$this, $sender, $recipient, $referral]);
+                    $this->bionic->emit('referral', [$this, $sender, $recipient, $referral]);
                 }
 
                 if ($optin = $messagingItem->getOptin()){
-                    $this->client->emit('messenger.entry.optin', [$this, $sender, $recipient, $optin]);
+                    $this->bionic->emit('optin', [$this, $sender, $recipient, $optin]);
                 }
 
                 if ($account_linking = $messagingItem->getAccountLinking()){
-                    $this->client->emit('messenger.entry.account_linking', [$this, $sender, $recipient, $account_linking]);
+                    $this->bionic->emit('account_linking', [$this, $sender, $recipient, $account_linking]);
                 }
 
                 if ($delivery = $messagingItem->getDelivery()){
-                    $this->client->emit('messenger.entry.delivery', [$this, $sender, $recipient, $delivery]);
+                    $this->bionic->emit('delivery', [$this, $sender, $recipient, $delivery]);
                 }
 
                 if ($read = $messagingItem->getRead()){
-                    $this->client->emit('messenger.entry.read', [$this, $sender, $recipient, $read]);
+                    $this->bionic->emit('read', [$this, $sender, $recipient, $read]);
                 }
             }
         }
+    }
+
+    /**
+     * send text message
+     *
+     * @param Text $message
+     * @param array $quick_replies
+     * @param AbstractEndPoint $recipient
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function sendText(Text $message, $quick_replies = [], AbstractEndPoint $recipient)
+    {
+        $data = [
+            'recipient' => $recipient->toArray(),
+            'message' => $message->toArray()
+        ];
+
+        if ($quick_replies)
+        {
+            $data['message']['quick_replies'] = [];
+            foreach ($quick_replies as $quick_reply)
+            {
+                array_push($data['message']['quick_replies'], $quick_reply->toArray());
+            }
+        }
+
+        return $this->send($data);
+    }
+
+    /**
+     * send audio message
+     *
+     * @param AbstractAttachment $message
+     * @param AbstractEndPoint $recipient
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function sendAttachment(AbstractAttachment $message, AbstractEndPoint $recipient)
+    {
+        return $this->send([
+            'recipient' => $recipient->toArray(),
+            'message' => [
+                'attachment' => $message->toArray()
+            ]
+        ]);
+    }
+
+    /**
+     * @param AbstractEndPoint $recipient
+     * @param string $type
+     */
+    public function sendAction(AbstractEndPoint $recipient, $type = 'mark_seen'){
+        switch ($type)
+        {
+            case 'typing_off':
+                $action = new TypingOff();
+                break;
+            case 'typing_on':
+                $action = new TypingOn();
+                break;
+            default:
+                $action = new MarkSeen();
+                break;
+        }
+
+        $this->sendSenderAction($action, $recipient);
+    }
+
+    /**
+     * send sender action
+     *
+     * @param AbstractSenderAction $message
+     * @param AbstractEndPoint $recipient
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function sendSenderAction(AbstractSenderAction $message, AbstractEndPoint $recipient)
+    {
+        return $this->send([
+            'recipient' => $recipient->toArray(),
+            'sender_action' => $message->toArray()['sender_action']
+        ]);
+    }
+
+    /**
+     * send message
+     * @param $data
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function send($data)
+    {
+        return $this->httpClient->post($this->url, ['json' => $data]);
     }
 }

@@ -13,10 +13,13 @@ use Andre\Bionic\AbstractMessage;
 
 class Optin extends AbstractMessage
 {
+    /**
+     * @var string $ref
+     */
     protected $ref;
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getRef()
     {

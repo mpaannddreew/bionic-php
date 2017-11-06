@@ -10,7 +10,7 @@ namespace Andre\Bionic\Plugins\Messenger;
 
 
 use Andre\Bionic\AbstractWebHookEvent;
-use Andre\Bionic\Plugins\Messenger\Messages\EntryMessage;
+use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
 
 class MessengerWebHookEvent extends AbstractWebHookEvent
 {
@@ -25,9 +25,9 @@ class MessengerWebHookEvent extends AbstractWebHookEvent
     protected $entry = [];
 
     /**
-     * @var array $entry_messages
+     * @var array $entry_items
      */
-    protected $entry_messages = [];
+    protected $entry_items = [];
 
     /**
      * MessengerWebHookEvent constructor.
@@ -36,23 +36,17 @@ class MessengerWebHookEvent extends AbstractWebHookEvent
     public function __construct($data)
     {
         parent::__construct($data);
-        $this->setAttributes();
         $this->populateEntryMessages();
     }
 
-    protected function setAttributes()
-    {
-        foreach ($this->data as $key => $value){
-            if (property_exists($this, $key))
-                $this->{$key} = $value;
-        }
-    }
-
+    /**
+     * populate entry items
+     */
     protected function populateEntryMessages()
     {
-        foreach ($this->entry as $entry_message)
+        foreach ($this->entry as $entry_item)
         {
-            array_push($this->entry_messages, new EntryMessage($entry_message));
+            array_push($this->entry_items, new EntryItem($entry_item));
         }
     }
 
@@ -75,8 +69,8 @@ class MessengerWebHookEvent extends AbstractWebHookEvent
     /**
      * @return array
      */
-    public function getEntryMessages()
+    public function getEntryItems()
     {
-        return $this->entry_messages;
+        return $this->entry_items;
     }
 }

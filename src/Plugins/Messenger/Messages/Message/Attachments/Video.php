@@ -9,9 +9,15 @@
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments;
 
 
-use Andre\Bionic\Plugins\Messenger\Messages\Message\AbstractAttachment;
 
 class Video extends AbstractAttachment
 {
 
+    /**
+     * set type
+     */
+    public function setType()
+    {
+        $this->type = self::VIDEO;
+    }
 }

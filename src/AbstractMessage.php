@@ -11,10 +11,11 @@ namespace Andre\Bionic;
 
 use Andre\Bionic\Contracts\MessageInterface;
 use Andre\Bionic\Traits\IsADataWrapper;
+use Andre\Bionic\Traits\SetsProperties;
 
 abstract class AbstractMessage implements MessageInterface
 {
-    use IsADataWrapper;
+    use IsADataWrapper, SetsProperties;
 
     /**
      * AbstractMessage constructor.
@@ -23,15 +24,7 @@ abstract class AbstractMessage implements MessageInterface
     public function __construct($data = [])
     {
         $this->data = $data;
-        $this->setAttributes();
-    }
-
-    protected function setAttributes()
-    {
-        foreach ($this->data as $key => $value){
-            if (property_exists($this, $key))
-                $this->{$key} = $value;
-        }
+        $this->setProperties();
     }
 
     /**

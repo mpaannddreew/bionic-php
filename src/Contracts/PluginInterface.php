@@ -15,6 +15,4 @@ use Andre\Bionic\AbstractBionic;
 interface PluginInterface
 {
     public function emitEvents(AbstractBionic $client);
-
-    public function send(AbstractMessage $message);
 }

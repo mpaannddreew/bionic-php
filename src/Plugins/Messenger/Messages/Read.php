@@ -14,17 +14,17 @@ use Andre\Bionic\AbstractMessage;
 class Read extends AbstractMessage
 {
     /**
-     * @var $watermark
+     * @var int $watermark
      */
     protected $watermark;
 
     /**
-     * @var $seq
+     * @var int $seq
      */
     protected $seq;
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getWatermark()
     {
@@ -32,7 +32,7 @@ class Read extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getSeq()
     {

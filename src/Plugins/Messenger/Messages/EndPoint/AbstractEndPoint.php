@@ -14,7 +14,7 @@ use Andre\Bionic\AbstractMessage;
 class AbstractEndPoint extends AbstractMessage
 {
     /**
-     * @var $id
+     * @var string $id
      */
     protected $id;
 
@@ -24,5 +24,16 @@ class AbstractEndPoint extends AbstractMessage
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        $this->data['id'] = $this->getId();
+        return $this;
     }
 }

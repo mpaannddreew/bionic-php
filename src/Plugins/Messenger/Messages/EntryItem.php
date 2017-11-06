@@ -12,15 +12,15 @@ namespace Andre\Bionic\Plugins\Messenger\Messages;
 
 use Andre\Bionic\AbstractMessage;
 
-class EntryMessage extends AbstractMessage
+class EntryItem extends AbstractMessage
 {
     /**
-     * @var $id
+     * @var string $id
      */
     protected $id;
 
     /**
-     * @var $time
+     * @var int $time
      */
     protected $time;
 
@@ -56,7 +56,7 @@ class EntryMessage extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getId()
     {
@@ -64,7 +64,7 @@ class EntryMessage extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getTime()
     {
