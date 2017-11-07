@@ -20,6 +20,8 @@ class LocationPayLoad extends AbstractMessage
     protected $coordinates = [];
 
     /**
+     * get coordinates
+     *
      * @return Coordinates|null
      */
     public function getCoordinates()

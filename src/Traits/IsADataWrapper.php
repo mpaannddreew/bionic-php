@@ -17,6 +17,8 @@ trait IsADataWrapper
     protected $data = [];
 
     /**
+     * array representation of data
+     *
      * @return array
      */
     public function toArray(){
@@ -24,6 +26,8 @@ trait IsADataWrapper
     }
 
     /**
+     * json representation of data
+     *
      * @param int $options
      * @return string
      */
@@ -32,6 +36,8 @@ trait IsADataWrapper
     }
 
     /**
+     * string representation of data
+     *
      * @return string
      */
     public function __toString(){

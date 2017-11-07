@@ -26,7 +26,7 @@ class ListTemplatePayload extends AbstractTemplatePayload
      */
     protected $buttons = [];
 
-    /**
+    /***
      * set template type
      */
     protected function setTemplateType()
@@ -35,6 +35,8 @@ class ListTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * get elements
+     *
      * @return array
      */
     public function getElements()
@@ -43,6 +45,8 @@ class ListTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * set elements
+     *
      * @param array $elements
      * @return $this
      */
@@ -54,6 +58,8 @@ class ListTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * get top element style
+     *
      * @return string
      */
     public function getTopElementStyle()
@@ -62,6 +68,8 @@ class ListTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * set top element style
+     *
      * @param string $top_element_style
      * @return $this
      */
@@ -73,6 +81,8 @@ class ListTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * get buttons
+     *
      * @return array
      */
     public function getButtons()
@@ -81,6 +91,8 @@ class ListTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * set buttons
+     *
      * @param array $buttons
      * @return $this
      */

@@ -29,6 +29,8 @@ class PersistentMenu extends AbstractMessage
     protected $call_to_actions = [];
 
     /**
+     * get call to actions
+     *
      * @return array
      */
     public function getCallToActions()
@@ -37,6 +39,8 @@ class PersistentMenu extends AbstractMessage
     }
 
     /**
+     * set call to actions
+     *
      * @param array $call_to_actions
      * @return $this
      */
@@ -48,6 +52,8 @@ class PersistentMenu extends AbstractMessage
     }
 
     /**
+     * get locale
+     *
      * @return string
      */
     public function getLocale()
@@ -56,6 +62,8 @@ class PersistentMenu extends AbstractMessage
     }
 
     /**
+     * set locale
+     *
      * @param string $locale
      * @return $this
      */
@@ -67,6 +75,8 @@ class PersistentMenu extends AbstractMessage
     }
 
     /**
+     * is composer input disabled
+     *
      * @return bool
      */
     public function isComposerInputDisabled()
@@ -75,6 +85,8 @@ class PersistentMenu extends AbstractMessage
     }
 
     /**
+     * set composer input disabled
+     *
      * @param bool $composer_input_disabled
      * @return $this
      */

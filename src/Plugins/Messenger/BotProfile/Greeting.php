@@ -24,6 +24,8 @@ class Greeting extends AbstractMessage
     protected $text;
 
     /**
+     * get locale
+     *
      * @return string
      */
     public function getLocale()
@@ -32,6 +34,8 @@ class Greeting extends AbstractMessage
     }
 
     /**
+     * set locale
+     *
      * @param string $locale
      * @return $this
      */
@@ -43,6 +47,8 @@ class Greeting extends AbstractMessage
     }
 
     /**
+     * get text
+     *
      * @return string
      */
     public function getText()
@@ -51,6 +57,8 @@ class Greeting extends AbstractMessage
     }
 
     /**
+     * set text
+     *
      * @param string $text
      * @return $this
      */

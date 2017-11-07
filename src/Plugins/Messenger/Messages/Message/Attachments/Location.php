@@ -33,6 +33,8 @@ class Location extends AbstractAttachment
     }
 
     /**
+     * get title
+     *
      * @return string
      */
     public function getTitle()
@@ -41,6 +43,8 @@ class Location extends AbstractAttachment
     }
 
     /**
+     * get url
+     *
      * @return string
      */
     public function getUrl()
@@ -49,6 +53,8 @@ class Location extends AbstractAttachment
     }
 
     /**
+     * get location payload
+     *
      * @return LocationPayLoad
      */
     public function getPayload()

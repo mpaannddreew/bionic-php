@@ -29,6 +29,8 @@ class PersistentMenuItem extends AbstractMessage
     protected $type;
 
     /**
+     * get call to actions
+     *
      * @return array
      */
     public function getCallToActions()
@@ -37,6 +39,8 @@ class PersistentMenuItem extends AbstractMessage
     }
 
     /**
+     * set call to actions
+     *
      * @param array $call_to_actions
      * @return $this
      */
@@ -48,6 +52,8 @@ class PersistentMenuItem extends AbstractMessage
     }
 
     /**
+     * get title
+     *
      * @return string
      */
     public function getTitle()
@@ -56,6 +62,8 @@ class PersistentMenuItem extends AbstractMessage
     }
 
     /**
+     * set title
+     *
      * @param string $title
      * @return $this
      */
@@ -67,6 +75,8 @@ class PersistentMenuItem extends AbstractMessage
     }
 
     /**
+     * get type
+     *
      * @return string
      */
     public function getType()
@@ -75,6 +85,8 @@ class PersistentMenuItem extends AbstractMessage
     }
 
     /**
+     * set title
+     *
      * @param string $type
      * @return $this
      */

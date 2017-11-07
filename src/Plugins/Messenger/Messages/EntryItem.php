@@ -56,6 +56,8 @@ class EntryItem extends AbstractMessage
     }
 
     /**
+     * get id
+     *
      * @return string
      */
     public function getId()
@@ -64,6 +66,8 @@ class EntryItem extends AbstractMessage
     }
 
     /**
+     * get time
+     *
      * @return int
      */
     public function getTime()
@@ -72,6 +76,8 @@ class EntryItem extends AbstractMessage
     }
 
     /**
+     * get messaging object
+     *
      * @return array
      */
     public function getMessaging()
@@ -80,6 +86,8 @@ class EntryItem extends AbstractMessage
     }
 
     /**
+     * get messaging items
+     *
      * @return array
      */
     public function getMessagingItems()

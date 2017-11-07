@@ -24,6 +24,8 @@ class Read extends AbstractMessage
     protected $seq;
 
     /**
+     * get watermark
+     *
      * @return int
      */
     public function getWatermark()
@@ -32,6 +34,8 @@ class Read extends AbstractMessage
     }
 
     /**
+     * get seq
+     *
      * @return int
      */
     public function getSeq()

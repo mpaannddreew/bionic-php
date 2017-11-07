@@ -50,6 +50,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * get url
+     *
      * @return string
      */
     public function getUrl()
@@ -58,6 +60,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * set url
+     *
      * @param string $url
      * @return $this
      */
@@ -69,6 +73,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * get title
+     *
      * @return string
      */
     public function getTitle()
@@ -77,6 +83,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * set title
+     *
      * @param string $title
      * @return $this
      */
@@ -88,6 +96,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * get webview height ratio
+     *
      * @return string
      */
     public function getWebviewHeightRatio()
@@ -96,6 +106,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * set webview height ratio
+     *
      * @param string $webview_height_ratio
      * @return $this
      */
@@ -107,6 +119,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * get messenger  extensions
+     *
      * @return bool
      */
     public function isMessengerExtensions()
@@ -115,6 +129,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * set messenger extensions
+     *
      * @param bool $messenger_extensions
      * @return $this
      */
@@ -126,6 +142,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * get fallback url
+     *
      * @return string
      */
     public function getFallbackUrl()
@@ -134,6 +152,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * set fallback url
+     *
      * @param string $fallback_url
      * @return $this
      */
@@ -145,6 +165,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * get webview share button
+     *
      * @return string
      */
     public function getWebviewShareButton()
@@ -153,6 +175,8 @@ class UrlButton extends AbstractButton
     }
 
     /**
+     * set webview share button
+     *
      * @param string $webview_share_button
      * @return $this
      */

@@ -43,6 +43,8 @@ class MessengerPlugin extends AbstractBionicPlugin
     protected $page_access_token;
 
     /**
+     * create new messenger plugin instance
+     *
      * MessengerPlugin constructor.
      * @param array $config
      */
@@ -53,7 +55,9 @@ class MessengerPlugin extends AbstractBionicPlugin
     }
 
     /**
-     * @param mixed $page_access_token
+     * set new page access token
+     *
+     * @param string $page_access_token
      */
     public function setPageAccessToken($page_access_token)
     {
@@ -61,6 +65,8 @@ class MessengerPlugin extends AbstractBionicPlugin
     }
 
     /**
+     * emit events
+     *
      * @param AbstractBionic $bionic
      */
     public function emitEvents(AbstractBionic $bionic)
@@ -247,6 +253,7 @@ class MessengerPlugin extends AbstractBionicPlugin
 
     /**
      * send message
+     *
      * @param $data
      * @return \Psr\Http\Message\ResponseInterface
      */

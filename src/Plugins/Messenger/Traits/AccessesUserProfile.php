@@ -20,6 +20,8 @@ trait AccessesUserProfile
     protected $profile_access_url = "https://graph.facebook.com/v2.10/{PSID}?fields=first_name,last_name,profile_pic&access_token={PAGE_ACCESS_TOKEN}";
 
     /**
+     * get user profile from facebook
+     *
      * @param AbstractEndPoint $user
      * @return UserProfile|null
      */

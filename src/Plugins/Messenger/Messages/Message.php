@@ -109,11 +109,12 @@ class Message extends AbstractMessage
             try{
                 array_push($this->attachment_items, $attachment);
             }catch (Exception $exception){}
-
         }
     }
 
     /**
+     * get mid
+     *
      * @return int mixed
      */
     public function getMid()
@@ -122,6 +123,8 @@ class Message extends AbstractMessage
     }
 
     /**
+     * get text
+     *
      * @return Text
      */
     public function getText()
@@ -133,6 +136,8 @@ class Message extends AbstractMessage
     }
 
     /**
+     * get quick reply
+     *
      * @return QuickReply|null
      */
     public function getQuickReply()
@@ -144,6 +149,8 @@ class Message extends AbstractMessage
     }
 
     /**
+     * get attachments
+     *
      * @return array
      */
     public function getAttachments()
@@ -152,6 +159,8 @@ class Message extends AbstractMessage
     }
 
     /**
+     * get attanchment items
+     *
      * @return array
      */
     public function getAttachmentItems()
@@ -160,6 +169,8 @@ class Message extends AbstractMessage
     }
 
     /**
+     * if message was echoed
+     *
      * @return bool
      */
     public function isEcho()
@@ -168,6 +179,8 @@ class Message extends AbstractMessage
     }
 
     /**
+     * get app id
+     *
      * @return int
      */
     public function getAppId()
@@ -176,6 +189,8 @@ class Message extends AbstractMessage
     }
 
     /**
+     * get metadata
+     *
      * @return string
      */
     public function getMetadata()
@@ -184,6 +199,8 @@ class Message extends AbstractMessage
     }
 
     /**
+     * get seq
+     *
      * @return int
      */
     public function getSeq()

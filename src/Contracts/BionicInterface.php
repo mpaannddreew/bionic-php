@@ -14,7 +14,7 @@ use Andre\Bionic\Plugins\AbstractBionicPlugin;
 interface BionicInterface
 {
     /**
-     * set plugin
+     * set plugin to used by the bionic instance
      *
      * @param AbstractBionicPlugin $plugin
      */
@@ -36,7 +36,7 @@ interface BionicInterface
     public function listen($event, $listener);
 
     /**
-     * execute client
+     * execute bionic instance
      */
     public function execute();
 }

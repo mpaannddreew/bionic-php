@@ -20,6 +20,8 @@ class Payload extends AbstractMessage
     protected $url;
 
     /**
+     * get url
+     *
      * @return string
      */
     public function getUrl()

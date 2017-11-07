@@ -27,6 +27,8 @@ class ShareButton extends AbstractButton
     }
 
     /**
+     * get share contents
+     *
      * @return array
      */
     public function getShareContents()
@@ -35,6 +37,8 @@ class ShareButton extends AbstractButton
     }
 
     /**
+     * set share contents
+     *
      * @param array $share_contents
      * @return $this
      */

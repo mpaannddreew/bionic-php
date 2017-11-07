@@ -15,6 +15,8 @@ class GenericTemplate extends AbstractTemplate
 {
 
     /**
+     * get payload
+     *
      * @return GenericTemplatePayload
      */
     public function getPayload()

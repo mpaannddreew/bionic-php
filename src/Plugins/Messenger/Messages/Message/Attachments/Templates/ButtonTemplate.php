@@ -14,6 +14,8 @@ use Andre\Bionic\Plugins\Messenger\Messages\Payload\ButtonTemplatePayload;
 class ButtonTemplate extends AbstractTemplate
 {
     /**
+     * get payload
+     *
      * @return ButtonTemplatePayload
      */
     public function getPayload()

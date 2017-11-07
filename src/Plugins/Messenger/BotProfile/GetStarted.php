@@ -19,6 +19,8 @@ class GetStarted extends AbstractMessage
     protected $payload;
 
     /**
+     * get payload
+     *
      * @return string
      */
     public function getPayload()
@@ -27,6 +29,8 @@ class GetStarted extends AbstractMessage
     }
 
     /**
+     * set payload
+     *
      * @param string $payload
      */
     public function setPayload($payload)

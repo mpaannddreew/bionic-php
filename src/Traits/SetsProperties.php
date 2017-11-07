@@ -12,6 +12,8 @@ namespace Andre\Bionic\Traits;
 trait SetsProperties
 {
     /**
+     * set properties from data passed to constructor
+     *
      * set attributes
      */
     protected function setProperties()

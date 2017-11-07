@@ -19,6 +19,8 @@ class AbstractEndPoint extends AbstractMessage
     protected $id;
 
     /**
+     * get id
+     *
      * @return string
      */
     public function getId()
@@ -27,6 +29,8 @@ class AbstractEndPoint extends AbstractMessage
     }
 
     /**
+     * set id
+     *
      * @param string $id
      * @return $this
      */

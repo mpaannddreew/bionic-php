@@ -24,6 +24,8 @@ class AccountLinking extends AbstractMessage
     protected $authorization_code;
 
     /**
+     * get status
+     *
      * @return string
      */
     public function getStatus()
@@ -32,6 +34,8 @@ class AccountLinking extends AbstractMessage
     }
 
     /**
+     * get authorization code
+     *
      * @return string
      */
     public function getAuthorizationCode()

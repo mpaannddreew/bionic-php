@@ -25,6 +25,8 @@ class GenericTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * get elements
+     *
      * @return array
      */
     public function getElements()
@@ -33,6 +35,8 @@ class GenericTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * set elements
+     *
      * @param array $elements
      * @return $this
      */

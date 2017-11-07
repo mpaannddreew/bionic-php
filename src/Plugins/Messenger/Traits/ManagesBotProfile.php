@@ -60,6 +60,8 @@ trait ManagesBotProfile
     }
 
     /**
+     * set persistent menu
+     *
      * @param PersistentMenu $persistentMenu
      * @return \Psr\Http\Message\ResponseInterface
      */

@@ -20,7 +20,7 @@ abstract class AbstractTemplatePayload extends AbstractMessage
     const GENERIC = 'generic';
 
     /**
-     * @var $template_type
+     * @var string $template_type
      */
     protected $template_type;
 
@@ -38,7 +38,9 @@ abstract class AbstractTemplatePayload extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * get template type
+     *
+     * @return string
      */
     public function getTemplateType()
     {

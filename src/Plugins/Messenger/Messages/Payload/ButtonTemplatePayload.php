@@ -30,6 +30,8 @@ class ButtonTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * get text
+     *
      * @return string
      */
     public function getText()
@@ -38,6 +40,8 @@ class ButtonTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * set text
+     *
      * @param string $text
      * @return $this
      */
@@ -49,6 +53,8 @@ class ButtonTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * get buttons
+     *
      * @return array
      */
     public function getButtons()
@@ -57,6 +63,8 @@ class ButtonTemplatePayload extends AbstractTemplatePayload
     }
 
     /**
+     * set buttons
+     *
      * @param array $buttons
      * @return $this
      */

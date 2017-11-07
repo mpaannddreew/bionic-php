@@ -34,6 +34,8 @@ class QuickReply extends AbstractMessage
     protected $image_url;
 
     /**
+     * get payload
+     *
      * @return string
      */
     public function getPayload()
@@ -42,6 +44,8 @@ class QuickReply extends AbstractMessage
     }
 
     /**
+     * set payload
+     *
      * @param string $payload
      * @return $this
      */
@@ -53,6 +57,8 @@ class QuickReply extends AbstractMessage
     }
 
     /**
+     * get content type
+     *
      * @return string
      */
     public function getContentType()
@@ -61,6 +67,8 @@ class QuickReply extends AbstractMessage
     }
 
     /**
+     * set content type
+     *
      * @param string $content_type
      * @return $this
      */
@@ -72,6 +80,8 @@ class QuickReply extends AbstractMessage
     }
 
     /**
+     * get title
+     *
      * @return string
      */
     public function getTitle()
@@ -80,6 +90,8 @@ class QuickReply extends AbstractMessage
     }
 
     /**
+     * set title
+     *
      * @param string $title
      * @return $this
      */
@@ -91,6 +103,8 @@ class QuickReply extends AbstractMessage
     }
 
     /**
+     * get image url
+     *
      * @return string
      */
     public function getImageUrl()
@@ -99,6 +113,8 @@ class QuickReply extends AbstractMessage
     }
 
     /**
+     * set image url
+     *
      * @param string $image_url
      * @return $this
      */

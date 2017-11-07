@@ -52,6 +52,8 @@ abstract class AbstractAttachment extends AbstractMessage
     }
 
     /**
+     * get type
+     *
      * @return string
      */
     public function getType()
@@ -60,6 +62,8 @@ abstract class AbstractAttachment extends AbstractMessage
     }
 
     /**
+     * get payload
+     *
      * @return Payload
      */
     public function getPayload()
@@ -73,6 +77,8 @@ abstract class AbstractAttachment extends AbstractMessage
     abstract protected function setType();
 
     /**
+     * set payload
+     *
      * @param array $payload
      * @return $this
      */

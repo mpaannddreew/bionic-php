@@ -14,6 +14,8 @@ use Andre\Bionic\Plugins\Messenger\Messages\Payload\ListTemplatePayload;
 class ListTemplate extends AbstractTemplate
 {
     /**
+     * get payload
+     *
      * @return ListTemplatePayload
      */
     public function getPayload()

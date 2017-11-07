@@ -19,6 +19,8 @@ class Text extends AbstractMessage
     protected $text;
 
     /**
+     * get text
+     *
      * @return string
      */
     public function getText()
@@ -27,6 +29,8 @@ class Text extends AbstractMessage
     }
 
     /**
+     * set text
+     *
      * @param string $text
      * @return $this
      */

@@ -23,6 +23,8 @@ class Fallback extends AbstractAttachment
     protected $URL;
 
     /**
+     * get title
+     *
      * @return string
      */
     public function getTitle()
@@ -31,6 +33,8 @@ class Fallback extends AbstractAttachment
     }
 
     /**
+     * get URL
+     *
      * @return string
      */
     public function getURL()
@@ -47,6 +51,8 @@ class Fallback extends AbstractAttachment
     }
 
     /**
+     * set title
+     *
      * @param string $title
      * @return $this
      */
@@ -58,6 +64,8 @@ class Fallback extends AbstractAttachment
     }
 
     /**
+     * set URL
+     *
      * @param string $URL
      * @return $this
      */

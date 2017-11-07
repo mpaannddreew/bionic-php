@@ -18,6 +18,8 @@ abstract class AbstractMessage implements MessageInterface
     use IsADataWrapper, SetsProperties;
 
     /**
+     * new message instance
+     *
      * AbstractMessage constructor.
      * @param $data
      */
@@ -28,6 +30,8 @@ abstract class AbstractMessage implements MessageInterface
     }
 
     /**
+     * get message data
+     *
      * @return array
      */
     public function getData()

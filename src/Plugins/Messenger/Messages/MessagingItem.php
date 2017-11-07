@@ -66,6 +66,8 @@ class MessagingItem extends AbstractMessage
     protected $read = [];
 
     /**
+     * get sender
+     *
      * @return Sender
      */
     public function getSender()
@@ -74,6 +76,8 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
+     * get recipient
+     *
      * @return Recipient
      */
     public function getRecipient()
@@ -82,6 +86,8 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
+     * get timestamp
+     *
      * @return int
      */
     public function getTimestamp()
@@ -90,6 +96,8 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
+     * get message
+     *
      * @return Message|null
      */
     public function getMessage()
@@ -101,6 +109,8 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
+     * get postback
+     *
      * @return PostBack|null
      */
     public function getPostback()
@@ -112,6 +122,8 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
+     * get referral
+     *
      * @return Referral|null
      */
     public function getReferral()
@@ -123,6 +135,8 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
+     * get optin
+     *
      * @return Optin|null
      */
     public function getOptin()
@@ -134,6 +148,8 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
+     * get account linking
+     *
      * @return AccountLinking|null
      */
     public function getAccountLinking()
@@ -145,6 +161,8 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
+     * get delivery
+     *
      * @return Delivery|null
      */
     public function getDelivery()
@@ -156,6 +174,8 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
+     * get read
+     *
      * @return Read|null
      */
     public function getRead()

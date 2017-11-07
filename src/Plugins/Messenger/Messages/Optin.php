@@ -19,6 +19,8 @@ class Optin extends AbstractMessage
     protected $ref;
 
     /**
+     * get ref
+     *
      * @return string
      */
     public function getRef()

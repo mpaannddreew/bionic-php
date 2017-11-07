@@ -24,6 +24,8 @@ class Coordinates extends AbstractMessage
     protected $long;
 
     /**
+     * get lat
+     *
      * @return float
      */
     public function getLat()
@@ -32,6 +34,8 @@ class Coordinates extends AbstractMessage
     }
 
     /**
+     * get long
+     *
      * @return float
      */
     public function getLong()

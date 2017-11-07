@@ -39,6 +39,8 @@ class TemplateElement extends AbstractMessage
     protected $default_action = [];
 
     /**
+     * get title
+     *
      * @return string
      */
     public function getTitle()
@@ -47,6 +49,8 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * set title
+     *
      * @param string $title
      * @return $this
      */
@@ -58,6 +62,8 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * get subtitle
+     *
      * @return string
      */
     public function getSubtitle()
@@ -66,6 +72,8 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * set subtitle
+     *
      * @param string $subtitle
      * @return $this
      */
@@ -77,6 +85,8 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * get image url
+     *
      * @return string
      */
     public function getImageUrl()
@@ -85,6 +95,8 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * set image url
+     *
      * @param string $image_url
      * @return $this
      */
@@ -96,6 +108,8 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * get buttons
+     *
      * @return array
      */
     public function getButtons()
@@ -104,6 +118,8 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * set buttons
+     *
      * @param array $buttons
      * @return $this
      */
@@ -115,6 +131,8 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * get default action
+     *
      * @return array
      */
     public function getDefaultAction()
@@ -123,6 +141,8 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * set default action
+     *
      * @param array $default_action
      * @return $this
      */

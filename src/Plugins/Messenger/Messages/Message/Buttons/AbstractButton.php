@@ -50,6 +50,8 @@ abstract class AbstractButton extends AbstractMessage
     abstract protected function setType();
 
     /**
+     * get type
+     *
      * @return string
      */
     public function getType()

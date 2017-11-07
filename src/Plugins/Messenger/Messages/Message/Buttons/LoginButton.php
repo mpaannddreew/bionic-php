@@ -26,6 +26,8 @@ class LoginButton extends AbstractButton
     }
 
     /**
+     * get url
+     *
      * @return string
      */
     public function getUrl()
@@ -34,6 +36,8 @@ class LoginButton extends AbstractButton
     }
 
     /**
+     * set url
+     *
      * @param string $url
      * @return $this
      */

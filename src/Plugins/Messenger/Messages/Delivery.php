@@ -18,6 +18,8 @@ class Delivery extends Read
     protected $mids = [];
 
     /**
+     * get mids
+     *
      * @return array
      */
     public function getMids()

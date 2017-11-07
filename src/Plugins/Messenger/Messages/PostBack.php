@@ -29,6 +29,8 @@ class PostBack extends AbstractMessage
     protected $referral = [];
 
     /**
+     * get title
+     *
      * @return string
      */
     public function getTitle()
@@ -37,6 +39,8 @@ class PostBack extends AbstractMessage
     }
 
     /**
+     * get payload
+     *
      * @return string
      */
     public function getPayload()
@@ -45,6 +49,8 @@ class PostBack extends AbstractMessage
     }
 
     /**
+     * get referral
+     *
      * @return Referral|null
      */
     public function getReferral()

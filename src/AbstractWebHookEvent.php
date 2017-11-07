@@ -28,6 +28,8 @@ abstract class AbstractWebHookEvent implements WebHookEventInterface
     }
 
     /**
+     * get webhook event data
+     *
      * @return array
      */
     public function getData()

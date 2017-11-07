@@ -31,6 +31,8 @@ class PostBackButton extends AbstractButton
     }
 
     /**
+     * get title
+     *
      * @return string
      */
     public function getTitle()
@@ -39,6 +41,8 @@ class PostBackButton extends AbstractButton
     }
 
     /**
+     * set title
+     *
      * @param string $title
      * @return $this
      */
@@ -50,6 +54,8 @@ class PostBackButton extends AbstractButton
     }
 
     /**
+     * get payload
+     *
      * @return string
      */
     public function getPayload()
@@ -58,6 +64,8 @@ class PostBackButton extends AbstractButton
     }
 
     /**
+     * set payload
+     *
      * @param string $payload
      * @return $this
      */

@@ -17,6 +17,8 @@ use Evenement\EventEmitter;
 abstract class AbstractBionic extends EventEmitter implements BionicInterface
 {
     /**
+     * a plugin instance
+     *
      * @var AbstractBionicPlugin
      */
     protected $plugin;
@@ -37,6 +39,8 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     protected $listen = [];
 
     /**
+     * create a new bionic instance
+     *
      * AbstractBionicClient constructor.
      */
     public function __construct(){}
@@ -109,6 +113,8 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     }
 
     /**
+     * get current plugin
+     *
      * @return AbstractBionicPlugin
      */
     public function getPlugin()
@@ -117,6 +123,8 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     }
 
     /**
+     * get registered listeners for events
+     *
      * @return array
      */
     public function getListen()

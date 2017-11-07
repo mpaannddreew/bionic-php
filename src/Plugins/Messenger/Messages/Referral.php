@@ -9,15 +9,8 @@
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
 
-use Andre\Bionic\AbstractMessage;
-
-class Referral extends AbstractMessage
+class Referral extends Optin
 {
-    /**
-     * @var string $ref
-     */
-    protected $ref;
-
     /**
      * @var string $source
      */
@@ -29,14 +22,8 @@ class Referral extends AbstractMessage
     protected $type;
 
     /**
-     * @return string
-     */
-    public function getRef()
-    {
-        return $this->ref;
-    }
-
-    /**
+     * get source
+     *
      * @return string
      */
     public function getSource()
@@ -45,6 +32,8 @@ class Referral extends AbstractMessage
     }
 
     /**
+     * get type
+     *
      * @return string
      */
     public function getType()

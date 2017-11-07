@@ -38,6 +38,8 @@ abstract class AbstractSenderAction extends AbstractMessage
     }
 
     /**
+     * get sender action
+     *
      * @return string
      */
     public function getSenderAction()
