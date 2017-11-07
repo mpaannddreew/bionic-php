@@ -14,5 +14,10 @@ use Andre\Bionic\AbstractBionic;
 
 interface PluginInterface
 {
-    public function emitEvents(AbstractBionic $client);
+    /**
+     * emit events
+     *
+     * @param AbstractBionic $bionic
+     */
+    public function emitEvents(AbstractBionic $bionic);
 }

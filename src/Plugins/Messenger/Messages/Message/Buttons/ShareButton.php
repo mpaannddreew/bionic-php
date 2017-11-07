@@ -9,6 +9,7 @@
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
 
+
 class ShareButton extends AbstractButton
 {
 
@@ -24,4 +25,25 @@ class ShareButton extends AbstractButton
     {
         $this->type = self::ELEMENT_SHARE;
     }
+
+    /**
+     * @return array
+     */
+    public function getShareContents()
+    {
+        return $this->share_contents;
+    }
+
+    /**
+     * @param array $share_contents
+     * @return $this
+     */
+    public function setShareContents($share_contents)
+    {
+        $this->share_contents = $share_contents;
+        $this->data['share_contents'] = $this->getShareContents();
+        return $this;
+    }
+
+
 }

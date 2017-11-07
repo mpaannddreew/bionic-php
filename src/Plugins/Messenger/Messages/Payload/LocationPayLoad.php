@@ -15,7 +15,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Coordinates;
 class LocationPayLoad extends AbstractMessage
 {
     /**
-     * @var array
+     * @var array $coordinates
      */
     protected $coordinates = [];
 

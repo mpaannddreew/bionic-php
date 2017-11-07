@@ -11,9 +11,18 @@ namespace Andre\Bionic\Contracts;
 
 interface DataWrapperInterface
 {
+    /**
+     * array representation of data
+     */
     public function toArray();
 
+    /**
+     * json representation of data
+     */
     public function toJson();
 
+    /**
+     * string representation of data
+     */
     public function __toString();
 }

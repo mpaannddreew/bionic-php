@@ -13,11 +13,30 @@ use Andre\Bionic\Plugins\AbstractBionicPlugin;
 
 interface BionicInterface
 {
+    /**
+     * set plugin
+     *
+     * @param AbstractBionicPlugin $plugin
+     */
     public function setPlugin(AbstractBionicPlugin $plugin);
 
+    /**
+     * receive web hook data
+     *
+     * @param $data
+     */
     public function receive($data);
 
+    /**
+     * register an event listener
+     *
+     * @param $event
+     * @param $listener
+     */
     public function listen($event, $listener);
 
+    /**
+     * execute client
+     */
     public function execute();
 }

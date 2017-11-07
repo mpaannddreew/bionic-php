@@ -34,11 +34,6 @@ class UserProfile extends AbstractMessage
     protected $profile_pic;
 
     /**
-     * @var string $gender
-     */
-    protected $gender;
-
-    /**
      * @return string
      */
     public function getId()
@@ -68,13 +63,5 @@ class UserProfile extends AbstractMessage
     public function getProfilePic()
     {
         return $this->profile_pic;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGender()
-    {
-        return $this->gender;
     }
 }

@@ -67,7 +67,7 @@ class MessengerPlugin extends AbstractBionicPlugin
     {
         $this->bionic = $bionic;
         $this->runPluginTasks();
-        $this->iterateOverEntryMessages();
+        $this->iterateOverEntryMessagesAndEmitEvents();
     }
 
     /**
@@ -96,7 +96,7 @@ class MessengerPlugin extends AbstractBionicPlugin
     /**
      * iterate over web hook event entry items
      */
-    protected function iterateOverEntryMessages()
+    protected function iterateOverEntryMessagesAndEmitEvents()
     {
         if ($entryItems = $this->webHookEvent->getEntryItems())
             $this->bionic->emit('entry', [$this, $entryItems]);
@@ -129,6 +129,7 @@ class MessengerPlugin extends AbstractBionicPlugin
                         if ($attachments = $message->getAttachmentItems())
                         {
                             $this->bionic->emit('message.attachments', [$this, $sender, $recipient, $attachments]);
+
                             foreach ($attachments as $attachment)
                             {
                                 $this->bionic->emit('message.attachments.' . $attachment->getType(), [$this, $sender, $recipient, $attachment]);
@@ -137,29 +138,23 @@ class MessengerPlugin extends AbstractBionicPlugin
                     }
                 }
 
-                if ($post_back = $messagingItem->getPostback()){
+                if ($post_back = $messagingItem->getPostback())
                     $this->bionic->emit('postback', [$this, $sender, $recipient, $post_back]);
-                }
 
-                if ($referral = $messagingItem->getReferral()){
+                if ($referral = $messagingItem->getReferral())
                     $this->bionic->emit('referral', [$this, $sender, $recipient, $referral]);
-                }
 
-                if ($optin = $messagingItem->getOptin()){
+                if ($optin = $messagingItem->getOptin())
                     $this->bionic->emit('optin', [$this, $sender, $recipient, $optin]);
-                }
 
-                if ($account_linking = $messagingItem->getAccountLinking()){
+                if ($account_linking = $messagingItem->getAccountLinking())
                     $this->bionic->emit('account_linking', [$this, $sender, $recipient, $account_linking]);
-                }
 
-                if ($delivery = $messagingItem->getDelivery()){
+                if ($delivery = $messagingItem->getDelivery())
                     $this->bionic->emit('delivery', [$this, $sender, $recipient, $delivery]);
-                }
 
-                if ($read = $messagingItem->getRead()){
+                if ($read = $messagingItem->getRead())
                     $this->bionic->emit('read', [$this, $sender, $recipient, $read]);
-                }
             }
         }
     }
