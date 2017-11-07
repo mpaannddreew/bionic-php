@@ -44,7 +44,7 @@ $config = [
 ];
 $plugin = new MessengerPlugin($config);
 $bionic->setPlugin($plugin);
-// register your event listeners before calling the the 'receive' method on the bionic instance
+// register your event listeners before calling the 'receive' method on the bionic instance
 // $bionic->listen($event_name, $event_listener);
 $bionic->receive($incoming_webhook_data);
 return response($status = 200);
@@ -121,6 +121,20 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 
 $bionic->listen('entry', function (Plugin $plugin, $entryItems){
      // $entryItems is an array of Andre\Bionic\Plugins\Messenger\Messages\EntryItem::class
+     foreach ($entryItems as $entryItem){
+         foreach ($entryItem->getMessagingItems() as $messagingItem){
+             $messagingItem->getMessage();
+             $messagingItem->getPostback();
+             $messagingItem->getAccountLinking();
+             $messagingItem->getReferral();
+             $messagingItem->getRead();
+             $messagingItem->getDelivery();
+             $messagingItem->getOptin();
+             $messagingItem->getSender();
+             $messagingItem->getRecipient();
+             $messagingItem->getTimestamp();
+         }
+     }
 });
 ```
 - entry.item
@@ -130,7 +144,18 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
 
 $bionic->listen('entry.item', function (Plugin $plugin, EntryItem $entryItem){
-    
+    foreach ($entryItem->getMessagingItems() as $messagingItem){
+         $messagingItem->getMessage();
+         $messagingItem->getPostback();
+         $messagingItem->getAccountLinking();
+         $messagingItem->getReferral();
+         $messagingItem->getRead();
+         $messagingItem->getDelivery();
+         $messagingItem->getOptin();
+         $messagingItem->getSender();
+         $messagingItem->getRecipient();
+         $messagingItem->getTimestamp();
+    }
 });
 ```
 - messaging
@@ -140,6 +165,18 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 
 $bionic->listen('messaging', function (Plugin $plugin, $messagingItems){
      // $messagingItems is an array of Andre\Bionic\Plugins\Messenger\Messages\MessagingItem::class
+     foreach ($messagingItems as $messagingItem){
+          $messagingItem->getMessage();
+          $messagingItem->getPostback();
+          $messagingItem->getAccountLinking();
+          $messagingItem->getReferral();
+          $messagingItem->getRead();
+          $messagingItem->getDelivery();
+          $messagingItem->getOptin();
+          $messagingItem->getSender();
+          $messagingItem->getRecipient();
+          $messagingItem->getTimestamp();
+     }
 });
 ```
 - messaging.item
@@ -149,7 +186,16 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\MessagingItem;
 
 $bionic->listen('messaging.item', function (Plugin $plugin, MessagingItem $messagingItem){
-    
+    $messagingItem->getMessage();
+    $messagingItem->getPostback();
+    $messagingItem->getAccountLinking();
+    $messagingItem->getReferral();
+    $messagingItem->getRead();
+    $messagingItem->getDelivery();
+    $messagingItem->getOptin();
+    $messagingItem->getSender();
+    $messagingItem->getRecipient();
+    $messagingItem->getTimestamp();
 });
 ```
 - message
@@ -162,7 +208,13 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
 
 $bionic->listen('message', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message){
-    
+    $message->getText();
+    $message->getQuickReply();
+    $message->getAppId();
+    $message->getAttachmentItems();
+    $message->getMetadata();
+    $message->getMid();
+    $message->getSeq();
 });
 ```
 
@@ -177,6 +229,13 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
 $bionic->listen('message.echo', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message){
     // $message - represents messages sent by your page
+    $message->getText();
+    $message->getQuickReply();
+    $message->getAppId();
+    $message->getAttachmentItems();
+    $message->getMetadata();
+    $message->getMid();
+    $message->getSeq();
 });
 ```
 - message.text
@@ -190,7 +249,10 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 
 
 $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
-    
+    $text->getText();
+    if ($quickReply){
+        $quickReply->getPayload();
+    }
 });
 ```
 - message.attachments
@@ -203,6 +265,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 
 $bionic->listen('message.attachments', function (Plugin $plugin, Sender $sender, Recipient $recipient, $messageAttachments){
     // $messageAttachments - an array of attachments e.g. Image, Audio, Location, Video, Fallback
+    foreach ($messageAttachments as $attachment){
+        $attachment->getType();
+    }
 });
 ```
 - message.attachments.image
@@ -214,7 +279,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
 
 $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
-    
+    $image->getPayload()->getUrl();
 });
 ```
 - message.attachments.audio
@@ -226,7 +291,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Audio;
 
 $bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Audio $audio){
-    
+    $audio->getPayload()->getUrl();
 });
 ```
 - message.attachments.video
@@ -238,7 +303,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Video;
 
 $bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Video $video){
-    
+    $video->getPayload()->getUrl();
 });
 ```
 - message.attachments.location
@@ -250,7 +315,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Location;
 
 $bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Location $location){
-    
+    $coordinates = $location->getPayload()->getCoordinates();
+    $coordinates->getLat();
+    $coordinates->getLong();
 });
 ```
 - message.attachments.file
@@ -262,7 +329,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\File;
 
 $bionic->listen('message.attachments.file', function (Plugin $plugin, Sender $sender, Recipient $recipient, File $file){
-    
+    $file->getPayload()->getUrl();
 });
 ```
 - message.attachments.fallback
@@ -274,7 +341,8 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Fallback;
 
 $bionic->listen('message.attachments.fallback', function (Plugin $plugin, Sender $sender, Recipient $recipient, Fallback $fallback){
-    
+    $fallback->getTitle();
+    $fallback->getURL();
 });
 ```
 - postback
@@ -286,7 +354,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\PostBack;
 
 $bionic->listen('postback', function (Plugin $plugin, Sender $sender, Recipient $recipient, PostBack $postBack){
-    
+    $postBack->getPayload();
 });
 ```
 - referral
@@ -298,7 +366,8 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Referral;
 
 $bionic->listen('referral', function (Plugin $plugin, Sender $sender, Recipient $recipient, Referral $referral){
-    
+    $referral->getType();
+    $referral->getSource();
 });
 ```
 - optin
@@ -309,8 +378,8 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Optin;
 
-$bionic->listen('optin', function (Plugin $plugin, Sender $sender, Recipient $recipient, Optin $referral){
-    
+$bionic->listen('optin', function (Plugin $plugin, Sender $sender, Recipient $recipient, Optin $optin){
+    $optin->getRef();
 });
 ```
 - account_linking
@@ -322,7 +391,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\AccountLinking;
 
 $bionic->listen('account_linking', function (Plugin $plugin, Sender $sender, Recipient $recipient, AccountLinking $accountLinking){
-    
+    $status = $accountLinking->getStatus();
+    if ($status == 'linked')
+        $accountLinking->getAuthorizationCode();
 });
 ```
 - delivery
@@ -334,7 +405,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Delivery;
 
 $bionic->listen('delivery', function (Plugin $plugin, Sender $sender, Recipient $recipient, Delivery $delivery){
-    
+    $delivery->getMids();
+    $delivery->getSeq();
+    $delivery->getWatermark();
 });
 ```
 - read
@@ -346,6 +419,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Read;
 
 $bionic->listen('read', function (Plugin $plugin, Sender $sender, Recipient $recipient, Read $read){
-    
+    $read->getSeq();
+    $read->getWatermark();
 });
 ```
