@@ -1,6 +1,8 @@
 {
     "name": "andre/bionic",
     "type": "library",
+    "description": "Bionic is a simple chat bot development library in PHP",
+    "keywords": ["library", "php", "chatbots", "messenger", "facebook", "messenger api"],
     "authors": [
         {
             "name": "Mpande Andrew",

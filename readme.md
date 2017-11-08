@@ -51,7 +51,7 @@ $bionic->setPlugin(new MessengerPlugin($config));
 
 $bionic->receive($incoming_webhook_data_array);
 
-return response($status = 200);
+return http_response_code(200);
 ```
 ### Registering an event listener
 ### Syntax
@@ -434,7 +434,7 @@ $bionic->listen('read', function (Plugin $plugin, Sender $sender, Recipient $rec
     $read->getWatermark();
 });
 ```
-# Sending a quick reply
+# Sending quick replies
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
