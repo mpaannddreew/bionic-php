@@ -11,31 +11,20 @@ namespace Andre\Bionic\Plugins\Messenger;
 
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
-use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\AbstractEndPoint;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\AbstractSenderAction;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\MarkSeen;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\TypingOff;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\TypingOn;
-use Andre\Bionic\Plugins\Messenger\Messages\Text;
 use Andre\Bionic\Plugins\Messenger\Traits\AccessesUserProfile;
 use Andre\Bionic\Plugins\Messenger\Traits\ManagesBotProfile;
+use Andre\Bionic\Plugins\Messenger\Traits\SendsMessages;
 use GuzzleHttp\Client as HttpClient;
 
 
 class MessengerPlugin extends AbstractBionicPlugin
 {
-    use AccessesUserProfile, ManagesBotProfile;
+    use AccessesUserProfile, ManagesBotProfile, SendsMessages;
 
     /**
      * @var HttpClient
      */
     protected $httpClient;
-
-    /**
-     * @var string
-     */
-    protected $messaging_url = "https://graph.facebook.com/v2.10/me/messages?access_token=";
 
     /**
      * @var $page_access_token
@@ -163,102 +152,5 @@ class MessengerPlugin extends AbstractBionicPlugin
                     $this->bionic->emit('read', [$this, $sender, $recipient, $read]);
             }
         }
-    }
-
-    /**
-     * send plain text
-     *
-     * @param string $text
-     * @param array $quick_replies
-     * @param AbstractEndPoint $recipient
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function sendPlainText($text, $quick_replies = [], AbstractEndPoint $recipient)
-    {
-        return $this->sendText(new Text(['text' => $text]), $quick_replies, $recipient);
-    }
-
-    /**
-     * send text message
-     *
-     * @param Text $message
-     * @param array $quick_replies
-     * @param AbstractEndPoint $recipient
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function sendText(Text $message, $quick_replies = [], AbstractEndPoint $recipient)
-    {
-        $data = [
-            'recipient' => $recipient->toArray(),
-            'message' => $message->toArray()
-        ];
-
-        if ($quick_replies)
-            $data['message']['quick_replies'] = $quick_replies;
-
-        return $this->sendMessage($data);
-    }
-
-    /**
-     * send an attachment message
-     *
-     * @param AbstractAttachment $message
-     * @param AbstractEndPoint $recipient
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function sendAttachment(AbstractAttachment $message, AbstractEndPoint $recipient)
-    {
-        return $this->sendMessage([
-            'recipient' => $recipient->toArray(),
-            'message' => [
-                'attachment' => $message->toArray()
-            ]
-        ]);
-    }
-
-    /**
-     * send action
-     *
-     * @param AbstractEndPoint $recipient
-     * @param string $type
-     */
-    public function sendAction(AbstractEndPoint $recipient, $type = 'mark_seen'){
-        switch ($type)
-        {
-            case 'typing_off':
-                $action = new TypingOff();
-                break;
-            case 'typing_on':
-                $action = new TypingOn();
-                break;
-            default:
-                $action = new MarkSeen();
-                break;
-        }
-
-        $this->sendSenderAction($action, $recipient);
-    }
-
-    /**
-     * send sender action
-     *
-     * @param AbstractSenderAction $message
-     * @param AbstractEndPoint $recipient
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function sendSenderAction(AbstractSenderAction $message, AbstractEndPoint $recipient)
-    {
-        return $this->sendMessage(array_merge(['recipient' => $recipient->toArray()], $message->toArray()));
-    }
-
-    /**
-     * send message
-     *
-     * @param $data
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function sendMessage($data)
-    {
-        return $this->httpClient->post($this->messaging_url . $this->page_access_token, ['json' => $data]);
     }
 }

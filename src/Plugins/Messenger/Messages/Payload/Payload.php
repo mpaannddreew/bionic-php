@@ -28,5 +28,4 @@ class Payload extends AbstractMessage
     {
         return $this->url;
     }
-
 }

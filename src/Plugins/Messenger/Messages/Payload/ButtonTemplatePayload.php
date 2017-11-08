@@ -74,6 +74,4 @@ class ButtonTemplatePayload extends AbstractTemplatePayload
         $this->data['buttons'] = $this->getButtons();
         return $this;
     }
-
-
 }

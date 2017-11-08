@@ -37,16 +37,20 @@ $bionic = new Bionic();
 
 ```php
 <?php
+use Andre\Bionic\Bionic;
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin;
 
 $config = [
     'page_access_token' => ''
 ];
-$plugin = new MessengerPlugin($config);
-$bionic->setPlugin($plugin);
+$bionic = new Bionic();
+$bionic->setPlugin(new MessengerPlugin($config));
+
 // register your event listeners before calling the 'receive' method on the bionic instance
 // $bionic->listen($event_name, $event_listener);
-$bionic->receive($incoming_webhook_data);
+
+$bionic->receive($incoming_webhook_data_array);
+
 return response($status = 200);
 ```
 ### Registering an event listener
@@ -253,6 +257,8 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
     if ($quickReply){
         $quickReply->getPayload();
     }
+    $plugin->sendPlainText($text->getText(), [], $sender);
+    $plugin->sendText($text, [], $sender);
 });
 ```
 - message.attachments
@@ -267,6 +273,7 @@ $bionic->listen('message.attachments', function (Plugin $plugin, Sender $sender,
     // $messageAttachments - an array of attachments e.g. Image, Audio, Location, Video, Fallback
     foreach ($messageAttachments as $attachment){
         $attachment->getType();
+        $plugin->sendAttachment($attachment, $sender);
     }
 });
 ```
@@ -280,6 +287,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
 
 $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
     $image->getPayload()->getUrl();
+    $plugin->sendAttachment($image, $sender);
 });
 ```
 - message.attachments.audio
@@ -292,6 +300,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Audio;
 
 $bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Audio $audio){
     $audio->getPayload()->getUrl();
+    $plugin->sendAttachment($audio, $sender);
 });
 ```
 - message.attachments.video
@@ -304,6 +313,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Video;
 
 $bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Video $video){
     $video->getPayload()->getUrl();
+    $plugin->sendAttachment($video, $sender);
 });
 ```
 - message.attachments.location
@@ -330,6 +340,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\File;
 
 $bionic->listen('message.attachments.file', function (Plugin $plugin, Sender $sender, Recipient $recipient, File $file){
     $file->getPayload()->getUrl();
+    $plugin->sendAttachment($file, $sender);
 });
 ```
 - message.attachments.fallback
@@ -421,5 +432,23 @@ use Andre\Bionic\Plugins\Messenger\Messages\Read;
 $bionic->listen('read', function (Plugin $plugin, Sender $sender, Recipient $recipient, Read $read){
     $read->getSeq();
     $read->getWatermark();
+});
+```
+# Sending a quick reply
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+
+
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+    $quick_replies = [
+        (new QuickReply())->setContentType('text')->setTitle('Yes')->setPayload('yes'),
+        (new QuickReply())->setContentType('text')->setTitle('No')->setPayload('no'),
+    ];
+    $plugin->sendText($text, $quick_replies, $sender);
 });
 ```

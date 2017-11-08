@@ -28,8 +28,13 @@ trait ManagesBotProfile
      */
     public function setGreeting($greetings = [])
     {
+        $data = [];
+        foreach ($greetings as $greeting){
+            array_push($data, $greeting->toArray());
+        }
+
         return $this->setProperty([
-            'greeting' => $greetings
+            'greeting' => $data
         ]);
     }
 
@@ -85,8 +90,13 @@ trait ManagesBotProfile
     {
         $data = [];
 
-        if ($greetings)
-            $data['greeting'] = $greetings;
+        if ($greetings) {
+            $_data = [];
+            foreach ($greetings as $greeting){
+                array_push($_data, $greeting->toArray());
+            }
+            $data['greeting'] = $_data;
+        }
 
         if ($getStarted)
             $data['get_started'] = $getStarted->toArray();
