@@ -54,19 +54,19 @@ $bionic->receive($incoming_webhook_data_array);
 return http_response_code(200);
 ```
 ### Registering an event listener
-### Syntax
+#### Syntax
 
 ```php
 <?php
 $bionic->listen($event_name, $event_listener);
 ```
-### With an anonymous function
+#### With an anonymous function
 
 ```php
 <?php
 $bionic->listen($event_name, function($required_parameters_depending_on_event_name){});
 ```
-### With a defined function
+#### With a defined function
 
 ```php
 <?php
@@ -74,7 +74,7 @@ function function_name($required_parameters_depending_on_event_name){}
 
 $bionic->listen($event_name, 'function_name');
 ```
-### With a class method
+#### With a class method
 
 ```php
 <?php
@@ -86,7 +86,7 @@ $controller = new BotController();
 $bionic->listen($event_name, [$controller, 'function_name']);
 ```
 
-### With a static class method
+#### With a static class method
 
 ```php
 <?php
@@ -324,7 +324,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Location;
 
-$bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Location $location){
+$bionic->listen('message.attachments.location', function (Plugin $plugin, Sender $sender, Recipient $recipient, Location $location){
     $coordinates = $location->getPayload()->getCoordinates();
     $coordinates->getLat();
     $coordinates->getLong();
@@ -434,7 +434,8 @@ $bionic->listen('read', function (Plugin $plugin, Sender $sender, Recipient $rec
     $read->getWatermark();
 });
 ```
-# Sending quick replies
+## Sending Messages
+### Text and quick replies
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -445,10 +446,156 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 
 
 $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+    // sending text
+    $plugin->sendText($text, [], $sender);
+    
+    // with quick reply
     $quick_replies = [
         (new QuickReply())->setContentType('text')->setTitle('Yes')->setPayload('yes'),
         (new QuickReply())->setContentType('text')->setTitle('No')->setPayload('no'),
     ];
     $plugin->sendText($text, $quick_replies, $sender);
+});
+```
+### Sender action
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+
+
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+    $plugin->sendAction($sender); // default mark_seen
+    $plugin->sendAction($sender, 'typing_on');
+    $plugin->sendAction($sender, 'typing_off');
+});
+```
+### Templates
+#### Generic Template
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\GenericTemplate;
+use Andre\Bionic\Plugins\Messenger\Messages\Payload\GenericTemplatePayload;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\TemplateElement;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
+
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
+    // actions
+    $url_button = new UrlButton(['url' => 'http://localhost']);
+    $post_back_button = new PostBackButton(['title' => 'Payload Button', 'payload' => 'payload_button']);
+    
+    // template element
+    $template_element = new TemplateElement();
+    $template_element->setImageUrl($image->getPayload()->getUrl());
+    $template_element->setTitle("Generic Template");
+    $template_element->setSubtitle("Am a generic template");
+    $template_element->setDefaultAction($url_button->toArray());
+    $template_element->setButtons([
+        $url_button->setTitle("Url Button")->toArray(),
+        $post_back_button->toArray()
+    ]);
+    
+    // template payload
+    $template_payload = new GenericTemplatePayload();
+    $template_payload->setElements([$template_element->toArray()]);
+    
+    // generic template
+    $generic_template = new GenericTemplate();
+    $generic_template->setPayload($template_payload->toArray());
+    
+    $plugin->sendAttachment($generic_template, $sender);
+});
+```
+#### List Template
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\ListTemplate;
+use Andre\Bionic\Plugins\Messenger\Messages\Payload\ListTemplatePayload;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\TemplateElement;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
+
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
+    // actions
+    $url_button = new UrlButton(['url' => 'http://localhost']);
+    $post_back_button = new PostBackButton(['title' => 'View', 'payload' => 'payload_button']);
+    
+    // template element
+    $template_element = new TemplateElement();
+    $template_element->setImageUrl($image->getPayload()->getUrl());
+    $template_element->setTitle("List Template");
+    $template_element->setSubtitle("Am a generic template");
+    $template_element->setDefaultAction($url_button->toArray());
+    $template_element->setButtons([$post_back_button->toArray()]); // maximum of one button
+    
+    // template payload
+    $template_payload = new ListTemplatePayload();
+    $template_payload->setElements([$template_element->toArray(), $template_element->toArray(), $template_element->toArray()]);
+    
+    // list template
+    $list_template = new ListTemplate();
+    $list_template->setPayload($template_payload->toArray());
+    
+    $plugin->sendAttachment($list_template, $sender);
+});
+```
+#### Button Template
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\ButtonTemplate;
+use Andre\Bionic\Plugins\Messenger\Messages\Payload\ButtonTemplatePayload;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
+use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+    // actions
+    $url_button = new UrlButton(['url' => 'http://localhost', 'title' => 'Button']);
+    $post_back_button = new PostBackButton(['title' => 'PostBack', 'payload' => 'payload_button']);
+    
+    // template payload
+    $template_payload = new ButtonTemplatePayload();
+    $template_payload->setText($text->getText());
+    $template_payload->setButtons([$url_button->toArray(), $post_back_button->toArray()]);
+    
+    // button template
+    $button_template = new ButtonTemplate();
+    $button_template->setPayload($template_payload->toArray());
+    
+    $plugin->sendAttachment($button_template, $sender);
+});
+```
+### Getting a user profile
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+    $profile = $plugin->getUserProfile($sender); // returns an instance of Andre\Bionic\Plugins\Messenger\UserProfile::class
+    $profile->getFirstName();
+    $profile->getId();
+    $profile->getLastName();
+    $profile->getProfilePic();
+    $plugin->sendPlainText('Hi, ' . $profile->getFirstName() . ' ' . $profile->getLastName(), [], $sender);
 });
 ```
