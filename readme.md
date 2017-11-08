@@ -599,3 +599,6 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
     $plugin->sendPlainText('Hi, ' . $profile->getFirstName() . ' ' . $profile->getLastName(), [], $sender);
 });
 ```
+## Bugs
+For any bugs found, please email me at andrewmvp007@gmail.com or register an issue at [issues](https://github.com/mpaannddreew/bionic/issues)
+
