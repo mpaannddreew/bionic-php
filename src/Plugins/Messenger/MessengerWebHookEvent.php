@@ -46,7 +46,7 @@ class MessengerWebHookEvent extends AbstractWebHookEvent
     {
         foreach ($this->entry as $entry_item)
         {
-            array_push($this->entry_items, new EntryItem($entry_item));
+            array_push($this->entry_items, EntryItem::create($entry_item));
         }
     }
 

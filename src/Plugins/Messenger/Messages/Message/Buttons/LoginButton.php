@@ -47,6 +47,4 @@ class LoginButton extends AbstractButton
         $this->data['url'] = $this->getUrl();
         return $this;
     }
-
-
 }

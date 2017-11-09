@@ -68,7 +68,7 @@ abstract class AbstractAttachment extends AbstractMessage
      */
     public function getPayload()
     {
-        return new Payload($this->payload);
+        return Payload::create($this->payload);
     }
 
     /**

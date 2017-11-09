@@ -75,6 +75,4 @@ class PostBackButton extends AbstractButton
         $this->data['payload'] = $this->getPayload();
         return $this;
     }
-
-
 }

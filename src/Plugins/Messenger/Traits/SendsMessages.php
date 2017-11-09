@@ -34,7 +34,7 @@ trait SendsMessages
      */
     public function sendPlainText($text, $quick_replies = [], AbstractEndPoint $recipient)
     {
-        return $this->sendText(new Text(['text' => $text]), $quick_replies, $recipient);
+        return $this->sendText(Text::create(['text' => $text]), $quick_replies, $recipient);
     }
 
     /**
@@ -90,13 +90,13 @@ trait SendsMessages
         switch ($type)
         {
             case 'typing_off':
-                $action = new TypingOff();
+                $action = TypingOff::create();
                 break;
             case 'typing_on':
-                $action = new TypingOn();
+                $action = TypingOn::create();
                 break;
             default:
-                $action = new MarkSeen();
+                $action = MarkSeen::create();
                 break;
         }
 

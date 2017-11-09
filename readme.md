@@ -2,11 +2,55 @@
 
 Bionic is a simple chat bot development library in PHP.
 
-It is driven by a very simple but powerful event dispatching library [Événement](https://github.com/igorw/evenement)
+It is driven by a very simple but powerful event dispatching library [Événement](https://github.com/igorw/evenement) and [Guzzle](https://github.com/guzzle/guzzle) a PHP HTTP client that makes it easy to send HTTP requests
 
-- Currently has support for only messenger chat bot development.
+## Platform support
+
+* Facebook Messenger
+* more coming
+
+
+## Facebook Messenger
+
+## What is covered
+
+* Create a FB Page
+* Create a FB Messenger app
+* Create a webhook
+* Connect the Facebook app to the Facebook page
+* Setup Bionic
 
 ## Installation
+### Create a FB page
+
+First login to Facebook and [create a Facebook page](https://www.facebook.com/pages/create). Choose the settings that 
+fits best your bot, but for testing it is not important.
+
+### Create a FB Messenger app
+
+Go to the [developer's app page](https://developers.facebook.com/apps/). Click "Add a New App" and
+ fill the basic app fields.
+
+On the "Product Setup" page choose Messenger and click "Get Started".
+
+Now you need to create a token to give your app access to your Facebook page. Select the created page, grant permissions 
+and copy the generated token. You need that one later.
+
+### Create a webhook for the messenger app
+
+Your application needs to have a webhook. This means a public URL that Facebook can communicate with. Every time a user 
+sends a message inside the FB chat, FB will send it to this URL which is the entry point to your application.
+
+### Connect the Facebook app to your application
+
+Now that you got the URL you need to setup the webhook. Go back to you Facebook app settings and click `Setup Webhooks` 
+inside the Webhooks part.
+
+Fill in the public URL, check the subscription fields you want to with and click `Verify and Save`.
+
+***Note:*** You need to write your own webhook verification logic in your application.
+
+### Setup Bionic
 
 The recommended way to install Bionic is [through composer](http://getcomposer.org).
 
@@ -23,7 +67,6 @@ require 'vendor/autoload.php';
 ```
 
 ## Usage
-**Note:** This library does not help you setup a webhook, so you must have a functioning webhook registered to receive messenger webhook events.
 ### Creating a Bionic instance
 
 ```php
@@ -43,14 +86,13 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin;
 $config = [
     'page_access_token' => ''
 ];
+
 $bionic = new Bionic();
-$bionic->setPlugin(new MessengerPlugin($config));
 
 // register your event listeners before calling the 'receive' method on the bionic instance
 // $bionic->listen($event_name, $event_listener);
 
-$bionic->receive($incoming_webhook_data_array);
-
+$bionic->setPlugin(MessengerPlugin::create($config))->receive($incoming_web_hook_data_array);
 return http_response_code(200);
 ```
 ### Registering event listeners
@@ -397,7 +439,7 @@ $bionic->listen('optin', function (Plugin $plugin, Sender $sender = null, Recipi
     
     // if using Checkbox Plugin and set user_ref
     if ($optin->getUserRef()){
-        $response = $plugin->sendPlainText("Hello, thank you for opting in.", [], new Recipient(['user_ref' => $optin->getUserRef()]));
+        $response = $plugin->sendPlainText("Hello, thank you for opting in.", [], Recipient::create(['user_ref' => $optin->getUserRef()]));
         $response->getBody()->getContents(); // information about the response
     }
 });
@@ -448,48 +490,37 @@ $bionic->listen('read', function (Plugin $plugin, Sender $sender, Recipient $rec
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
-$url_button = new UrlButton();
-// explore class to see available methods
+$url_button = UrlButton::create();
 ```
 ### PostBackButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
-$postback_button = new PostBackButton();
-// explore class to see available methods
-
+$post_back_button = PostBackButton::create();
 ```
 ### ShareButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\ShareButton;
-$share_button = new ShareButton();
-// explore class to see available methods
-
+$share_button = ShareButton::create();
 ```
 ### CallButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\CallButton;
-$call_button = new CallButton();
-// explore class to see available methods
-
+$call_button = CallButton::create();
 ```
 ### LoginButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\LoginButton;
-$login_button = new LoginButton();
-// explore class to see available methods
-
+$login_button = LoginButton::create();
 ```
 ### LogoutButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\LogoutButton;
-$logout_button = new LogoutButton();
-// explore class to see available methods
-
+$logout_button = LogoutButton::create();
 ```
 ## Sending Messages
 ### Text and quick replies
@@ -508,8 +539,8 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
     
     // with quick reply
     $quick_replies = [
-        (new QuickReply())->setContentType('text')->setTitle('Yes')->setPayload('yes'),
-        (new QuickReply())->setContentType('text')->setTitle('No')->setPayload('no'),
+        QuickReply::create()->setContentType('text')->setTitle('Yes')->setPayload('yes'),
+        QuickReply::create()->setContentType('text')->setTitle('No')->setPayload('no')
     ];
     $plugin->sendText($text, $quick_replies, $sender);
 });
@@ -546,11 +577,11 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
 
 $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
     // actions
-    $url_button = new UrlButton(['url' => 'http://localhost']);
-    $post_back_button = new PostBackButton(['title' => 'Payload Button', 'payload' => 'payload_button']);
+    $url_button = UrlButton::create(['url' => 'http://localhost']);
+    $post_back_button = PostBackButton::create(['title' => 'Payload Button', 'payload' => 'payload_button']);
     
     // template element
-    $template_element = new TemplateElement();
+    $template_element = TemplateElement::create();
     $template_element->setImageUrl($image->getPayload()->getUrl());
     $template_element->setTitle("Generic Template");
     $template_element->setSubtitle("Am a generic template");
@@ -561,11 +592,11 @@ $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $s
     ]);
     
     // template payload
-    $template_payload = new GenericTemplatePayload();
+    $template_payload = GenericTemplatePayload::create();
     $template_payload->setElements([$template_element->toArray()]);
     
     // generic template
-    $generic_template = new GenericTemplate();
+    $generic_template = GenericTemplate::create();
     $generic_template->setPayload($template_payload->toArray());
     
     $plugin->sendAttachment($generic_template, $sender);
@@ -586,11 +617,11 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
 
 $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
     // actions
-    $url_button = new UrlButton(['url' => 'http://localhost']);
-    $post_back_button = new PostBackButton(['title' => 'View', 'payload' => 'payload_button']);
+    $url_button = UrlButton::create(['url' => 'http://localhost']);
+    $post_back_button = PostBackButton::create(['title' => 'View', 'payload' => 'payload_button']);
     
     // template element
-    $template_element = new TemplateElement();
+    $template_element = TemplateElement::create();
     $template_element->setImageUrl($image->getPayload()->getUrl());
     $template_element->setTitle("List Template");
     $template_element->setSubtitle("Am a generic template");
@@ -598,11 +629,11 @@ $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $s
     $template_element->setButtons([$post_back_button->toArray()]); // maximum of one button
     
     // template payload
-    $template_payload = new ListTemplatePayload();
+    $template_payload = ListTemplatePayload::create();
     $template_payload->setElements([$template_element->toArray(), $template_element->toArray(), $template_element->toArray()]);
     
     // list template
-    $list_template = new ListTemplate();
+    $list_template = ListTemplate::create();
     $list_template->setPayload($template_payload->toArray());
     
     $plugin->sendAttachment($list_template, $sender);
@@ -623,16 +654,16 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 
 $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
     // actions
-    $url_button = new UrlButton(['url' => 'http://localhost', 'title' => 'Button']);
-    $post_back_button = new PostBackButton(['title' => 'PostBack', 'payload' => 'payload_button']);
+    $url_button = UrlButton::create(['url' => 'http://localhost', 'title' => 'Button']);
+    $post_back_button = PostBackButton::create(['title' => 'PostBack', 'payload' => 'payload_button']);
     
     // template payload
-    $template_payload = new ButtonTemplatePayload();
+    $template_payload = ButtonTemplatePayload::create();
     $template_payload->setText($text->getText());
     $template_payload->setButtons([$url_button->toArray(), $post_back_button->toArray()]);
     
     // button template
-    $button_template = new ButtonTemplate();
+    $button_template = ButtonTemplate::create();
     $button_template->setPayload($template_payload->toArray());
     
     $plugin->sendAttachment($button_template, $sender);
@@ -666,9 +697,8 @@ $config = [
     'page_access_token' => ''
 ];
 
-$plugin = new Plugin($config);
-$getStarted = new GetStarted(["payload" => "get_started"]);
-$plugin->setGetStarted($getStarted);
+$plugin = Plugin::create($config);
+$plugin->setGetStarted(GetStarted::create(["payload" => "get_started"]));
 ```
 ### Setting the Greeting Text
 ```php
@@ -679,9 +709,10 @@ $config = [
     'page_access_token' => ''
 ];
 
-$plugin = new Plugin($config);
-$greeting_default = new GreetingText(["locale" => "default", "text" => "Hello!"]);
-$greeting_en_US = new GreetingText(["locale" => "en_US", "text" => "Timeless apparel for the masses"]);
+$plugin = Plugin::create($config);
+
+$greeting_default = GreetingText::create(["locale" => "default", "text" => "Hello!"]);
+$greeting_en_US = GreetingText::create(["locale" => "en_US", "text" => "Timeless apparel for the masses"]);
 
 $plugin->setGreetingText([$greeting_default, $greeting_en_US]);
 ```
@@ -693,8 +724,7 @@ $config = [
     'page_access_token' => ''
 ];
 
-$plugin = new Plugin($config);
-
+$plugin = Plugin::create($config);
 $plugin->whitelistDomains(['http://example.com', 'http://app.example.com']);
 ```
 ### Persistent menu
@@ -709,21 +739,20 @@ $config = [
     'page_access_token' => ''
 ];
 
-$plugin = new Plugin($config);
+$plugin = Plugin::create($config);
 
-$menu_item = new PersistentMenuItem(["title" => "My Account", "type" => "nested"]);
-$post_back_1 = new PostBackButton(["title" => "Pay Bill", "payload" => "PAYBILL_PAYLOAD"]);
-$post_back_2 = new PostBackButton(["title" => "History", "payload" => "HISTORY_PAYLOAD"]);
-$post_back_3 = new PostBackButton(["title" => "Contact Info", "payload" => "CONTACT_INFO_PAYLOAD"]);
+$menu_item = PersistentMenuItem::create(["title" => "My Account", "type" => "nested"]);
+$post_back_1 = PostBackButton::create(["title" => "Pay Bill", "payload" => "PAYBILL_PAYLOAD"]);
+$post_back_2 = PostBackButton::create(["title" => "History", "payload" => "HISTORY_PAYLOAD"]);
+$post_back_3 = PostBackButton::create(["title" => "Contact Info", "payload" => "CONTACT_INFO_PAYLOAD"]);
 
 $menu_item->setCallToActions([$post_back_1->toArray(), $post_back_2->toArray(), $post_back_3->toArray()]);
-$url_button = new UrlButton(["title" => "Contact Info", "url" => "http://example.com"]);
+$url_button = UrlButton::create(["title" => "Contact Info", "url" => "http://example.com"]);
 
-
-$persistent_menu_default = new PersistentMenu(['locale' => 'default', 'composer_input_disabled' => false]);
+$persistent_menu_default = PersistentMenu::create(['locale' => 'default', 'composer_input_disabled' => false]);
 $persistent_menu_default->setCallToActions([$menu_item->toArray(), $url_button->toArray()]);
 
-$persistent_menu_zh_CN = new PersistentMenu(['locale' => 'zh_CN', 'composer_input_disabled' => false]);
+$persistent_menu_zh_CN = PersistentMenu::create(['locale' => 'zh_CN', 'composer_input_disabled' => false]);
 $persistent_menu_zh_CN->setCallToActions([$post_back_1->toArray()]);
 
 $plugin->setPersistentMenu([$persistent_menu_default, $persistent_menu_zh_CN]);
@@ -737,10 +766,8 @@ $config = [
     'page_access_token' => ''
 ];
 
-$plugin = new Plugin($config);
-
-$properties = ['persistent_menu', 'get_started', 'greeting', 'whitelisted_domains'];
-$plugin->deleteProperties($properties);
+$plugin = Plugin::create($config);
+$plugin->deleteProperties(['persistent_menu', 'get_started', 'greeting', 'whitelisted_domains']);
 
 ```
 ## Bugs

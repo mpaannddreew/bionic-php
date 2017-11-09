@@ -56,7 +56,7 @@ class PostBack extends AbstractMessage
     public function getReferral()
     {
         if ($this->referral)
-            return new Referral($this->referral);
+            return Referral::create($this->referral);
 
         return null;
     }

@@ -33,7 +33,7 @@ trait AccessesUserProfile
 
         try{
             $response = $this->httpClient->get($this->profile_access_url)->getBody()->getContents();
-            return new UserProfile((array)json_decode($response));
+            return UserProfile::create((array)json_decode($response));
         }catch (\Exception $exception){
             return null;
         }

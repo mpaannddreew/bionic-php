@@ -48,6 +48,4 @@ class ShareButton extends AbstractButton
         $this->data['share_contents'] = $this->getShareContents();
         return $this;
     }
-
-
 }

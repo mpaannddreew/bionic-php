@@ -51,7 +51,7 @@ class EntryItem extends AbstractMessage
     {
         foreach ($this->messaging as $messaging_item)
         {
-            array_push($this->messaging_items, new MessagingItem($messaging_item));
+            array_push($this->messaging_items, MessagingItem::create($messaging_item));
         }
     }
 

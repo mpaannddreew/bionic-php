@@ -20,6 +20,6 @@ class ListTemplate extends AbstractTemplate
      */
     public function getPayload()
     {
-        return new ListTemplatePayload($this->payload);
+        return ListTemplatePayload::create($this->payload);
     }
 }

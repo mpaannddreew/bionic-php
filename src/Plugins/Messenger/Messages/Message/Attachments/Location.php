@@ -59,6 +59,6 @@ class Location extends AbstractAttachment
      */
     public function getPayload()
     {
-        return new LocationPayLoad($this->payload);
+        return LocationPayLoad::create($this->payload);
     }
 }

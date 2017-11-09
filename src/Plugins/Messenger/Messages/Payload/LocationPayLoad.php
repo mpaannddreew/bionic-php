@@ -27,7 +27,7 @@ class LocationPayLoad extends AbstractMessage
     public function getCoordinates()
     {
         if ($this->coordinates)
-            return new Coordinates($this->coordinates);
+            return Coordinates::create($this->coordinates);
 
         return null;
     }

@@ -85,22 +85,22 @@ class Message extends AbstractMessage
         {
             switch ($attachment_item['type']){
                 case 'location':
-                    $attachment = new Location($attachment_item);
+                    $attachment = Location::create($attachment_item);
                     break;
                 case 'file':
-                    $attachment = new File($attachment_item);
+                    $attachment = File::create($attachment_item);
                     break;
                 case 'audio':
-                    $attachment = new Audio($attachment_item);
+                    $attachment = Audio::create($attachment_item);
                     break;
                 case 'Video':
-                    $attachment = new Video($attachment_item);
+                    $attachment = Video::create($attachment_item);
                     break;
                 case 'image':
-                    $attachment = new Image($attachment_item);
+                    $attachment = Image::create($attachment_item);
                     break;
                 case 'fallback':
-                    $attachment = new Fallback($attachment_item);
+                    $attachment = Fallback::create($attachment_item);
                     break;
                 default:
                     break;
@@ -130,7 +130,7 @@ class Message extends AbstractMessage
     public function getText()
     {
         if ($this->text)
-            return (new Text())->setText($this->text);
+            return Text::create($this->text);
 
         return null;
     }
@@ -143,7 +143,7 @@ class Message extends AbstractMessage
     public function getQuickReply()
     {
         if ($this->quick_reply)
-            return new QuickReply($this->quick_reply);
+            return QuickReply::create($this->quick_reply);
 
         return null;
     }

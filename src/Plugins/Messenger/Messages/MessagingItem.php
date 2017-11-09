@@ -72,7 +72,7 @@ class MessagingItem extends AbstractMessage
      */
     public function getSender()
     {
-        return new Sender($this->sender);
+        return Sender::create($this->sender);
     }
 
     /**
@@ -82,7 +82,7 @@ class MessagingItem extends AbstractMessage
      */
     public function getRecipient()
     {
-        return new Recipient($this->recipient);
+        return Recipient::create($this->recipient);
     }
 
     /**
@@ -103,7 +103,7 @@ class MessagingItem extends AbstractMessage
     public function getMessage()
     {
         if ($this->message)
-            return new Message($this->message);
+            return Message::create($this->message);
 
         return null;
     }
@@ -116,7 +116,7 @@ class MessagingItem extends AbstractMessage
     public function getPostback()
     {
         if ($this->postback)
-            return new PostBack($this->postback);
+            return PostBack::create($this->postback);
 
         return null;
     }
@@ -129,7 +129,7 @@ class MessagingItem extends AbstractMessage
     public function getReferral()
     {
         if ($this->referral)
-            return new Referral($this->referral);
+            return Referral::create($this->referral);
 
         return null;
     }
@@ -142,7 +142,7 @@ class MessagingItem extends AbstractMessage
     public function getOptin()
     {
         if ($this->optin)
-            return new Optin($this->optin);
+            return Optin::create($this->optin);
 
         return null;
     }
@@ -155,7 +155,7 @@ class MessagingItem extends AbstractMessage
     public function getAccountLinking()
     {
         if ($this->account_linking)
-            return new AccountLinking($this->account_linking);
+            return AccountLinking::create($this->account_linking);
 
         return null;
     }
@@ -168,7 +168,7 @@ class MessagingItem extends AbstractMessage
     public function getDelivery()
     {
         if ($this->delivery)
-            return new Delivery($this->delivery);
+            return Delivery::create($this->delivery);
 
         return null;
     }
@@ -180,8 +180,8 @@ class MessagingItem extends AbstractMessage
      */
     public function getRead()
     {
-        if ($this->delivery)
-            return new Read($this->read);
+        if ($this->read)
+            return Read::create($this->read);
 
         return null;
     }

@@ -21,6 +21,6 @@ class GenericTemplate extends AbstractTemplate
      */
     public function getPayload()
     {
-        return new GenericTemplatePayload($this->payload);
+        return GenericTemplatePayload::create($this->payload);
     }
 }

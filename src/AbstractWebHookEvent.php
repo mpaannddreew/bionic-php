@@ -36,4 +36,15 @@ abstract class AbstractWebHookEvent implements WebHookEventInterface
     {
         return $this->data;
     }
+
+    /**
+     * create a new class instance
+     *
+     * @param array $data
+     * @return static
+     */
+    public static function create($data = [])
+    {
+        return new static($data);
+    }
 }

@@ -50,7 +50,7 @@ abstract class AbstractBionicPlugin implements PluginInterface
      */
     protected function setUpConfigurations()
     {
-        foreach ($this->config as $key => $value){
+        foreach ($this->config as $key => $value) {
             if (property_exists($this, $key))
                 $this->{$key} = $value;
         }
@@ -76,5 +76,16 @@ abstract class AbstractBionicPlugin implements PluginInterface
     {
         $this->setWebHookData();
         $this->createWebHookEvent();
+    }
+
+    /**
+     * create a new class instance
+     *
+     * @param array $config
+     * @return static
+     */
+    public static function create($config = [])
+    {
+        return new static($config);
     }
 }

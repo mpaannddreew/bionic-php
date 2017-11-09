@@ -85,7 +85,7 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function createWebHookEvent()
     {
-        $this->webHookEvent = new MessengerWebHookEvent($this->webHookData);
+        $this->webHookEvent = MessengerWebHookEvent::create($this->webHookData);
     }
 
     /**

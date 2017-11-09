@@ -51,5 +51,4 @@ abstract class AbstractSenderAction extends AbstractMessage
      * set sender action
      */
     abstract protected function setSenderAction();
-
 }

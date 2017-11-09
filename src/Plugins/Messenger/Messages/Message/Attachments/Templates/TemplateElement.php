@@ -152,6 +152,4 @@ class TemplateElement extends AbstractMessage
         $this->data['default_action'] = $this->getDefaultAction();
         return $this;
     }
-
-
 }
