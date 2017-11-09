@@ -123,6 +123,8 @@ trait SendsMessages
      */
     protected function sendMessage($data)
     {
+        $this->checkForPageAccessToken();
+
         return $this->httpClient->post($this->messaging_url . $this->page_access_token, ['json' => $data]);
     }
 }

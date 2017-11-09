@@ -10,7 +10,6 @@ namespace Andre\Bionic\Plugins\Messenger\Traits;
 
 
 use Andre\Bionic\Plugins\Messenger\BotProfile\GetStarted;
-use Andre\Bionic\Plugins\Messenger\BotProfile\PersistentMenu;
 
 trait ManagesBotProfile
 {
@@ -26,7 +25,7 @@ trait ManagesBotProfile
      * @param array $greetings
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function setGreeting($greetings = [])
+    public function setGreetingText($greetings = [])
     {
         $data = [];
         foreach ($greetings as $greeting){
@@ -67,13 +66,18 @@ trait ManagesBotProfile
     /**
      * set persistent menu
      *
-     * @param PersistentMenu $persistentMenu
+     * @param array $persistent_menus
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function setPersistentMenu(PersistentMenu $persistentMenu)
+    public function setPersistentMenu($persistent_menus = [])
     {
+        $data = [];
+        foreach ($persistent_menus as $persistentMenu){
+            array_push($data, $persistentMenu->toArray());
+        }
+
         return $this->setProperty([
-            'persistent_menu' => [$persistentMenu->toArray()]
+            'persistent_menu' => $data
         ]);
     }
 
@@ -83,10 +87,10 @@ trait ManagesBotProfile
      * @param array $greetings
      * @param GetStarted|null $getStarted
      * @param array $domains
-     * @param PersistentMenu|null $persistentMenu
+     * @param array $persistent_menus
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function setProperties($greetings = [], GetStarted $getStarted = null, $domains = [], PersistentMenu $persistentMenu = null)
+    public function setProperties($greetings = [], GetStarted $getStarted = null, $domains = [], $persistent_menus = [])
     {
         $data = [];
 
@@ -104,8 +108,13 @@ trait ManagesBotProfile
         if ($domains)
             $data['whitelisted_domains'] = $domains;
 
-        if ($persistentMenu)
-            $data['persistent_menu'] = $persistentMenu->toArray();
+        if ($persistent_menus){
+            $_data = [];
+            foreach ($persistent_menus as $persistent_menu){
+                array_push($_data, $persistent_menu->toArray());
+            }
+            $data['persistent_menu'] = $_data;
+        }
 
         return $this->setProperty($data);
     }
@@ -129,6 +138,8 @@ trait ManagesBotProfile
      */
     protected function setProperty($data)
     {
+        $this->checkForPageAccessToken();
+
         return $this->httpClient->post($this->messenger_profile_url . $this->page_access_token, ['json' => $data]);
     }
 
@@ -140,6 +151,8 @@ trait ManagesBotProfile
      */
     protected function deleteProperty($data)
     {
+        $this->checkForPageAccessToken();
+
         return $this->httpClient->delete($this->messenger_profile_url . $this->page_access_token, ['json' => $data]);
     }
 }

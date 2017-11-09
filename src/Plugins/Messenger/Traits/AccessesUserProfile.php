@@ -27,6 +27,8 @@ trait AccessesUserProfile
      */
     public function getUserProfile(AbstractEndPoint $user)
     {
+        $this->checkForPageAccessToken();
+
         $this->profile_access_url = str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, str_replace('{PSID}', $user->getId(), $this->profile_access_url));
 
         try{

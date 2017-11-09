@@ -153,4 +153,13 @@ class MessengerPlugin extends AbstractBionicPlugin
             }
         }
     }
+
+    /**
+     * check if page access token has been provided before making any http request
+     */
+    protected function checkForPageAccessToken()
+    {
+        if (!$this->page_access_token)
+            throw new \InvalidArgumentException('A facebook page access token has not been specified!');
+    }
 }

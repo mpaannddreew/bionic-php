@@ -33,7 +33,7 @@ use Andre\Bionic\Bionic;
 $bionic = new Bionic();
 ```
 
-### Usage with a messenger plugin instance
+### Usage with messenger
 
 ```php
 <?php
@@ -53,7 +53,7 @@ $bionic->receive($incoming_webhook_data_array);
 
 return http_response_code(200);
 ```
-### Registering an event listener
+### Registering event listeners
 #### Syntax
 
 ```php
@@ -212,6 +212,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
 
 $bionic->listen('message', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message){
+    // $message - represents message sent to your page
     $message->getText();
     $message->getQuickReply();
     $message->getAppId();
@@ -219,6 +220,7 @@ $bionic->listen('message', function (Plugin $plugin, Sender $sender, Recipient $
     $message->getMetadata();
     $message->getMid();
     $message->getSeq();
+    $message->isEcho(); // false
 });
 ```
 
@@ -232,7 +234,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
 
 $bionic->listen('message.echo', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message){
-    // $message - represents messages sent by your page
+    // $message - represents message sent by your page
     $message->getText();
     $message->getQuickReply();
     $message->getAppId();
@@ -240,6 +242,7 @@ $bionic->listen('message.echo', function (Plugin $plugin, Sender $sender, Recipi
     $message->getMetadata();
     $message->getMid();
     $message->getSeq();
+    $message->isEcho(); // true
 });
 ```
 - message.text
@@ -434,6 +437,54 @@ $bionic->listen('read', function (Plugin $plugin, Sender $sender, Recipient $rec
     $read->getWatermark();
 });
 ```
+## Working with Buttons
+### UrlButton
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
+$url_button = new UrlButton();
+// explore class to see available methods
+```
+### PostBackButton
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
+$postback_button = new PostBackButton();
+// explore class to see available methods
+
+```
+### ShareButton
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\ShareButton;
+$share_button = new ShareButton();
+// explore class to see available methods
+
+```
+### CallButton
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\CallButton;
+$call_button = new CallButton();
+// explore class to see available methods
+
+```
+### LoginButton
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\LoginButton;
+$login_button = new LoginButton();
+// explore class to see available methods
+
+```
+### LogoutButton
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\LogoutButton;
+$logout_button = new LogoutButton();
+// explore class to see available methods
+
+```
 ## Sending Messages
 ### Text and quick replies
 ```php
@@ -581,7 +632,7 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
     $plugin->sendAttachment($button_template, $sender);
 });
 ```
-### Getting a user profile
+### Accessing a user profile information
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -598,6 +649,92 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
     $profile->getProfilePic();
     $plugin->sendPlainText('Hi, ' . $profile->getFirstName() . ' ' . $profile->getLastName(), [], $sender);
 });
+```
+### Setting the Get Started Button Postback
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\BotProfile\GetStarted;
+$config = [
+    'page_access_token' => ''
+];
+
+$plugin = new Plugin($config);
+$getStarted = new GetStarted(["payload" => "get_started"]);
+$plugin->setGetStarted($getStarted);
+```
+### Setting the Greeting Text
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\BotProfile\GreetingText;
+$config = [
+    'page_access_token' => ''
+];
+
+$plugin = new Plugin($config);
+$greeting_default = new GreetingText(["locale" => "default", "text" => "Hello!"]);
+$greeting_en_US = new GreetingText(["locale" => "en_US", "text" => "Timeless apparel for the masses"]);
+
+$plugin->setGreetingText([$greeting_default, $greeting_en_US]);
+```
+### Whitelisting domains
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+$config = [
+    'page_access_token' => ''
+];
+
+$plugin = new Plugin($config);
+
+$plugin->whitelistDomains(['http://example.com', 'http://app.example.com']);
+```
+### Persistent menu
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\BotProfile\PersistentMenu;
+use Andre\Bionic\Plugins\Messenger\BotProfile\PersistentMenuItem;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
+$config = [
+    'page_access_token' => ''
+];
+
+$plugin = new Plugin($config);
+
+$menu_item = new PersistentMenuItem(["title" => "My Account", "type" => "nested"]);
+$post_back_1 = new PostBackButton(["title" => "Pay Bill", "payload" => "PAYBILL_PAYLOAD"]);
+$post_back_2 = new PostBackButton(["title" => "History", "payload" => "HISTORY_PAYLOAD"]);
+$post_back_3 = new PostBackButton(["title" => "Contact Info", "payload" => "CONTACT_INFO_PAYLOAD"]);
+
+$menu_item->setCallToActions([$post_back_1->toArray(), $post_back_2->toArray(), $post_back_3->toArray()]);
+$url_button = new UrlButton(["title" => "Contact Info", "url" => "http://example.com"]);
+
+
+$persistent_menu_default = new PersistentMenu(['locale' => 'default', 'composer_input_disabled' => false]);
+$persistent_menu_default->setCallToActions([$menu_item->toArray(), $url_button->toArray()]);
+
+$persistent_menu_zh_CN = new PersistentMenu(['locale' => 'zh_CN', 'composer_input_disabled' => false]);
+$persistent_menu_zh_CN->setCallToActions([$post_back_1->toArray()]);
+
+$plugin->setPersistentMenu([$persistent_menu_default, $persistent_menu_zh_CN]);
+```
+### Deleting Messenger Profile Properties
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+
+$config = [
+    'page_access_token' => ''
+];
+
+$plugin = new Plugin($config);
+
+$properties = ['persistent_menu', 'get_started', 'greeting', 'whitelisted_domains'];
+$plugin->deleteProperties($properties);
+
 ```
 ## Bugs
 For any bugs found, please email me at andrewmvp007@gmail.com or register an issue at [issues](https://github.com/mpaannddreew/bionic/issues)

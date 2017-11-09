@@ -11,7 +11,7 @@ namespace Andre\Bionic\Plugins\Messenger\BotProfile;
 
 use Andre\Bionic\AbstractMessage;
 
-class Greeting extends AbstractMessage
+class GreetingText extends AbstractMessage
 {
     /**
      * @var string $locale
