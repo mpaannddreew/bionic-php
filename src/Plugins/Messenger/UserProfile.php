@@ -34,6 +34,8 @@ class UserProfile extends AbstractMessage
     protected $profile_pic;
 
     /**
+     * get user id
+     *
      * @return string
      */
     public function getId()
@@ -42,6 +44,8 @@ class UserProfile extends AbstractMessage
     }
 
     /**
+     * get first name
+     *
      * @return string
      */
     public function getFirstName()
@@ -50,6 +54,8 @@ class UserProfile extends AbstractMessage
     }
 
     /**
+     * get last_name
+     *
      * @return string
      */
     public function getLastName()
@@ -58,6 +64,8 @@ class UserProfile extends AbstractMessage
     }
 
     /**
+     * get profile pic
+     *
      * @return string
      */
     public function getProfilePic()
