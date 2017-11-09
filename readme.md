@@ -650,6 +650,7 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
     $plugin->sendPlainText('Hi, ' . $profile->getFirstName() . ' ' . $profile->getLastName(), [], $sender);
 });
 ```
+## Messenger Profile
 ### Setting the Get Started Button Postback
 ```php
 <?php
