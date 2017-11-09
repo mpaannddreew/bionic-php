@@ -392,8 +392,14 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Optin;
 
-$bionic->listen('optin', function (Plugin $plugin, Sender $sender, Recipient $recipient, Optin $optin){
+$bionic->listen('optin', function (Plugin $plugin, Sender $sender = null, Recipient $recipient, Optin $optin){
     $optin->getRef();
+    
+    // if using Checkbox Plugin and set user_ref
+    if ($optin->getUserRef()){
+        $response = $plugin->sendPlainText("Hello, thank you for opting in.", [], new Recipient(['user_ref' => $optin->getUserRef()]));
+        $response->getBody()->getContents(); // information about the response
+    }
 });
 ```
 - account_linking

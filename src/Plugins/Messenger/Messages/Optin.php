@@ -19,6 +19,11 @@ class Optin extends AbstractMessage
     protected $ref;
 
     /**
+     * @var string $user_ref
+     */
+    protected $user_ref;
+
+    /**
      * get ref
      *
      * @return string
@@ -26,5 +31,24 @@ class Optin extends AbstractMessage
     public function getRef()
     {
         return $this->ref;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserRef()
+    {
+        return $this->user_ref;
+    }
+
+    /**
+     * @param string $user_ref
+     * @return $this
+     */
+    public function setUserRef($user_ref)
+    {
+        $this->user_ref = $user_ref;
+        $this->data['user_ref'] = $this->getUserRef();
+        return $this;
     }
 }
