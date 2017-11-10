@@ -81,18 +81,30 @@ $bionic = Bionic::initialize();
 ```php
 <?php
 use Andre\Bionic\Bionic;
-use Andre\Bionic\Plugins\Messenger\MessengerPlugin;
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
 
 $config = [
-    'page_access_token' => ''
+    'page_access_token' => 'your page access token'
 ];
 
 $bionic = Bionic::initialize();
 
 // register your event listeners before calling the 'receive' method on the bionic instance
 // $bionic->listen($event_name, $event_listener);
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
+    // $plugin - current plugin being used i.e. MessengerPlugin
+    // $sender - sender of the message i.e. Messenger user
+    // $recipient - recipient of the message i.e. Your facebook page
+    // $image - Image attachment that was sent
+   
+    // this sends back the attachment as a message back to the sender
+    $plugin->sendAttachment($image, $sender);
+});
 
-$bionic->setPlugin(MessengerPlugin::create($config))->receive($incoming_web_hook_data_array);
+$bionic->setPlugin(Plugin::create($config))->receive($incoming_web_hook_data_array);
 return http_response_code(200);
 ```
 ### Registering event listeners
@@ -694,7 +706,7 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\BotProfile\GetStarted;
 $config = [
-    'page_access_token' => ''
+    'page_access_token' => 'your page access token'
 ];
 
 $plugin = Plugin::create($config);
@@ -706,7 +718,7 @@ $plugin->setGetStarted(GetStarted::create(["payload" => "get_started"]));
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\BotProfile\GreetingText;
 $config = [
-    'page_access_token' => ''
+    'page_access_token' => 'your page access token'
 ];
 
 $plugin = Plugin::create($config);
@@ -721,7 +733,7 @@ $plugin->setGreetingText([$greeting_default, $greeting_en_US]);
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 $config = [
-    'page_access_token' => ''
+    'page_access_token' => 'your page access token'
 ];
 
 $plugin = Plugin::create($config);
@@ -736,7 +748,7 @@ use Andre\Bionic\Plugins\Messenger\BotProfile\PersistentMenuItem;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
 $config = [
-    'page_access_token' => ''
+    'page_access_token' => 'your page access token'
 ];
 
 $plugin = Plugin::create($config);
@@ -763,7 +775,7 @@ $plugin->setPersistentMenu([$persistent_menu_default, $persistent_menu_zh_CN]);
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 
 $config = [
-    'page_access_token' => ''
+    'page_access_token' => 'your page access token'
 ];
 
 $plugin = Plugin::create($config);
