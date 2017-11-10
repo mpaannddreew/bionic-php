@@ -73,7 +73,7 @@ require 'vendor/autoload.php';
 <?php
 use Andre\Bionic\Bionic;
 
-$bionic = new Bionic();
+$bionic = Bionic::initialize();
 ```
 
 ### Usage with messenger
@@ -87,7 +87,7 @@ $config = [
     'page_access_token' => ''
 ];
 
-$bionic = new Bionic();
+$bionic = Bionic::initialize();
 
 // register your event listeners before calling the 'receive' method on the bionic instance
 // $bionic->listen($event_name, $event_listener);

@@ -147,4 +147,14 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     {
         return $this->webHookData;
     }
+
+    /**
+     * create a new class instance
+     *
+     * @return static
+     */
+    public static function initialize()
+    {
+        return new static();
+    }
 }
