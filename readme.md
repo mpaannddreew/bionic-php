@@ -771,5 +771,5 @@ $plugin->deleteProperties(['persistent_menu', 'get_started', 'greeting', 'whitel
 
 ```
 ## Bugs
-For any bugs found, please email me at andrewmvp007@gmail.com or register an issue at [issues](https://github.com/mpaannddreew/bionic/issues)
+For any bugs found, please email me at andrewmvp007@gmail.com or register an issue at [issues](https://github.com/mpaannddreew/bionic-php/issues)
 
