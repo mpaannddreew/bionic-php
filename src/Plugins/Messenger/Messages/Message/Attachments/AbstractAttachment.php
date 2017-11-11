@@ -86,13 +86,13 @@ abstract class AbstractAttachment extends AbstractMessage
     /**
      * set payload
      *
-     * @param array $payload
+     * @param AbstractMessage $payload
      * @return $this
      */
-    public function setPayload($payload)
+    public function setPayload(AbstractMessage $payload)
     {
-        $this->payload = $payload;
-        $this->data['payload'] = $this->getPayload()->toArray();
+        $this->payload = $payload->toArray();
+        $this->data['payload'] = $this->getPayload();
         return $this;
     }
 }

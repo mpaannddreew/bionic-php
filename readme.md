@@ -94,13 +94,14 @@ $bionic = Bionic::initialize();
 
 // register your event listeners before calling the 'receive' method on the bionic instance
 // $bionic->listen($event_name, $event_listener);
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
     // $plugin - current plugin being used i.e. MessengerPlugin
     // $sender - sender of the message i.e. Messenger user
     // $recipient - recipient of the message i.e. Your facebook page
     // $image - Image attachment that was sent
+    // $channel - event delivery channel, messaging or standby
    
-    // this sends back the attachment as a message back to the sender
+    // this sends the attachment as a message back to the sender
     $plugin->sendAttachment($image, $sender);
 });
 
@@ -159,12 +160,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
 
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
-    // $plugin - current plugin being used i.e. MessengerPlugin
-    // $sender - sender of the message i.e. Messenger user
-    // $recipient - recipient of the message i.e. Your facebook page
-    // $image - Image attachment that was sent
-   
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){  
     // this sends back the attachment as a message back to the sender
     $plugin->sendAttachment($image, $sender);
 });
@@ -237,6 +233,20 @@ $bionic->listen('messaging', function (Plugin $plugin, $messagingItems){
      }
 });
 ```
+- standby
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+
+$bionic->listen('standby', function (Plugin $plugin, $standbyItems){
+     // $messagingItems is an array of Andre\Bionic\Plugins\Messenger\Messages\$standbyItems::class
+     foreach ($standbyItems as $standbyItem){
+          $standbyItem->getMessage();
+          $standbyItem->getRead();
+          $standbyItem->getDelivery();
+     }
+});
+```
 - messaging.item
 ```php
 <?php
@@ -256,6 +266,18 @@ $bionic->listen('messaging.item', function (Plugin $plugin, MessagingItem $messa
     $messagingItem->getTimestamp();
 });
 ```
+- standby.item
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\StandbyItem;
+
+$bionic->listen('standby.item', function (Plugin $plugin, StandbyItem $standbyItem){
+    $standbyItem->getMessage();
+    $standbyItem->getRead();
+    $standbyItem->getDelivery();
+});
+```
 - message
 ```php
 <?php
@@ -264,8 +286,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-
-$bionic->listen('message', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message){
+$bionic->listen('message', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, $channel){
     // $message - represents message sent to your page
     $message->getText();
     $message->getQuickReply();
@@ -309,7 +330,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, $channel){
     $text->getText();
     if ($quickReply){
         $quickReply->getPayload();
@@ -326,7 +347,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 
 
-$bionic->listen('message.attachments', function (Plugin $plugin, Sender $sender, Recipient $recipient, $messageAttachments){
+$bionic->listen('message.attachments', function (Plugin $plugin, Sender $sender, Recipient $recipient, $messageAttachments, $channel){
     // $messageAttachments - an array of attachments e.g. Image, Audio, Location, Video, Fallback
     foreach ($messageAttachments as $attachment){
         $attachment->getType();
@@ -342,7 +363,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
 
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
     $image->getPayload()->getUrl();
     $plugin->sendAttachment($image, $sender);
 });
@@ -355,7 +376,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Audio;
 
-$bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Audio $audio){
+$bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Audio $audio, $channel){
     $audio->getPayload()->getUrl();
     $plugin->sendAttachment($audio, $sender);
 });
@@ -368,7 +389,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Video;
 
-$bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Video $video){
+$bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Video $video, $channel){
     $video->getPayload()->getUrl();
     $plugin->sendAttachment($video, $sender);
 });
@@ -381,7 +402,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Location;
 
-$bionic->listen('message.attachments.location', function (Plugin $plugin, Sender $sender, Recipient $recipient, Location $location){
+$bionic->listen('message.attachments.location', function (Plugin $plugin, Sender $sender, Recipient $recipient, Location $location, $channel){
     $coordinates = $location->getPayload()->getCoordinates();
     $coordinates->getLat();
     $coordinates->getLong();
@@ -395,7 +416,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\File;
 
-$bionic->listen('message.attachments.file', function (Plugin $plugin, Sender $sender, Recipient $recipient, File $file){
+$bionic->listen('message.attachments.file', function (Plugin $plugin, Sender $sender, Recipient $recipient, File $file, $channel){
     $file->getPayload()->getUrl();
     $plugin->sendAttachment($file, $sender);
 });
@@ -408,7 +429,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Fallback;
 
-$bionic->listen('message.attachments.fallback', function (Plugin $plugin, Sender $sender, Recipient $recipient, Fallback $fallback){
+$bionic->listen('message.attachments.fallback', function (Plugin $plugin, Sender $sender, Recipient $recipient, Fallback $fallback, $channel){
     $fallback->getTitle();
     $fallback->getURL();
 });
@@ -478,7 +499,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Delivery;
 
-$bionic->listen('delivery', function (Plugin $plugin, Sender $sender, Recipient $recipient, Delivery $delivery){
+$bionic->listen('delivery', function (Plugin $plugin, Sender $sender, Recipient $recipient, Delivery $delivery, $channel){
     $delivery->getMids();
     $delivery->getSeq();
     $delivery->getWatermark();
@@ -492,9 +513,90 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Read;
 
-$bionic->listen('read', function (Plugin $plugin, Sender $sender, Recipient $recipient, Read $read){
+$bionic->listen('read', function (Plugin $plugin, Sender $sender, Recipient $recipient, Read $read, $channel){
     $read->getSeq();
     $read->getWatermark();
+});
+```
+- policy_enforcement
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\PolicyEnforcement;
+
+$bionic->listen('policy_enforcement', function (Plugin $plugin, Recipient $recipient, PolicyEnforcement $policyEnforcement){
+    $action = $policyEnforcement->getAction();
+    if ($action == 'block')
+        $policyEnforcement->getReason();
+});
+```
+- payment
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Payment\Payment;
+
+$bionic->listen('payment', function (Plugin $plugin, Sender $sender, Recipient $recipient, Payment $payment){
+    $payment->getShippingOptionId();
+    $payment->getPaymentCredential();
+    $payment->getRequestedUserInfo();
+    $payment->getAmount();
+});
+```
+- checkout_update
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Payment\CheckoutUpdate;
+
+$bionic->listen('checkout_update', function (Plugin $plugin, Sender $sender, Recipient $recipient, CheckoutUpdate $checkoutUpdate){
+    $checkoutUpdate->getPayload();
+    $checkoutUpdate->getShippingAddress();
+});
+```
+- pre_checkout
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Payment\PreCheckout;
+
+$bionic->listen('pre_checkout', function (Plugin $plugin, Sender $sender, Recipient $recipient, PreCheckout $preCheckout){
+    $preCheckout->getPayload();
+    $preCheckout->getRequestedUserInfo();
+    $preCheckout->getAmount();
+});
+```
+- pass_thread_control
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\PassThreadControl;
+
+$bionic->listen('pass_thread_control', function (Plugin $plugin, Sender $sender, Recipient $recipient, PassThreadControl $passThreadControl){
+    $passThreadControl->getNewOwnerAppId();
+    $passThreadControl->getMetadata();
+});
+```
+- take_thread_control
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\TakeThreadControl;
+
+$bionic->listen('take_thread_control', function (Plugin $plugin, Sender $sender, Recipient $recipient, TakeThreadControl $takeThreadControl){
+    $takeThreadControl->getPreviousOwnerAppId();
+    $takeThreadControl->getMetadata();
 });
 ```
 ## Working with Buttons
@@ -534,6 +636,12 @@ $login_button = LoginButton::create();
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\LogoutButton;
 $logout_button = LogoutButton::create();
 ```
+### BuyButton
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\BuyButton;
+$buy_button = BuyButton::create();
+```
 ## Sending Messages
 ### Text and quick replies
 ```php
@@ -543,7 +651,6 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
-
 
 $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
     // sending text
@@ -565,7 +672,6 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
-
 
 $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
     $plugin->sendAction($sender); // default mark_seen
@@ -597,19 +703,19 @@ $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $s
     $template_element->setImageUrl($image->getPayload()->getUrl());
     $template_element->setTitle("Generic Template");
     $template_element->setSubtitle("Am a generic template");
-    $template_element->setDefaultAction($url_button->toArray());
+    $template_element->setDefaultAction($url_button);
     $template_element->setButtons([
-        $url_button->setTitle("Url Button")->toArray(),
-        $post_back_button->toArray()
+        $url_button->setTitle("Url Button"),
+        $post_back_button
     ]);
     
     // template payload
     $template_payload = GenericTemplatePayload::create();
-    $template_payload->setElements([$template_element->toArray()]);
+    $template_payload->setElements([$template_element]);
     
     // generic template
     $generic_template = GenericTemplate::create();
-    $generic_template->setPayload($template_payload->toArray());
+    $generic_template->setPayload($template_payload);
     
     $plugin->sendAttachment($generic_template, $sender);
 });
@@ -637,16 +743,16 @@ $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $s
     $template_element->setImageUrl($image->getPayload()->getUrl());
     $template_element->setTitle("List Template");
     $template_element->setSubtitle("Am a generic template");
-    $template_element->setDefaultAction($url_button->toArray());
-    $template_element->setButtons([$post_back_button->toArray()]); // maximum of one button
+    $template_element->setDefaultAction($url_button);
+    $template_element->setButtons([$post_back_button]); // maximum of one button
     
     // template payload
     $template_payload = ListTemplatePayload::create();
-    $template_payload->setElements([$template_element->toArray(), $template_element->toArray(), $template_element->toArray()]);
+    $template_payload->setElements([$template_element, $template_element, $template_element]);
     
     // list template
     $list_template = ListTemplate::create();
-    $list_template->setPayload($template_payload->toArray());
+    $list_template->setPayload($template_payload);
     
     $plugin->sendAttachment($list_template, $sender);
 });
@@ -672,11 +778,11 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
     // template payload
     $template_payload = ButtonTemplatePayload::create();
     $template_payload->setText($text->getText());
-    $template_payload->setButtons([$url_button->toArray(), $post_back_button->toArray()]);
+    $template_payload->setButtons([$url_button, $post_back_button]);
     
     // button template
     $button_template = ButtonTemplate::create();
-    $button_template->setPayload($template_payload->toArray());
+    $button_template->setPayload($template_payload);
     
     $plugin->sendAttachment($button_template, $sender);
 });
@@ -758,14 +864,14 @@ $post_back_1 = PostBackButton::create(["title" => "Pay Bill", "payload" => "PAYB
 $post_back_2 = PostBackButton::create(["title" => "History", "payload" => "HISTORY_PAYLOAD"]);
 $post_back_3 = PostBackButton::create(["title" => "Contact Info", "payload" => "CONTACT_INFO_PAYLOAD"]);
 
-$menu_item->setCallToActions([$post_back_1->toArray(), $post_back_2->toArray(), $post_back_3->toArray()]);
+$menu_item->setCallToActions([$post_back_1, $post_back_2, $post_back_3]);
 $url_button = UrlButton::create(["title" => "Contact Info", "url" => "http://example.com"]);
 
 $persistent_menu_default = PersistentMenu::create(['locale' => 'default', 'composer_input_disabled' => false]);
-$persistent_menu_default->setCallToActions([$menu_item->toArray(), $url_button->toArray()]);
+$persistent_menu_default->setCallToActions([$menu_item, $url_button]);
 
 $persistent_menu_zh_CN = PersistentMenu::create(['locale' => 'zh_CN', 'composer_input_disabled' => false]);
-$persistent_menu_zh_CN->setCallToActions([$post_back_1->toArray()]);
+$persistent_menu_zh_CN->setCallToActions([$post_back_1]);
 
 $plugin->setPersistentMenu([$persistent_menu_default, $persistent_menu_zh_CN]);
 ```

@@ -17,6 +17,8 @@ namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
 
 
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
+
 class ShareButton extends AbstractButton
 {
 
@@ -46,12 +48,12 @@ class ShareButton extends AbstractButton
     /**
      * set share contents
      *
-     * @param array $share_contents
+     * @param AbstractAttachment $share_contents
      * @return $this
      */
-    public function setShareContents($share_contents)
+    public function setShareContents(AbstractAttachment $share_contents)
     {
-        $this->share_contents = $share_contents;
+        $this->share_contents = ['attachment' => $share_contents->toArray()];
         $this->data['share_contents'] = $this->getShareContents();
         return $this;
     }

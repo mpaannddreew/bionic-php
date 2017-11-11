@@ -53,7 +53,9 @@ class PersistentMenuItem extends AbstractMessage
      */
     public function setCallToActions($call_to_actions)
     {
-        $this->call_to_actions = $call_to_actions;
+        foreach ($call_to_actions as $call_to_action){
+            array_push($this->call_to_actions, $call_to_action->toArray());
+        }
         $this->data['call_to_actions'] = $this->getCallToActions();
         return $this;
     }

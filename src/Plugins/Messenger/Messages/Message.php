@@ -137,7 +137,7 @@ class Message extends AbstractMessage
     public function getText()
     {
         if ($this->text)
-            return Text::create($this->text);
+            return Text::create()->setText($this->text);
 
         return null;
     }

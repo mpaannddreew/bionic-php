@@ -32,6 +32,8 @@ abstract class AbstractButton extends AbstractMessage
 
     const ACCOUNT_UNLINK = 'account_unlink';
 
+    const PAYMENT = 'payment';
+
     /**
      * @var string $type
      */

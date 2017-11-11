@@ -18,6 +18,7 @@ namespace Andre\Bionic\Plugins\Messenger;
 
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
+use Andre\Bionic\Plugins\Messenger\Messages\AbstractChannelItem;
 use Andre\Bionic\Plugins\Messenger\Traits\AccessesUserProfile;
 use Andre\Bionic\Plugins\Messenger\Traits\ManagesBotProfile;
 use Andre\Bionic\Plugins\Messenger\Traits\SendsMessages;
@@ -107,38 +108,27 @@ class MessengerPlugin extends AbstractBionicPlugin
         {
             $this->bionic->emit('entry.item', [$this, $entryItem]);
 
+            if ($standbyItems = $entryItem->getStandbyItems())
+                $this->bionic->emit('standby', [$this, $standbyItems]);
+
             if ($messagingItems = $entryItem->getMessagingItems())
                 $this->bionic->emit('messaging', [$this, $messagingItems]);
+
+            foreach ($entryItem->getStandbyItems() as $standbyItem)
+            {
+                $this->bionic->emit('standby.item', [$this, $standbyItem]);
+
+                $this->emitAbstractChannelEvents($standbyItem, 'standby');
+            }
 
             foreach ($entryItem->getMessagingItems() as $messagingItem)
             {
                 $this->bionic->emit('messaging.item', [$this, $messagingItem]);
 
+                $this->emitAbstractChannelEvents($messagingItem);
+
                 $sender = $messagingItem->getSender();
                 $recipient = $messagingItem->getRecipient();
-
-                if ($message = $messagingItem->getMessage()){
-
-                    if ($message->isEcho())
-                    {
-                        $this->bionic->emit('message.echo', [$this, $sender, $recipient, $message]);
-                    }else {
-                        $this->bionic->emit('message', [$this, $sender, $recipient, $message]);
-
-                        if ($message->getText())
-                            $this->bionic->emit('message.text', [$this, $sender, $recipient, $message->getText(), $message->getQuickReply()]);
-
-                        if ($attachments = $message->getAttachmentItems())
-                        {
-                            $this->bionic->emit('message.attachments', [$this, $sender, $recipient, $attachments]);
-
-                            foreach ($attachments as $attachment)
-                            {
-                                $this->bionic->emit('message.attachments.' . $attachment->getType(), [$this, $sender, $recipient, $attachment]);
-                            }
-                        }
-                    }
-                }
 
                 if ($post_back = $messagingItem->getPostback())
                     $this->bionic->emit('postback', [$this, $sender, $recipient, $post_back]);
@@ -152,13 +142,66 @@ class MessengerPlugin extends AbstractBionicPlugin
                 if ($account_linking = $messagingItem->getAccountLinking())
                     $this->bionic->emit('account_linking', [$this, $sender, $recipient, $account_linking]);
 
-                if ($delivery = $messagingItem->getDelivery())
-                    $this->bionic->emit('delivery', [$this, $sender, $recipient, $delivery]);
+                if ($policy_enforcement = $messagingItem->getPolicyEnforcement())
+                    $this->bionic->emit('policy_enforcement', [$this, $recipient, $policy_enforcement]);
 
-                if ($read = $messagingItem->getRead())
-                    $this->bionic->emit('read', [$this, $sender, $recipient, $read]);
+                if ($payment = $messagingItem->getPayment())
+                    $this->bionic->emit('payment', [$this, $sender, $recipient, $payment]);
+
+                if ($checkout_update = $messagingItem->getCheckoutUpdate())
+                    $this->bionic->emit('checkout_update', [$this, $sender, $recipient, $checkout_update]);
+
+                if ($pre_checkout = $messagingItem->getPreCheckout())
+                    $this->bionic->emit('pre_checkout', [$this, $sender, $recipient, $pre_checkout]);
+
+                if ($pass_thread_control = $messagingItem->getPassThreadControl())
+                    $this->bionic->emit('pass_thread_control', [$this, $sender, $recipient, $pass_thread_control]);
+
+                if ($take_thread_control = $messagingItem->getTakeThreadControl())
+                    $this->bionic->emit('take_thread_control', [$this, $sender, $recipient, $take_thread_control]);
             }
         }
+    }
+
+    /**
+     * emit abstract channel events
+     *
+     * @param AbstractChannelItem $channelItem
+     * @param string $channel
+     */
+    protected function emitAbstractChannelEvents(AbstractChannelItem $channelItem, $channel="messaging")
+    {
+        $sender = $channelItem->getSender();
+        $recipient = $channelItem->getRecipient();
+
+        if ($message = $channelItem->getMessage()){
+
+            if ($message->isEcho())
+            {
+                $this->bionic->emit('message.echo', [$this, $sender, $recipient, $message]);
+            }else {
+                $this->bionic->emit('message', [$this, $sender, $recipient, $message, $channel]);
+
+                if ($message->getText())
+                    $this->bionic->emit('message.text', [$this, $sender, $recipient, $message->getText(), $message->getQuickReply(), $channel]);
+
+                if ($attachments = $message->getAttachmentItems())
+                {
+                    $this->bionic->emit('message.attachments', [$this, $sender, $recipient, $attachments, $channel]);
+
+                    foreach ($attachments as $attachment)
+                    {
+                        $this->bionic->emit('message.attachments.' . $attachment->getType(), [$this, $sender, $recipient, $attachment, $channel]);
+                    }
+                }
+            }
+        }
+
+        if ($delivery = $channelItem->getDelivery())
+            $this->bionic->emit('delivery', [$this, $sender, $recipient, $delivery, $channel]);
+
+        if ($read = $channelItem->getRead())
+            $this->bionic->emit('read', [$this, $sender, $recipient, $read, $channel]);
     }
 
     /**

@@ -16,13 +16,8 @@
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
 
 
-class ListTemplatePayload extends AbstractTemplatePayload
+class ListTemplatePayload extends GenericTemplatePayload
 {
-    /**
-     * @var array $elements
-     */
-    protected $elements = [];
-
     /**
      * @var string $top_element_style
      */
@@ -39,29 +34,6 @@ class ListTemplatePayload extends AbstractTemplatePayload
     protected function setTemplateType()
     {
         $this->template_type = self::LIST_;
-    }
-
-    /**
-     * get elements
-     *
-     * @return array
-     */
-    public function getElements()
-    {
-        return $this->elements;
-    }
-
-    /**
-     * set elements
-     *
-     * @param array $elements
-     * @return $this
-     */
-    public function setElements($elements)
-    {
-        $this->elements = $elements;
-        $this->data['elements'] = $this->getElements();
-        return $this;
     }
 
     /**
@@ -105,7 +77,9 @@ class ListTemplatePayload extends AbstractTemplatePayload
      */
     public function setButtons($buttons)
     {
-        $this->buttons = $buttons;
+        foreach ($buttons as $button){
+            array_push($this->buttons, $button->toArray());
+        }
         $this->data['buttons'] = $this->getButtons();
         return $this;
     }

@@ -17,6 +17,7 @@ namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates;
 
 
 use Andre\Bionic\AbstractMessage;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\AbstractButton;
 
 class TemplateElement extends AbstractMessage
 {
@@ -34,6 +35,11 @@ class TemplateElement extends AbstractMessage
      * @var string $image_url
      */
     protected $image_url;
+
+    /**
+     * @var string $url
+     */
+    protected $url;
 
     /**
      * @var array $buttons
@@ -115,6 +121,29 @@ class TemplateElement extends AbstractMessage
     }
 
     /**
+     * get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * set image url
+     *
+     * @param string $url
+     * @return $this
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        $this->data['url'] = $this->getUrl();
+        return $this;
+    }
+
+    /**
      * get buttons
      *
      * @return array
@@ -132,7 +161,9 @@ class TemplateElement extends AbstractMessage
      */
     public function setButtons($buttons)
     {
-        $this->buttons = $buttons;
+        foreach ($buttons as $button){
+            array_push($this->buttons, $button->toArray());
+        }
         $this->data['buttons'] = $this->getButtons();
         return $this;
     }
@@ -150,12 +181,12 @@ class TemplateElement extends AbstractMessage
     /**
      * set default action
      *
-     * @param array $default_action
+     * @param AbstractButton $default_action
      * @return $this
      */
-    public function setDefaultAction($default_action)
+    public function setDefaultAction(AbstractButton $default_action)
     {
-        $this->default_action = $default_action;
+        $this->default_action = $default_action->toArray();
         $this->data['default_action'] = $this->getDefaultAction();
         return $this;
     }

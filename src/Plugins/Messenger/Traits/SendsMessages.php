@@ -25,11 +25,36 @@ use Andre\Bionic\Plugins\Messenger\Messages\Text;
 
 trait SendsMessages
 {
-
     /**
      * @var string
      */
     protected $messaging_url = "https://graph.facebook.com/v2.10/me/messages?access_token=";
+
+    /**
+     * echo shipping options
+     *
+     * @param array $shipping_list
+     */
+    public function sendShippingOptions($shipping_list = [])
+    {
+        $data = [];
+        foreach ($shipping_list as $item){
+            array_push($data, $item->toArray());
+        }
+
+        $this->returnJson(['shipping' => $data]);
+    }
+
+    /**
+     * echo json response
+     *
+     * @param array $data
+     */
+    public function returnJson($data = [])
+    {
+        header("HTTP/1.1 200 OK");
+        echo json_encode($data);
+    }
 
     /**
      * send plain text

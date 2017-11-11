@@ -26,6 +26,8 @@ abstract class AbstractTemplatePayload extends AbstractMessage
 
     const GENERIC = 'generic';
 
+    const OPEN_GRAPH = 'open_graph';
+
     /**
      * @var string $template_type
      */

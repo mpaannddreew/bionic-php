@@ -16,32 +16,12 @@
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
 
-use Andre\Bionic\AbstractMessage;
-use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
-use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\Payment\CheckoutUpdate;
+use Andre\Bionic\Plugins\Messenger\Messages\Payment\Payment;
+use Andre\Bionic\Plugins\Messenger\Messages\Payment\PreCheckout;
 
-class MessagingItem extends AbstractMessage
+class MessagingItem extends AbstractChannelItem
 {
-    /**
-     * @var array $sender
-     */
-    protected $sender = [];
-
-    /**
-     * @var array $recipient
-     */
-    protected $recipient = [];
-
-    /**
-     * @var int $timestamp
-     */
-    protected $timestamp;
-
-    /**
-     * @var array $message
-     */
-    protected $message = [];
-
     /**
      * @var array $postback
      */
@@ -63,56 +43,44 @@ class MessagingItem extends AbstractMessage
     protected $account_linking = [];
 
     /**
-     * @var array $delivery
+     * @var array $policy_enforcement
      */
-    protected $delivery = [];
+    protected $policy_enforcement = [];
 
     /**
-     * @var array $read
+     * @var array $payment
      */
-    protected $read = [];
+    protected $payment = [];
 
     /**
-     * get sender
-     *
-     * @return Sender
+     * @var array $checkout_update
      */
-    public function getSender()
+    protected $checkout_update = [];
+
+    /**
+     * @var array $pre_checkout
+     */
+    protected $pre_checkout = [];
+
+    /**
+     * @var array $pass_thread_control
+     */
+    protected $pass_thread_control = [];
+
+    /**
+     * @var array $take_thread_control
+     */
+    protected $take_thread_control = [];
+
+    /**
+     * MessagingItem constructor.
+     * @param array $data
+     */
+    public function __construct(array $data = [])
     {
-        return Sender::create($this->sender);
-    }
-
-    /**
-     * get recipient
-     *
-     * @return Recipient
-     */
-    public function getRecipient()
-    {
-        return Recipient::create($this->recipient);
-    }
-
-    /**
-     * get timestamp
-     *
-     * @return int
-     */
-    public function getTimestamp()
-    {
-        return $this->timestamp;
-    }
-
-    /**
-     * get message
-     *
-     * @return Message|null
-     */
-    public function getMessage()
-    {
-        if ($this->message)
-            return Message::create($this->message);
-
-        return null;
+        parent::__construct($data);
+        if (array_key_exists('policy-enforcement', $this->data))
+            $this->policy_enforcement = $this->data['policy-enforcement'];
     }
 
     /**
@@ -168,27 +136,79 @@ class MessagingItem extends AbstractMessage
     }
 
     /**
-     * get delivery
+     * get policy enforcement
      *
-     * @return Delivery|null
+     * @return PolicyEnforcement|null
      */
-    public function getDelivery()
+    public function getPolicyEnforcement()
     {
-        if ($this->delivery)
-            return Delivery::create($this->delivery);
+        if ($this->policy_enforcement)
+            return PolicyEnforcement::create($this->policy_enforcement);
 
         return null;
     }
 
     /**
-     * get read
+     * get payment
      *
-     * @return Read|null
+     * @return Payment|null
      */
-    public function getRead()
+    public function getPayment()
     {
-        if ($this->read)
-            return Read::create($this->read);
+        if ($this->payment)
+            return Payment::create($this->payment);
+
+        return null;
+    }
+
+    /**
+     * get checkout update
+     *
+     * @return CheckoutUpdate|null
+     */
+    public function getCheckoutUpdate()
+    {
+        if ($this->checkout_update)
+            return CheckoutUpdate::create($this->checkout_update);
+
+        return null;
+    }
+
+    /**
+     * get pre checkout
+     *
+     * @return PreCheckout|null
+     */
+    public function getPreCheckout()
+    {
+        if ($this->pre_checkout)
+            return PreCheckout::create($this->pre_checkout);
+
+        return null;
+    }
+
+    /**
+     * get pass thread control
+     *
+     * @return PassThreadControl|null
+     */
+    public function getPassThreadControl()
+    {
+        if ($this->pass_thread_control)
+            return PassThreadControl::create($this->pass_thread_control);
+
+        return null;
+    }
+
+    /**
+     * get take thread control
+     *
+     * @return TakeThreadControl|null
+     */
+    public function getTakeThreadControl()
+    {
+        if ($this->take_thread_control)
+            return TakeThreadControl::create($this->take_thread_control);
 
         return null;
     }

@@ -49,7 +49,9 @@ class GenericTemplatePayload extends AbstractTemplatePayload
      */
     public function setElements($elements)
     {
-        $this->elements = $elements;
+        foreach ($elements as $element){
+            array_push($this->elements, $element->toArray());
+        }
         $this->data['elements'] = $this->getElements();
         return $this;
     }

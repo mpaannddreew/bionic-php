@@ -19,7 +19,7 @@ namespace Andre\Bionic\Traits;
 trait IsADataWrapper
 {
     /**
-     * @var array
+     * @var array $data
      */
     protected $data = [];
 
