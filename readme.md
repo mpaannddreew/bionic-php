@@ -313,6 +313,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message;
 $bionic->listen('message', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, $channel){
     // $message - represents message sent to your page
     $message->getText();
+    $message->getNlp();
     $message->getQuickReply();
     $message->getAppId();
     $message->getAttachmentItems();
