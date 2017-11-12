@@ -21,13 +21,15 @@ use Andre\Bionic\Plugins\AbstractBionicPlugin;
 use Andre\Bionic\Plugins\Messenger\Messages\AbstractChannelItem;
 use Andre\Bionic\Plugins\Messenger\Traits\AccessesUserProfile;
 use Andre\Bionic\Plugins\Messenger\Traits\ManagesBotProfile;
+use Andre\Bionic\Plugins\Messenger\Traits\PassesThreadControl;
 use Andre\Bionic\Plugins\Messenger\Traits\SendsMessages;
+use Andre\Bionic\Plugins\Messenger\Traits\TakesThreadControl;
 use GuzzleHttp\Client as HttpClient;
 
 
 class MessengerPlugin extends AbstractBionicPlugin
 {
-    use AccessesUserProfile, ManagesBotProfile, SendsMessages;
+    use AccessesUserProfile, ManagesBotProfile, SendsMessages, PassesThreadControl, TakesThreadControl;
 
     /**
      * @var HttpClient
@@ -159,6 +161,9 @@ class MessengerPlugin extends AbstractBionicPlugin
 
                 if ($take_thread_control = $messagingItem->getTakeThreadControl())
                     $this->bionic->emit('take_thread_control', [$this, $sender, $recipient, $take_thread_control]);
+
+                if ($app_roles = $messagingItem->getAppRoles())
+                    $this->bionic->emit('app_roles', [$this, $recipient, $app_roles]);
             }
         }
     }
@@ -183,7 +188,7 @@ class MessengerPlugin extends AbstractBionicPlugin
                 $this->bionic->emit('message', [$this, $sender, $recipient, $message, $channel]);
 
                 if ($message->getText())
-                    $this->bionic->emit('message.text', [$this, $sender, $recipient, $message->getText(), $message->getQuickReply(), $channel]);
+                    $this->bionic->emit('message.text', [$this, $sender, $recipient, $message->getText(), $message->getQuickReply(), $message->getNlp(), $channel]);
 
                 if ($attachments = $message->getAttachmentItems())
                 {

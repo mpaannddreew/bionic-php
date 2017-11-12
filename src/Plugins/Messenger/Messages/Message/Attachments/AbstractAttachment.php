@@ -71,11 +71,14 @@ abstract class AbstractAttachment extends AbstractMessage
     /**
      * get payload
      *
-     * @return Payload
+     * @return Payload|null
      */
     public function getPayload()
     {
-        return Payload::create($this->payload);
+        if ($this->payload)
+            return Payload::create($this->payload);
+
+        return null;
     }
 
     /**
@@ -92,7 +95,7 @@ abstract class AbstractAttachment extends AbstractMessage
     public function setPayload(AbstractMessage $payload)
     {
         $this->payload = $payload->toArray();
-        $this->data['payload'] = $this->getPayload();
+        $this->data['payload'] = $this->getPayload()->toArray();
         return $this;
     }
 }

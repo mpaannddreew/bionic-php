@@ -187,6 +187,12 @@ $bionic->listen('entry', function (Plugin $plugin, $entryItems){
              $messagingItem->getSender();
              $messagingItem->getRecipient();
              $messagingItem->getTimestamp();
+             $messagingItem->getCheckoutUpdate();
+             $messagingItem->getAppRoles();
+             $messagingItem->getPassThreadControl();
+             $messagingItem->getTakeThreadControl();
+             $messagingItem->getPreCheckout();
+             $messagingItem->getPayment();
          }
      }
 });
@@ -209,6 +215,12 @@ $bionic->listen('entry.item', function (Plugin $plugin, EntryItem $entryItem){
          $messagingItem->getSender();
          $messagingItem->getRecipient();
          $messagingItem->getTimestamp();
+         $messagingItem->getCheckoutUpdate();
+         $messagingItem->getAppRoles();
+         $messagingItem->getPassThreadControl();
+         $messagingItem->getTakeThreadControl();
+         $messagingItem->getPreCheckout();
+         $messagingItem->getPayment();
     }
 });
 ```
@@ -230,6 +242,12 @@ $bionic->listen('messaging', function (Plugin $plugin, $messagingItems){
           $messagingItem->getSender();
           $messagingItem->getRecipient();
           $messagingItem->getTimestamp();
+          $messagingItem->getCheckoutUpdate();
+          $messagingItem->getAppRoles();
+          $messagingItem->getPassThreadControl();
+          $messagingItem->getTakeThreadControl();
+          $messagingItem->getPreCheckout();
+          $messagingItem->getPayment();
      }
 });
 ```
@@ -264,6 +282,12 @@ $bionic->listen('messaging.item', function (Plugin $plugin, MessagingItem $messa
     $messagingItem->getSender();
     $messagingItem->getRecipient();
     $messagingItem->getTimestamp();
+    $messagingItem->getCheckoutUpdate();
+    $messagingItem->getAppRoles();
+    $messagingItem->getPassThreadControl();
+    $messagingItem->getTakeThreadControl();
+    $messagingItem->getPreCheckout();
+    $messagingItem->getPayment();
 });
 ```
 - standby.item
@@ -307,7 +331,6 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-
 $bionic->listen('message.echo', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message){
     // $message - represents message sent by your page
     $message->getText();
@@ -326,15 +349,18 @@ $bionic->listen('message.echo', function (Plugin $plugin, Sender $sender, Recipi
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
-use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 
-
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     $text->getText();
-    if ($quickReply){
+    if ($quickReply)
         $quickReply->getPayload();
-    }
+    
+    if ($nlp)
+        $nlp->getEntities();
+    
     $plugin->sendPlainText($text->getText(), [], $sender);
     $plugin->sendText($text, [], $sender);
 });
@@ -345,7 +371,6 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
-
 
 $bionic->listen('message.attachments', function (Plugin $plugin, Sender $sender, Recipient $recipient, $messageAttachments, $channel){
     // $messageAttachments - an array of attachments e.g. Image, Audio, Location, Video, Fallback
@@ -599,60 +624,74 @@ $bionic->listen('take_thread_control', function (Plugin $plugin, Sender $sender,
     $takeThreadControl->getMetadata();
 });
 ```
-## Working with Buttons
-### UrlButton
+- app_roles
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\AppRoles;
+
+$bionic->listen('app_roles', function (Plugin $plugin, Recipient $recipient, AppRoles $appRoles){
+    $appRoles->getAppId();
+    $appRoles->getAppRoles();
+});
+```
+## Supported Buttons
+**NOTE:** Explore class files for a better understanding of provided methods
+- UrlButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
 $url_button = UrlButton::create();
 ```
-### PostBackButton
+- PostBackButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
 $post_back_button = PostBackButton::create();
 ```
-### ShareButton
+- ShareButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\ShareButton;
 $share_button = ShareButton::create();
 ```
-### CallButton
+- CallButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\CallButton;
 $call_button = CallButton::create();
 ```
-### LoginButton
+- LoginButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\LoginButton;
 $login_button = LoginButton::create();
 ```
-### LogoutButton
+- LogoutButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\LogoutButton;
 $logout_button = LogoutButton::create();
 ```
-### BuyButton
+- BuyButton
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\BuyButton;
 $buy_button = BuyButton::create();
 ```
-## Sending Messages
-### Text and quick replies
+### Sending Messages
+- Text and quick replies
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
-use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     // sending text
     $plugin->sendText($text, [], $sender);
     
@@ -664,23 +703,61 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
     $plugin->sendText($text, $quick_replies, $sender);
 });
 ```
-### Sender action
+- Sender action
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
-use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     $plugin->sendAction($sender); // default mark_seen
     $plugin->sendAction($sender, 'typing_on');
     $plugin->sendAction($sender, 'typing_off');
 });
 ```
-### Templates
-#### Generic Template
+### Attachments
+- Image
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
+
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
+    $plugin->sendAttachment($image, $sender);
+});
+```
+- Audio
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Audio;
+
+$bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Audio $audio, $channel){
+    $plugin->sendAttachment($audio, $sender);
+});
+```
+- Video
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Video;
+
+$bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Video $video, $channel){
+    $plugin->sendAttachment($video, $sender);
+});
+```
+### Supported Templates
+- Generic Template
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -693,34 +770,34 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Templa
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
 
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
     // actions
     $url_button = UrlButton::create(['url' => 'http://localhost']);
     $post_back_button = PostBackButton::create(['title' => 'Payload Button', 'payload' => 'payload_button']);
     
     // template element
-    $template_element = TemplateElement::create();
-    $template_element->setImageUrl($image->getPayload()->getUrl());
-    $template_element->setTitle("Generic Template");
-    $template_element->setSubtitle("Am a generic template");
-    $template_element->setDefaultAction($url_button);
-    $template_element->setButtons([
-        $url_button->setTitle("Url Button"),
-        $post_back_button
-    ]);
+    $template_element = TemplateElement::create()
+        ->setImageUrl($image->getPayload()->getUrl())
+        ->setTitle("Generic Template")
+        ->setSubtitle("Am a generic template")
+        ->setDefaultAction($url_button)
+        ->setButtons([
+            $url_button->setTitle("Url Button"),
+            $post_back_button
+        ]);
     
     // template payload
-    $template_payload = GenericTemplatePayload::create();
-    $template_payload->setElements([$template_element]);
+    $template_payload = GenericTemplatePayload::create()
+        ->setElements([$template_element]);
     
     // generic template
-    $generic_template = GenericTemplate::create();
-    $generic_template->setPayload($template_payload);
+    $generic_template = GenericTemplate::create()
+        ->setPayload($template_payload);
     
     $plugin->sendAttachment($generic_template, $sender);
 });
 ```
-#### List Template
+- List Template
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -733,31 +810,31 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Templa
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
 
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image){
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
     // actions
     $url_button = UrlButton::create(['url' => 'http://localhost']);
     $post_back_button = PostBackButton::create(['title' => 'View', 'payload' => 'payload_button']);
     
     // template element
-    $template_element = TemplateElement::create();
-    $template_element->setImageUrl($image->getPayload()->getUrl());
-    $template_element->setTitle("List Template");
-    $template_element->setSubtitle("Am a generic template");
-    $template_element->setDefaultAction($url_button);
-    $template_element->setButtons([$post_back_button]); // maximum of one button
+    $template_element = TemplateElement::create()
+        ->setImageUrl($image->getPayload()->getUrl())
+        ->setTitle("List Template")
+        ->setSubtitle("Am a generic template")
+        ->setDefaultAction($url_button)
+        ->setButtons([$post_back_button]); // maximum of one button
     
     // template payload
-    $template_payload = ListTemplatePayload::create();
-    $template_payload->setElements([$template_element, $template_element, $template_element]);
+    $template_payload = ListTemplatePayload::create()
+        ->setElements([$template_element, $template_element, $template_element]);
     
     // list template
-    $list_template = ListTemplate::create();
-    $list_template->setPayload($template_payload);
+    $list_template = ListTemplate::create()
+        ->setPayload($template_payload);
     
     $plugin->sendAttachment($list_template, $sender);
 });
 ```
-#### Button Template
+- Button Template
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -767,36 +844,108 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Button
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\ButtonTemplatePayload;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
-use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     // actions
     $url_button = UrlButton::create(['url' => 'http://localhost', 'title' => 'Button']);
     $post_back_button = PostBackButton::create(['title' => 'PostBack', 'payload' => 'payload_button']);
     
     // template payload
-    $template_payload = ButtonTemplatePayload::create();
-    $template_payload->setText($text->getText());
-    $template_payload->setButtons([$url_button, $post_back_button]);
+    $template_payload = ButtonTemplatePayload::create()
+        ->setText($text->getText())
+        ->setButtons([$url_button, $post_back_button]);
     
     // button template
-    $button_template = ButtonTemplate::create();
-    $button_template->setPayload($template_payload);
+    $button_template = ButtonTemplate::create()
+        ->setPayload($template_payload);
     
     $plugin->sendAttachment($button_template, $sender);
 });
 ```
+- Receipt Template
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Payment\ShippingAddress;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Receipt\ReceiptSummary;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\TemplateElement;
+use Andre\Bionic\Plugins\Messenger\Messages\Payload\ReceiptTemplatePayload;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Receipt\ReceiptAdjustment;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Receipt\ReceiptTemplate;
+
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+
+    $address = ShippingAddress::create()
+        ->setStreet1('1 Hacker Way')
+        ->setCity("Menlo Park")
+        ->setPostalCode("94025")
+        ->setState("CA")
+        ->setCountry("US");
+
+    $summary = ReceiptSummary::create()
+        ->setSubtotal(75.00)
+        ->setShippingCost(4.95)
+        ->setTotalTax(6.19)
+        ->setTotalCost(56.14);
+    
+    $element_1 = TemplateElement::create([
+        "title" => "Classic White T-Shirt",
+        "subtitle" => "100% Soft and Luxurious Cotton",
+        "quantity" => 2,
+        "price" => 50,
+        "currency" => "USD",
+        "image_url" => "http://petersapparel.parseapp.com/img/whiteshirt.png"
+        ]);
+    
+    $element_2 = TemplateElement::create()
+        ->setTitle("Classic Gray T-Shirt")
+        ->setSubtitle("100% Soft and Luxurious Cotton")
+        ->setQuantity(1)->setPrice(25)
+        ->setCurrency("USD")
+        ->setImageUrl("http://petersapparel.parseapp.com/img/grayshirt.png");
+    
+    $payload = ReceiptTemplatePayload::create()
+        ->setRecipientName("Stephane Crozatier")
+        ->setOrderNumber("12345678902")
+        ->setCurrency("USD")
+        ->setPaymentMethod("Visa 2345")
+        ->setOrderUrl("http://petersapparel.parseapp.com/order?order_id=123456")
+        ->setTimestamp("1428444852")
+        ->setAddress($address)
+        ->setSummary($summary)
+        ->setElements([$element_1, $element_2])
+        ->setAdjustments([
+            ReceiptAdjustment::create(["name" => "New Customer Discount", "amount" => 20]),
+            ReceiptAdjustment::create(["name" => "$10 Off Coupon", "amount" => 10])
+        ]);
+    
+    $receipt = ReceiptTemplate::create()->setPayload($payload);
+    
+    $plugin->sendAttachment($receipt, $sender);
+});
+```
+### Others
+- Open Graph Template
+- Media Template
 ### Accessing a user profile information
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
-use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     $profile = $plugin->getUserProfile($sender); // returns an instance of Andre\Bionic\Plugins\Messenger\UserProfile::class
     $profile->getFirstName();
     $profile->getId();
@@ -805,8 +954,8 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
     $plugin->sendPlainText('Hi, ' . $profile->getFirstName() . ' ' . $profile->getLastName(), [], $sender);
 });
 ```
-## Messenger Profile
-### Setting the Get Started Button Postback
+### Messenger Profile
+- Setting the Get Started Button Postback
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -818,7 +967,7 @@ $config = [
 $plugin = Plugin::create($config);
 $plugin->setGetStarted(GetStarted::create(["payload" => "get_started"]));
 ```
-### Setting the Greeting Text
+- Setting the Greeting Text
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -834,7 +983,7 @@ $greeting_en_US = GreetingText::create(["locale" => "en_US", "text" => "Timeless
 
 $plugin->setGreetingText([$greeting_default, $greeting_en_US]);
 ```
-### Whitelisting domains
+- Whitelisting domains
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -845,7 +994,7 @@ $config = [
 $plugin = Plugin::create($config);
 $plugin->whitelistDomains(['http://example.com', 'http://app.example.com']);
 ```
-### Persistent menu
+- Persistent menu
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -875,7 +1024,7 @@ $persistent_menu_zh_CN->setCallToActions([$post_back_1]);
 
 $plugin->setPersistentMenu([$persistent_menu_default, $persistent_menu_zh_CN]);
 ```
-### Deleting Messenger Profile Properties
+- Deleting Messenger Profile Properties
 ```php
 <?php
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
@@ -888,6 +1037,37 @@ $plugin = Plugin::create($config);
 $plugin->deleteProperties(['persistent_menu', 'get_started', 'greeting', 'whitelisted_domains']);
 
 ```
-## Bugs
+### Handover Protocol
+- Passing Thread Control
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+    $plugin->passThreadControl($sender, '123456789', 'String to pass to secondary receiver app');
+});
+
+```
+- Taking Thread Control
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+    $plugin->takeThreadControl($sender, 'String to pass to secondary receiver app');
+});
+
+```
+### Bugs
 For any bugs found, please email me at andrewmvp007@gmail.com or register an issue at [issues](https://github.com/mpaannddreew/bionic-php/issues)
 

@@ -37,9 +37,29 @@ class TemplateElement extends AbstractMessage
     protected $image_url;
 
     /**
+     * @var string $currency
+     */
+    protected $currency;
+
+    /**
+     * @var int $quantity
+     */
+    protected $quantity;
+
+    /**
+     * @var int $price
+     */
+    protected $price;
+
+    /**
      * @var string $url
      */
     protected $url;
+
+    /**
+     * @var string $media_type
+     */
+    protected $media_type;
 
     /**
      * @var array $buttons
@@ -188,6 +208,98 @@ class TemplateElement extends AbstractMessage
     {
         $this->default_action = $default_action->toArray();
         $this->data['default_action'] = $this->getDefaultAction();
+        return $this;
+    }
+
+    /**
+     * get currency
+     *
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * set quantity
+     *
+     * @param string $currency
+     * @return $this
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+        $this->data['currency'] = $this->getCurrency();
+        return $this;
+    }
+
+    /**
+     * get quantity
+     *
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * set quantity
+     *
+     * @param int $quantity
+     * @return $this
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+        $this->data['quantity'] = $this->getQuantity();
+        return $this;
+    }
+
+    /**
+     * get price
+     *
+     * @return int
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * set price
+     *
+     * @param int $price
+     * @return $this
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        $this->data['price'] = $this->getPrice();
+        return $this;
+    }
+
+    /**
+     * get media type
+     *
+     * @return string
+     */
+    public function getMediaType()
+    {
+        return $this->media_type;
+    }
+
+    /**
+     * set medi type
+     *
+     * @param string $media_type
+     * @return $this
+     */
+    public function setMediaType($media_type)
+    {
+        $this->media_type = $media_type;
+        $this->data['media_type'] = $this->getMediaType();
         return $this;
     }
 }

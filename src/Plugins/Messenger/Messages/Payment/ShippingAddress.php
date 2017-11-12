@@ -31,14 +31,14 @@ class ShippingAddress extends AbstractMessage
     protected $name;
 
     /**
-     * @var string $street1
+     * @var string $street_1
      */
-    protected $street1;
+    protected $street_1;
 
     /**
-     * @var string $street2
+     * @var string $street_2
      */
-    protected $street2;
+    protected $street_2;
 
     /**
      * @var string $city
@@ -71,6 +71,19 @@ class ShippingAddress extends AbstractMessage
     }
 
     /**
+     * set id
+     *
+     * @param int $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        $this->data['id'] = $this->getId();
+        return $this;
+    }
+
+    /**
      * get name
      *
      * @return string
@@ -81,13 +94,39 @@ class ShippingAddress extends AbstractMessage
     }
 
     /**
+     * set name
+     *
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        $this->data['name'] = $this->getName();
+        return $this;
+    }
+
+    /**
      * get street 1
      *
      * @return string
      */
     public function getStreet1()
     {
-        return $this->street1;
+        return $this->street_1;
+    }
+
+    /**
+     * set street 1
+     *
+     * @param string $street_1
+     * @return $this
+     */
+    public function setStreet1($street_1)
+    {
+        $this->street_1 = $street_1;
+        $this->data['street_1'] = $this->getStreet1();
+        return $this;
     }
 
     /**
@@ -97,7 +136,20 @@ class ShippingAddress extends AbstractMessage
      */
     public function getStreet2()
     {
-        return $this->street2;
+        return $this->street_2;
+    }
+
+    /**
+     * set street 2
+     *
+     * @param string $street_2
+     * @return $this
+     */
+    public function setStreet2($street_2)
+    {
+        $this->street_2 = $street_2;
+        $this->data['street_2'] = $this->getStreet2();
+        return $this;
     }
 
     /**
@@ -111,6 +163,19 @@ class ShippingAddress extends AbstractMessage
     }
 
     /**
+     * set city
+     *
+     * @param string $city
+     * @return $this
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+        $this->data['city'] = $this->getCity();
+        return $this;
+    }
+
+    /**
      * get state
      *
      * @return string
@@ -118,6 +183,19 @@ class ShippingAddress extends AbstractMessage
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * set state
+     *
+     * @param string $state
+     * @return $this
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+        $this->data['state'] = $this->getState();
+        return $this;
     }
 
     /**
@@ -131,6 +209,19 @@ class ShippingAddress extends AbstractMessage
     }
 
     /**
+     * set country
+     *
+     * @param string $country
+     * @return $this
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+        $this->data['country'] = $this->getCountry();
+        return $this;
+    }
+
+    /**
      * get postal code
      *
      * @return string
@@ -138,5 +229,18 @@ class ShippingAddress extends AbstractMessage
     public function getPostalCode()
     {
         return $this->postal_code;
+    }
+
+    /**
+     * set postal code
+     *
+     * @param string $postal_code
+     * @return $this
+     */
+    public function setPostalCode($postal_code)
+    {
+        $this->postal_code = $postal_code;
+        $this->data['postal_code'] = $this->getPostalCode();
+        return $this;
     }
 }

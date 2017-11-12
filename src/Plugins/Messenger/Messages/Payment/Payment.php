@@ -31,11 +31,14 @@ class Payment extends AbstractCheckout
     /**
      * get payment credentials
      *
-     * @return PaymentCredential
+     * @return PaymentCredential|null
      */
     public function getPaymentCredential()
     {
-        return PaymentCredential::create($this->payment_credential);
+        if ($this->payment_credential)
+            return PaymentCredential::create($this->payment_credential);
+
+        return null;
     }
 
     /**

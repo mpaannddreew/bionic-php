@@ -27,6 +27,10 @@ abstract class AbstractTemplatePayload extends AbstractMessage
     const GENERIC = 'generic';
 
     const OPEN_GRAPH = 'open_graph';
+    
+    const RECEIPT = 'receipt';
+
+    const MEDIA = 'media';
 
     /**
      * @var string $template_type

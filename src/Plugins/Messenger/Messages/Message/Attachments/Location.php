@@ -62,10 +62,13 @@ class Location extends AbstractAttachment
     /**
      * get location payload
      *
-     * @return LocationPayLoad
+     * @return LocationPayLoad|null
      */
     public function getPayload()
     {
-        return LocationPayLoad::create($this->payload);
+        if ($this->payload)
+            return LocationPayLoad::create($this->payload);
+
+        return null;
     }
 }

@@ -13,7 +13,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Andre\Bionic\Plugins\Messenger\Messages;
+namespace Andre\Bionic\Plugins\Messenger\Messages\Message;
 
 
 use Andre\Bionic\AbstractMessage;

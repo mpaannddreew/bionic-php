@@ -23,10 +23,13 @@ class ListTemplate extends AbstractTemplate
     /**
      * get payload
      *
-     * @return ListTemplatePayload
+     * @return ListTemplatePayload|null
      */
     public function getPayload()
     {
-        return ListTemplatePayload::create($this->payload);
+        if ($this->payload)
+            return ListTemplatePayload::create($this->payload);
+
+        return null;
     }
 }

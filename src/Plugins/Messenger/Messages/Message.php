@@ -23,7 +23,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\File;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Location;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Video;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Exception;
 
 class Message extends AbstractMessage
@@ -72,6 +74,11 @@ class Message extends AbstractMessage
      * @var array $attachment_items
      */
     protected $attachment_items = [];
+
+    /**
+     * @var array $nlp
+     */
+    protected $nlp = [];
 
     /**
      * Message constructor.
@@ -151,6 +158,19 @@ class Message extends AbstractMessage
     {
         if ($this->quick_reply)
             return QuickReply::create($this->quick_reply);
+
+        return null;
+    }
+
+    /**
+     * get nlp
+     *
+     * @return Nlp|null
+     */
+    public function getNlp()
+    {
+        if ($this->nlp)
+            return Nlp::create($this->nlp);
 
         return null;
     }

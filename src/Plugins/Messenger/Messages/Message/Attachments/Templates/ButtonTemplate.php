@@ -23,10 +23,13 @@ class ButtonTemplate extends AbstractTemplate
     /**
      * get payload
      *
-     * @return ButtonTemplatePayload
+     * @return ButtonTemplatePayload|null
      */
     public function getPayload()
     {
-        return ButtonTemplatePayload::create($this->payload);
+        if ($this->payload)
+            return ButtonTemplatePayload::create($this->payload);
+
+        return null;
     }
 }

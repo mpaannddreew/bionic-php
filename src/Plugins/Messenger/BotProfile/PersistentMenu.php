@@ -105,6 +105,4 @@ class PersistentMenu extends AbstractMessage
         $this->data['composer_input_disabled'] = $this->isComposerInputDisabled();
         return $this;
     }
-
-
 }

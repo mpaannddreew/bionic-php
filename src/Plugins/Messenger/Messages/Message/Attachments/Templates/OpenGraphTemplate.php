@@ -23,10 +23,13 @@ class OpenGraphTemplate extends AbstractTemplate
     /**
      * get payload
      *
-     * @return OpenGraphTemplatePayload
+     * @return OpenGraphTemplatePayload|null
      */
     public function getPayload()
     {
-        return OpenGraphTemplatePayload::create($this->payload);
+        if ($this->payload)
+            return OpenGraphTemplatePayload::create($this->payload);
+
+        return null;
     }
 }

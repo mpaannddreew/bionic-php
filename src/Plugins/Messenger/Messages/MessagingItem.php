@@ -73,6 +73,11 @@ class MessagingItem extends AbstractChannelItem
     protected $take_thread_control = [];
 
     /**
+     * @var array $app_roles
+     */
+    protected $app_roles = [];
+
+    /**
      * MessagingItem constructor.
      * @param array $data
      */
@@ -209,6 +214,19 @@ class MessagingItem extends AbstractChannelItem
     {
         if ($this->take_thread_control)
             return TakeThreadControl::create($this->take_thread_control);
+
+        return null;
+    }
+
+    /**
+     * get app roles
+     *
+     * @return AppRoles|null
+     */
+    public function getAppRoles()
+    {
+        if ($this->app_roles)
+            return AppRoles::create($this->app_roles);
 
         return null;
     }

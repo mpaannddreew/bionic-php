@@ -24,7 +24,7 @@ trait ManagesBotProfile
     /**
      * @var string $messenger_profile_url
      */
-    protected $messenger_profile_url = "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=";
+    protected $messenger_profile_url = "https://graph.facebook.com/v2.10/me/messenger_profile?access_token=";
 
     /**
      * set greeting

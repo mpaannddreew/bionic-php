@@ -75,6 +75,4 @@ class GreetingText extends AbstractMessage
         $this->data['locale'] = $this->getLocale();
         return $this;
     }
-
-
 }

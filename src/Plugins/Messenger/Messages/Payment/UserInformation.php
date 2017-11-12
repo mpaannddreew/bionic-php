@@ -43,11 +43,14 @@ class UserInformation extends AbstractMessage
     /**
      * get shipping address
      *
-     * @return ShippingAddress
+     * @return ShippingAddress|null
      */
     public function getShippingAddress()
     {
-        return ShippingAddress::create($this->shipping_address);
+        if ($this->shipping_address)
+            return ShippingAddress::create($this->shipping_address);
+
+        return null;
     }
 
     /**

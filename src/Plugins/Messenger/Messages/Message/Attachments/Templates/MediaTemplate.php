@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: andre
- * Date: 2017-11-04
- * Time: 9:56 PM
+ * Date: 2017-11-12
+ * Time: 8:12 PM
  *
  * This file is part of Bionic.
  *
@@ -16,16 +16,20 @@
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates;
 
 
-use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
+use Andre\Bionic\Plugins\Messenger\Messages\Payload\MediaTemplatePayload;
 
-abstract class AbstractTemplate extends AbstractAttachment
+class MediaTemplate extends AbstractTemplate
 {
-
     /**
-     * set type
+     * get payload
+     *
+     * @return MediaTemplatePayload|null
      */
-    protected function setType()
+    public function getPayload()
     {
-        $this->type = self::TEMPLATE;
+        if ($this->payload)
+            return MediaTemplatePayload::create($this->payload);
+
+        return null;
     }
 }

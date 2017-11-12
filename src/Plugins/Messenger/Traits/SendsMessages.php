@@ -21,7 +21,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\AbstractSenderAction;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\MarkSeen;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\TypingOff;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\TypingOn;
-use Andre\Bionic\Plugins\Messenger\Messages\Text;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 
 trait SendsMessages
 {
