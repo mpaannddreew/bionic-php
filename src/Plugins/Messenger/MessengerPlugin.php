@@ -42,6 +42,11 @@ class MessengerPlugin extends AbstractBionicPlugin
     protected $page_access_token;
 
     /**
+     * @var string $graph_api_version
+     */
+    protected $graph_api_version = 'v2.10';
+
+    /**
      * create new messenger plugin instance
      *
      * MessengerPlugin constructor.
@@ -61,6 +66,16 @@ class MessengerPlugin extends AbstractBionicPlugin
     public function setPageAccessToken($page_access_token)
     {
         $this->page_access_token = $page_access_token;
+    }
+
+    /**
+     * set new graph api version
+     *
+     * @param $graph_api_version
+     */
+    public function setGraphApiVersion($graph_api_version)
+    {
+        $this->graph_api_version = $graph_api_version;
     }
 
     /**
@@ -210,11 +225,14 @@ class MessengerPlugin extends AbstractBionicPlugin
     }
 
     /**
-     * check if page access token has been provided before making any http request
+     * check if page access token and graph version have been provided before making any http request
      */
-    protected function checkForPageAccessToken()
+    protected function checkForPageAccessTokenAndGraphApiVersion()
     {
         if (!$this->page_access_token)
             throw new \InvalidArgumentException('A facebook page access token has not been specified!');
+
+        if (!$this->graph_api_version)
+            throw new \InvalidArgumentException('A graph api version number has not been specified!');
     }
 }

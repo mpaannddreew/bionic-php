@@ -23,7 +23,7 @@ trait TakesThreadControl
     /**
      * @var string $messenger_profile_url
      */
-    protected $take_thread_control_url = "https://graph.facebook.com/v2.10/me/take_thread_control?access_token=";
+    protected $take_thread_control_url = "https://graph.facebook.com/{GRAPH_API_VERSION}/me/take_thread_control?access_token={PAGE_ACCESS_TOKEN}";
 
     /**
      * @param AbstractEndPoint $recipient
@@ -32,7 +32,7 @@ trait TakesThreadControl
      */
     public function takeThreadControl(AbstractEndPoint $recipient, $metadata = "")
     {
-        $this->checkForPageAccessToken();
+        $this->checkForPageAccessTokenAndGraphApiVersion();
 
         $data = [
             'recipient' => $recipient->toArray()
@@ -41,6 +41,8 @@ trait TakesThreadControl
         if ($metadata)
             $data['metadata'] = $metadata;
 
-        return $this->httpClient->post($this->take_thread_control_url . $this->page_access_token, ['json' => $data]);
+        $this->take_thread_control_url = str_replace('{GRAPH_API_VERSION}', $this->graph_api_version, str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, $this->take_thread_control_url));
+
+        return $this->httpClient->post($this->take_thread_control_url, ['json' => $data]);
     }
 }

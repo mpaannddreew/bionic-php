@@ -24,7 +24,37 @@ trait ManagesBotProfile
     /**
      * @var string $messenger_profile_url
      */
-    protected $messenger_profile_url = "https://graph.facebook.com/v2.10/me/messenger_profile?access_token=";
+    protected $messenger_profile_url = "https://graph.facebook.com/{GRAPH_API_VERSION}/me/messenger_profile?access_token={PAGE_ACCESS_TOKEN}";
+
+    /**
+     * set privacy policy URL
+     *
+     * @param $privacy_url
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function setPrivacyUrl($privacy_url)
+    {
+        return $this->setProperty([
+            'payment_settings' => [
+                'privacy_url' => $privacy_url
+            ]
+        ]);
+    }
+
+    /**
+     * set public key
+     *
+     * @param $public_key
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function setPublicKey($public_key)
+    {
+        return $this->setProperty([
+            'payment_settings' => [
+                'public_key' => $public_key
+            ]
+        ]);
+    }
 
     /**
      * set greeting
@@ -145,9 +175,9 @@ trait ManagesBotProfile
      */
     protected function setProperty($data)
     {
-        $this->checkForPageAccessToken();
+        $this->checkForPageAccessTokenAndGraphApiVersion();
 
-        return $this->httpClient->post($this->messenger_profile_url . $this->page_access_token, ['json' => $data]);
+        return $this->httpClient->post($this->messengerProfileFullUrl(), ['json' => $data]);
     }
 
     /**
@@ -158,8 +188,18 @@ trait ManagesBotProfile
      */
     protected function deleteProperty($data)
     {
-        $this->checkForPageAccessToken();
+        $this->checkForPageAccessTokenAndGraphApiVersion();
 
-        return $this->httpClient->delete($this->messenger_profile_url . $this->page_access_token, ['json' => $data]);
+        return $this->httpClient->delete($this->messengerProfileFullUrl(), ['json' => $data]);
+    }
+
+    /**
+     * messenger profile full url
+     *
+     * @return string
+     */
+    protected function messengerProfileFullUrl()
+    {
+        return str_replace('{GRAPH_API_VERSION}', $this->graph_api_version, str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, $this->messenger_profile_url));
     }
 }

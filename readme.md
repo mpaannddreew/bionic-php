@@ -87,7 +87,8 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
 
 $config = [
-    'page_access_token' => 'your page access token'
+    'page_access_token' => 'your page access token',
+    // 'graph_api_version' => 'v2.10' optional and defaults to v2.10
 ];
 
 $bionic = Bionic::initialize()
@@ -1037,6 +1038,32 @@ $config = [
 
 $plugin = Plugin::create($config);
 $plugin->deleteProperties(['persistent_menu', 'get_started', 'greeting', 'whitelisted_domains']);
+
+```
+- Setting public key for Tokenized Payments
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+
+$config = [
+    'page_access_token' => 'your page access token'
+];
+
+$plugin = Plugin::create($config);
+$plugin->setPublicKey("<YOUR_PUBLIC_KEY>");
+
+```
+- Setting Payment Privacy Policy URL
+```php
+<?php
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+
+$config = [
+    'page_access_token' => 'your page access token'
+];
+
+$plugin = Plugin::create($config);
+$plugin->setPrivacyUrl("<YOUR_PRIVACY_URL>");
 
 ```
 ### Handover Protocol

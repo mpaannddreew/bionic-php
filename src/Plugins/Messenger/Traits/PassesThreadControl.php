@@ -23,7 +23,7 @@ trait PassesThreadControl
     /**
      * @var string $messenger_profile_url
      */
-    protected $pass_thread_control_url = "https://graph.facebook.com/v2.10/me/pass_thread_control?access_token=";
+    protected $pass_thread_control_url = "https://graph.facebook.com/{GRAPH_API_VERSION}/me/pass_thread_control?access_token={PAGE_ACCESS_TOKEN}";
 
     /**
      * @param AbstractEndPoint $recipient
@@ -33,7 +33,7 @@ trait PassesThreadControl
      */
     public function passThreadControl(AbstractEndPoint $recipient, $target_app_id, $metadata = "")
     {
-        $this->checkForPageAccessToken();
+        $this->checkForPageAccessTokenAndGraphApiVersion();
 
         $data = [
             'recipient' => $recipient->toArray(),
@@ -43,6 +43,8 @@ trait PassesThreadControl
         if ($metadata)
             $data['metadata'] = $metadata;
 
-        return $this->httpClient->post($this->pass_thread_control_url . $this->page_access_token, ['json' => $data]);
+        $this->pass_thread_control_url = str_replace('{GRAPH_API_VERSION}', $this->graph_api_version, str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, $this->pass_thread_control_url));
+
+        return $this->httpClient->post($this->pass_thread_control_url, ['json' => $data]);
     }
 }

@@ -24,7 +24,7 @@ trait AccessesUserProfile
     /**
      * @var string $profile_access_url
      */
-    protected $profile_access_url = "https://graph.facebook.com/v2.10/{PSID}?fields=first_name,last_name,profile_pic&access_token={PAGE_ACCESS_TOKEN}";
+    protected $profile_access_url = "https://graph.facebook.com/{GRAPH_API_VERSION}/{PSID}?fields=first_name,last_name,profile_pic&access_token={PAGE_ACCESS_TOKEN}";
 
     /**
      * get user profile from facebook
@@ -34,9 +34,9 @@ trait AccessesUserProfile
      */
     public function getUserProfile(AbstractEndPoint $user)
     {
-        $this->checkForPageAccessToken();
+        $this->checkForPageAccessTokenAndGraphApiVersion();
 
-        $this->profile_access_url = str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, str_replace('{PSID}', $user->getId(), $this->profile_access_url));
+        $this->profile_access_url = str_replace('{GRAPH_API_VERSION}', $this->graph_api_version, str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, str_replace('{PSID}', $user->getId(), $this->profile_access_url)));
 
         try{
             $response = $this->httpClient->get($this->profile_access_url)->getBody()->getContents();
