@@ -90,7 +90,8 @@ $config = [
     'page_access_token' => 'your page access token'
 ];
 
-$bionic = Bionic::initialize();
+$bionic = Bionic::initialize()
+    ->setPlugin(Plugin::create($config));
 
 // register your event listeners before calling the 'receive' method on the bionic instance
 // $bionic->listen($event_name, $event_listener);
@@ -105,7 +106,7 @@ $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $s
     $plugin->sendAttachment($image, $sender);
 });
 
-$bionic->setPlugin(Plugin::create($config))->receive($incoming_web_hook_data_array);
+$bionic->receive($incoming_web_hook_data_array);
 return http_response_code(200);
 ```
 ### Registering event listeners

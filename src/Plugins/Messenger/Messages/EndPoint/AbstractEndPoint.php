@@ -18,7 +18,7 @@ namespace Andre\Bionic\Plugins\Messenger\Messages\EndPoint;
 
 use Andre\Bionic\AbstractMessage;
 
-class AbstractEndPoint extends AbstractMessage
+abstract class AbstractEndPoint extends AbstractMessage
 {
     /**
      * @var string $id
