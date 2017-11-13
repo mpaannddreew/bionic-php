@@ -80,10 +80,12 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
      *
      * @param $event
      * @param $listener
+     * @return $this
      */
     public function listen($event, $listener)
     {
         $this->listen[$event][] = $listener;
+        return $this;
     }
 
 
