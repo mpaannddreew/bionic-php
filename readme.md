@@ -1097,6 +1097,16 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
 });
 
 ```
+### Exception Handling
+Any exceptions not caught when you are defining your event listeners logic are automatically captured. So remember to register a listener that listens for these exceptions.
+```php
+<?php
+
+$bionic->listen('exception', function (\Exception $exception){
+    $exception->getMessage();
+});
+
+```
 ### Bugs
 For any bugs found, please email me at andrewmvp007@gmail.com or register an issue at [issues](https://github.com/mpaannddreew/bionic-php/issues)
 

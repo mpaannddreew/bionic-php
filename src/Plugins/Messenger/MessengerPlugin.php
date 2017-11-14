@@ -118,68 +118,69 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function iterateOverEntryMessagesAndEmitEvents()
     {
-        if ($entryItems = $this->webHookEvent->getEntryItems())
-            $this->bionic->emit('entry', [$this, $entryItems]);
+        try {
+            if ($entryItems = $this->webHookEvent->getEntryItems())
+                $this->bionic->emit('entry', [$this, $entryItems]);
 
-        foreach ($this->webHookEvent->getEntryItems() as $entryItem)
-        {
-            $this->bionic->emit('entry.item', [$this, $entryItem]);
+            foreach ($this->webHookEvent->getEntryItems() as $entryItem) {
+                $this->bionic->emit('entry.item', [$this, $entryItem]);
 
-            if ($standbyItems = $entryItem->getStandbyItems())
-                $this->bionic->emit('standby', [$this, $standbyItems]);
+                if ($standbyItems = $entryItem->getStandbyItems())
+                    $this->bionic->emit('standby', [$this, $standbyItems]);
 
-            if ($messagingItems = $entryItem->getMessagingItems())
-                $this->bionic->emit('messaging', [$this, $messagingItems]);
+                if ($messagingItems = $entryItem->getMessagingItems())
+                    $this->bionic->emit('messaging', [$this, $messagingItems]);
 
-            foreach ($entryItem->getStandbyItems() as $standbyItem)
-            {
-                $this->bionic->emit('standby.item', [$this, $standbyItem]);
+                foreach ($entryItem->getStandbyItems() as $standbyItem) {
+                    $this->bionic->emit('standby.item', [$this, $standbyItem]);
 
-                $this->emitAbstractChannelEvents($standbyItem, 'standby');
+                    $this->emitAbstractChannelEvents($standbyItem, 'standby');
+                }
+
+                foreach ($entryItem->getMessagingItems() as $messagingItem) {
+                    $this->bionic->emit('messaging.item', [$this, $messagingItem]);
+
+                    $this->emitAbstractChannelEvents($messagingItem);
+
+                    $sender = $messagingItem->getSender();
+                    $recipient = $messagingItem->getRecipient();
+
+                    if ($post_back = $messagingItem->getPostback())
+                        $this->bionic->emit('postback', [$this, $sender, $recipient, $post_back]);
+
+                    if ($referral = $messagingItem->getReferral())
+                        $this->bionic->emit('referral', [$this, $sender, $recipient, $referral]);
+
+                    if ($optin = $messagingItem->getOptin())
+                        $this->bionic->emit('optin', [$this, $sender, $recipient, $optin]);
+
+                    if ($account_linking = $messagingItem->getAccountLinking())
+                        $this->bionic->emit('account_linking', [$this, $sender, $recipient, $account_linking]);
+
+                    if ($policy_enforcement = $messagingItem->getPolicyEnforcement())
+                        $this->bionic->emit('policy_enforcement', [$this, $recipient, $policy_enforcement]);
+
+                    if ($payment = $messagingItem->getPayment())
+                        $this->bionic->emit('payment', [$this, $sender, $recipient, $payment]);
+
+                    if ($checkout_update = $messagingItem->getCheckoutUpdate())
+                        $this->bionic->emit('checkout_update', [$this, $sender, $recipient, $checkout_update]);
+
+                    if ($pre_checkout = $messagingItem->getPreCheckout())
+                        $this->bionic->emit('pre_checkout', [$this, $sender, $recipient, $pre_checkout]);
+
+                    if ($pass_thread_control = $messagingItem->getPassThreadControl())
+                        $this->bionic->emit('pass_thread_control', [$this, $sender, $recipient, $pass_thread_control]);
+
+                    if ($take_thread_control = $messagingItem->getTakeThreadControl())
+                        $this->bionic->emit('take_thread_control', [$this, $sender, $recipient, $take_thread_control]);
+
+                    if ($app_roles = $messagingItem->getAppRoles())
+                        $this->bionic->emit('app_roles', [$this, $recipient, $app_roles]);
+                }
             }
-
-            foreach ($entryItem->getMessagingItems() as $messagingItem)
-            {
-                $this->bionic->emit('messaging.item', [$this, $messagingItem]);
-
-                $this->emitAbstractChannelEvents($messagingItem);
-
-                $sender = $messagingItem->getSender();
-                $recipient = $messagingItem->getRecipient();
-
-                if ($post_back = $messagingItem->getPostback())
-                    $this->bionic->emit('postback', [$this, $sender, $recipient, $post_back]);
-
-                if ($referral = $messagingItem->getReferral())
-                    $this->bionic->emit('referral', [$this, $sender, $recipient, $referral]);
-
-                if ($optin = $messagingItem->getOptin())
-                    $this->bionic->emit('optin', [$this, $sender, $recipient, $optin]);
-
-                if ($account_linking = $messagingItem->getAccountLinking())
-                    $this->bionic->emit('account_linking', [$this, $sender, $recipient, $account_linking]);
-
-                if ($policy_enforcement = $messagingItem->getPolicyEnforcement())
-                    $this->bionic->emit('policy_enforcement', [$this, $recipient, $policy_enforcement]);
-
-                if ($payment = $messagingItem->getPayment())
-                    $this->bionic->emit('payment', [$this, $sender, $recipient, $payment]);
-
-                if ($checkout_update = $messagingItem->getCheckoutUpdate())
-                    $this->bionic->emit('checkout_update', [$this, $sender, $recipient, $checkout_update]);
-
-                if ($pre_checkout = $messagingItem->getPreCheckout())
-                    $this->bionic->emit('pre_checkout', [$this, $sender, $recipient, $pre_checkout]);
-
-                if ($pass_thread_control = $messagingItem->getPassThreadControl())
-                    $this->bionic->emit('pass_thread_control', [$this, $sender, $recipient, $pass_thread_control]);
-
-                if ($take_thread_control = $messagingItem->getTakeThreadControl())
-                    $this->bionic->emit('take_thread_control', [$this, $sender, $recipient, $take_thread_control]);
-
-                if ($app_roles = $messagingItem->getAppRoles())
-                    $this->bionic->emit('app_roles', [$this, $recipient, $app_roles]);
-            }
+        }catch (\Exception $exception){
+            $this->bionic->emit('exception', [$exception]);
         }
     }
 
