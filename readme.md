@@ -81,10 +81,26 @@ $bionic = Bionic::initialize();
 ```php
 <?php
 use Andre\Bionic\Bionic;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
+
+/* validate verify token needed for setting up web hook */
+if (isset($_GET['hub_verify_token'])) {
+    if ($_GET['hub_verify_token'] === 'your verify token') {
+        echo $_GET['hub_challenge'];
+        return;
+    } else {
+        echo 'Invalid Verify Token';
+        return;
+    }
+}
+
+$data = json_decode(file_get_contents('php://input'), true);
 
 $config = [
     'page_access_token' => 'your page access token',
@@ -105,9 +121,20 @@ $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $s
    
     // this sends the attachment as a message back to the sender
     $plugin->sendAttachment($image, $sender);
+})->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel) {
+      $text->getText();
+      if ($quickReply)
+          $quickReply->getPayload();
+  
+      if ($nlp)
+          $nlp->getEntities();
+  
+      $plugin->sendText($text, [], $sender);
+})->listen('exceptions', function (Exception $exception) {
+      
 });
 
-$bionic->receive($incoming_web_hook_data_array);
+$bionic->receive($data);
 return http_response_code(200);
 ```
 ### Registering event listeners

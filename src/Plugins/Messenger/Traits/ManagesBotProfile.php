@@ -24,7 +24,7 @@ trait ManagesBotProfile
     /**
      * @var string $messenger_profile_url
      */
-    protected $messenger_profile_url = "https://graph.facebook.com/{GRAPH_API_VERSION}/me/messenger_profile?access_token={PAGE_ACCESS_TOKEN}";
+    protected $messenger_profile_url = "https://graph.facebook.com/%s/me/messenger_profile?access_token=%s";
 
     /**
      * set privacy policy URL
@@ -200,6 +200,6 @@ trait ManagesBotProfile
      */
     protected function messengerProfileFullUrl()
     {
-        return str_replace('{GRAPH_API_VERSION}', $this->graph_api_version, str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, $this->messenger_profile_url));
+        return sprintf($this->messenger_profile_url, $this->graph_api_version, $this->page_access_token);
     }
 }

@@ -28,7 +28,7 @@ trait SendsMessages
     /**
      * @var string
      */
-    protected $messaging_url = "https://graph.facebook.com/{GRAPH_API_VERSION}/me/messages?access_token={PAGE_ACCESS_TOKEN}";
+    protected $messaging_url = "https://graph.facebook.com/%s/me/messages?access_token=%s";
 
     /**
      * echo shipping options
@@ -167,6 +167,6 @@ trait SendsMessages
      */
     protected function messagingFullUrl()
     {
-        return str_replace('{GRAPH_API_VERSION}', $this->graph_api_version, str_replace('{PAGE_ACCESS_TOKEN}', $this->page_access_token, $this->messaging_url));
+        return sprintf($this->messaging_url, $this->graph_api_version, $this->page_access_token);
     }
 }
