@@ -75,13 +75,15 @@ trait SendsMessages
      * @param Text $message
      * @param array $quick_replies
      * @param AbstractEndPoint $recipient
+     * @param string $message_type
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendText(Text $message, $quick_replies = [], AbstractEndPoint $recipient)
+    public function sendText(Text $message, $quick_replies = [], AbstractEndPoint $recipient, $message_type = "RESPONSE")
     {
         $data = [
             'recipient' => $recipient->toArray(),
-            'message' => $message->toArray()
+            'message' => $message->toArray(),
+            'messaging_type' => $message_type
         ];
 
         if ($quick_replies)
@@ -100,15 +102,17 @@ trait SendsMessages
      *
      * @param AbstractAttachment $message
      * @param AbstractEndPoint $recipient
+     * @param string $message_type
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendAttachment(AbstractAttachment $message, AbstractEndPoint $recipient)
+    public function sendAttachment(AbstractAttachment $message, AbstractEndPoint $recipient, $message_type = "RESPONSE")
     {
         return $this->sendMessage([
             'recipient' => $recipient->toArray(),
             'message' => [
                 'attachment' => $message->toArray()
-            ]
+            ],
+            'messaging_type' => $message_type
         ]);
     }
 
