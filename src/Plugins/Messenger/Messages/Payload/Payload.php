@@ -27,6 +27,11 @@ class Payload extends AbstractMessage
     protected $url;
 
     /**
+     * @var $sticker_id
+     */
+    protected $sticker_id;
+
+    /**
      * get url
      *
      * @return string
@@ -34,5 +39,15 @@ class Payload extends AbstractMessage
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * get sticker_id
+     *
+     * @return string
+     */
+    public function getStickerId()
+    {
+        return $this->sticker_id;
     }
 }

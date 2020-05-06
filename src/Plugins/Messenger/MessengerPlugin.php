@@ -208,15 +208,15 @@ class MessengerPlugin extends AbstractBionicPlugin
                 $this->bionic->emit('message', [$this, $sender, $recipient, $message, $channel]);
 
                 if ($message->getText())
-                    $this->bionic->emit('message.text', [$this, $sender, $recipient, $message->getText(), $message->getQuickReply(), $message->getNlp(), $channel]);
+                    $this->bionic->emit('message.text', [$this, $sender, $recipient, $message, $message->getText(), $message->getQuickReply(), $message->getNlp(), $channel]);
 
                 if ($attachments = $message->getAttachmentItems())
                 {
-                    $this->bionic->emit('message.attachments', [$this, $sender, $recipient, $attachments, $channel]);
+                    $this->bionic->emit('message.attachments', [$this, $sender, $recipient, $message, $attachments, $channel]);
 
                     foreach ($attachments as $attachment)
                     {
-                        $this->bionic->emit('message.attachments.' . $attachment->getType(), [$this, $sender, $recipient, $attachment, $channel]);
+                        $this->bionic->emit('message.attachments.' . $attachment->getType(), [$this, $sender, $recipient, $message, $attachment, $channel]);
                     }
                 }
             }

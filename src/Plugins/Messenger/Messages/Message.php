@@ -25,6 +25,7 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Location;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Video;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\ReplyTo;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Exception;
 
@@ -64,6 +65,11 @@ class Message extends AbstractMessage
      * @var array $quick_reply
      */
     protected $quick_reply = [];
+
+    /**
+     * @var array $reply_to
+     */
+    protected $reply_to = [];
 
     /**
      * @var array $attachments
@@ -158,6 +164,19 @@ class Message extends AbstractMessage
     {
         if ($this->quick_reply)
             return QuickReply::create($this->quick_reply);
+
+        return null;
+    }
+
+    /**
+     * get reply to
+     *
+     * @return null|ReplyTo
+     */
+    public function getReplyTo()
+    {
+        if ($this->reply_to)
+            return ReplyTo::create($this->reply_to);
 
         return null;
     }

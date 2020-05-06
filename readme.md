@@ -88,6 +88,7 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
 /* validate verify token needed for setting up web hook */
 if (isset($_GET['hub_verify_token'])) {
@@ -112,16 +113,17 @@ $bionic = Bionic::initialize()
 
 // register your event listeners before calling the 'receive' method on the bionic instance
 // $bionic->listen($event_name, $event_listener);
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Image $image, $channel){
     // $plugin - current plugin being used i.e. MessengerPlugin
     // $sender - sender of the message i.e. Messenger user
     // $recipient - recipient of the message i.e. Your facebook page
+    // $message - current message object
     // $image - Image attachment that was sent
     // $channel - event delivery channel, messaging or standby
    
     // this sends the attachment as a message back to the sender
     $plugin->sendAttachment($image, $sender);
-})->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel) {
+})->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel) {
       $text->getText();
       if ($quickReply)
           $quickReply->getPayload();
@@ -188,8 +190,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){  
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Image $image, $channel){  
     // this sends back the attachment as a message back to the sender
     $plugin->sendAttachment($image, $sender);
 });
@@ -382,8 +385,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     $text->getText();
     if ($quickReply)
         $quickReply->getPayload();
@@ -401,8 +405,9 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments', function (Plugin $plugin, Sender $sender, Recipient $recipient, $messageAttachments, $channel){
+$bionic->listen('message.attachments', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, $messageAttachments, $channel){
     // $messageAttachments - an array of attachments e.g. Image, Audio, Location, Video, Fallback
     foreach ($messageAttachments as $attachment){
         $attachment->getType();
@@ -417,8 +422,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Image $image, $channel){
     $image->getPayload()->getUrl();
     $plugin->sendAttachment($image, $sender);
 });
@@ -430,8 +436,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Audio;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Audio $audio, $channel){
+$bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Audio $audio, $channel){
     $audio->getPayload()->getUrl();
     $plugin->sendAttachment($audio, $sender);
 });
@@ -443,8 +450,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Video;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Video $video, $channel){
+$bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Video $video, $channel){
     $video->getPayload()->getUrl();
     $plugin->sendAttachment($video, $sender);
 });
@@ -456,8 +464,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Location;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.location', function (Plugin $plugin, Sender $sender, Recipient $recipient, Location $location, $channel){
+$bionic->listen('message.attachments.location', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Location $location, $channel){
     $coordinates = $location->getPayload()->getCoordinates();
     $coordinates->getLat();
     $coordinates->getLong();
@@ -470,8 +479,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\File;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.file', function (Plugin $plugin, Sender $sender, Recipient $recipient, File $file, $channel){
+$bionic->listen('message.attachments.file', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, File $file, $channel){
     $file->getPayload()->getUrl();
     $plugin->sendAttachment($file, $sender);
 });
@@ -483,8 +493,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Fallback;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.fallback', function (Plugin $plugin, Sender $sender, Recipient $recipient, Fallback $fallback, $channel){
+$bionic->listen('message.attachments.fallback', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Fallback $fallback, $channel){
     $fallback->getTitle();
     $fallback->getURL();
 });
@@ -720,8 +731,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     // sending text
     $plugin->sendText($text, [], $sender);
     
@@ -742,8 +754,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     $plugin->sendAction($sender); // default mark_seen
     $plugin->sendAction($sender, 'typing_on');
     $plugin->sendAction($sender, 'typing_off');
@@ -757,8 +770,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Image $image, $channel){
     $plugin->sendAttachment($image, $sender);
 });
 ```
@@ -769,8 +783,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Audio;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Audio $audio, $channel){
+$bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Audio $audio, $channel){
     $plugin->sendAttachment($audio, $sender);
 });
 ```
@@ -781,8 +796,9 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Video;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Video $video, $channel){
+$bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Video $video, $channel){
     $plugin->sendAttachment($video, $sender);
 });
 ```
@@ -799,8 +815,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\Payload\GenericTemplatePayload;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\TemplateElement;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Image $image, $channel){
     // actions
     $url_button = UrlButton::create(['url' => 'http://localhost']);
     $post_back_button = PostBackButton::create(['title' => 'Payload Button', 'payload' => 'payload_button']);
@@ -839,8 +856,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\Payload\ListTemplatePayload;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\TemplateElement;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\UrlButton;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Image $image, $channel){
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Image $image, $channel){
     // actions
     $url_button = UrlButton::create(['url' => 'http://localhost']);
     $post_back_button = PostBackButton::create(['title' => 'View', 'payload' => 'payload_button']);
@@ -877,8 +895,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\PostBackButton;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     // actions
     $url_button = UrlButton::create(['url' => 'http://localhost', 'title' => 'Button']);
     $post_back_button = PostBackButton::create(['title' => 'PostBack', 'payload' => 'payload_button']);
@@ -910,8 +929,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Templa
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\ReceiptTemplatePayload;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Receipt\ReceiptAdjustment;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Receipt\ReceiptTemplate;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
 
     $address = ShippingAddress::create()
         ->setStreet1('1 Hacker Way')
@@ -974,8 +994,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     $profile = $plugin->getUserProfile($sender); // returns an instance of Andre\Bionic\Plugins\Messenger\UserProfile::class
     $profile->getFirstName();
     $profile->getId();
@@ -1103,8 +1124,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     $plugin->passThreadControl($sender, '123456789', 'String to pass to secondary receiver app');
 });
 
@@ -1118,8 +1140,9 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
     $plugin->takeThreadControl($sender, 'String to pass to secondary receiver app');
 });
 
