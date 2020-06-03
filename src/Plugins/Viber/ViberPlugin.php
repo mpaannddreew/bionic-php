@@ -31,6 +31,11 @@ class ViberPlugin extends AbstractBionicPlugin
     protected $access_token;
 
     /**
+     * @var ViberWebHookEvent
+     */
+    protected $webHookEvent;
+
+    /**
      * ViberPlugin constructor.
      * @param array $config
      */
@@ -97,70 +102,60 @@ class ViberPlugin extends AbstractBionicPlugin
         $timestamp = $this->webHookEvent->getTimestamp();
         $message_token = $this->webHookEvent->getMessageToken();
 
-        if ($event == 'webhook')
-            $this->bionic->emit('webhook', [$this, $timestamp, $message_token]);
+        try {
+            if ($event == 'webhook')
+                $this->bionic->emit('webhook', [$this, $timestamp, $message_token]);
+            if ($event == 'subscribed')
+                $this->bionic->emit('subscribed', [$this, $timestamp, $message_token, $this->webHookEvent->getUser()]);
+            if ($event == 'unsubscribed')
+                $this->bionic->emit('un-subscribed', [$this, $timestamp, $message_token,
+                    $this->webHookEvent->getUserId()]);
+            if ($event == 'conversation_started')
+                $this->bionic->emit('conversation-started', [$this, $timestamp, $message_token,
+                    $this->webHookEvent->getType(), $this->webHookEvent->getContext(), $this->webHookEvent->getUser(),
+                    $this->webHookEvent->isSubscribed()]);
+            if ($event == 'delivered')
+                $this->bionic->emit('delivered', [$this, $timestamp, $message_token, $this->webHookEvent->getUserId()]);
+            if ($event == 'seen')
+                $this->bionic->emit('seen', [$this, $timestamp, $message_token, $this->webHookEvent->getUserId()]);
+            if ($event == 'failed')
+                $this->bionic->emit('failed', [$this, $timestamp, $message_token, $this->webHookEvent->getUserId(),
+                    $this->webHookEvent->getDesc()]);
+            if ($event == 'message') {
+                $message = $this->webHookEvent->getMessage();
+                $sender = $this->webHookEvent->getSender();
+                $this->bionic->emit('message', [$this, $timestamp, $message_token, $sender, $message]);
 
-        if ($event == 'subscribed')
-            $this->bionic->emit('subscribed', [$this, $timestamp, $message_token, $this->webHookEvent->getUser()]);
+                if ($text = $message->getText()) {
+                    $this->bionic->emit('message.text', [$this, $timestamp, $message_token, $sender, $message, $text]);
+                }
 
-        if ($event == 'unsubscribed')
-            $this->bionic->emit('un-subscribed', [$this, $timestamp, $message_token,
-                $this->webHookEvent->getUserId()]);
+                if ($image = $message->getImage()) {
+                    $this->bionic->emit('message.image', [$this, $timestamp, $message_token, $sender, $message, $image]);
+                }
 
-        if ($event == 'conversation_started')
-            $this->bionic->emit('conversation-started', [$this, $timestamp, $message_token,
-                $this->webHookEvent->getType(), $this->webHookEvent->getContext(), $this->webHookEvent->getUser(),
-                $this->webHookEvent->isSubscribed()]);
+                if ($url = $message->getUrl()) {
+                    $this->bionic->emit('message.url', [$this, $timestamp, $message_token, $sender, $message, $url]);
+                }
 
-        if ($event == 'delivered')
-            $this->bionic->emit('delivered', [$this, $timestamp, $message_token, $this->webHookEvent->getUserId()]);
+                if ($location = $message->getLocation()) {
+                    $this->bionic->emit('message.location', [$this, $timestamp, $message_token, $sender, $message, $location]);
+                }
 
-        if ($event == 'seen')
-            $this->bionic->emit('seen', [$this, $timestamp, $message_token, $this->webHookEvent->getUserId()]);
+                if ($contact = $message->getContact()) {
+                    $this->bionic->emit('message.contact', [$this, $timestamp, $message_token, $sender, $message, $contact]);
+                }
 
-        if ($event == 'failed')
-            $this->bionic->emit('failed', [$this, $timestamp, $message_token, $this->webHookEvent->getUserId(),
-                $this->webHookEvent->getDesc()]);
+                if ($video = $message->getVideo()) {
+                    $this->bionic->emit('message.video', [$this, $timestamp, $message_token, $sender, $message, $video]);
+                }
 
-        if ($event == 'message') {
-            $message = $this->webHookEvent->getMessage();
-            $this->bionic->emit('message', [$this, $timestamp, $message_token, $this->webHookEvent->getSender(),
-                $message]);
-
-            if ($message->getText()) {
-                $this->bionic->emit('message.text', [$this, $timestamp, $message_token,
-                    $this->webHookEvent->getSender(), $message, $message->getText()]);
+                if ($file = $message->getFile()) {
+                    $this->bionic->emit('message.file', [$this, $timestamp, $message_token, $sender, $message, $file]);
+                }
             }
-
-            if ($message->getImage()) {
-                $this->bionic->emit('message.image', [$this, $timestamp, $message_token,
-                    $this->webHookEvent->getSender(), $message, $message->getImage()]);
-            }
-
-            if ($message->getUrl()) {
-                $this->bionic->emit('message.url', [$this, $timestamp, $message_token,
-                    $this->webHookEvent->getSender(), $message, $message->getUrl()]);
-            }
-
-            if ($message->getLocation()) {
-                $this->bionic->emit('message.location', [$this, $timestamp, $message_token,
-                    $this->webHookEvent->getSender(), $message, $message->getLocation()]);
-            }
-
-            if ($message->getContact()) {
-                $this->bionic->emit('message.contact', [$this, $timestamp, $message_token,
-                    $this->webHookEvent->getSender(), $message, $message->getContact()]);
-            }
-
-            if ($message->getVideo()) {
-                $this->bionic->emit('message.video', [$this, $timestamp, $message_token,
-                    $this->webHookEvent->getSender(), $message, $message->getVideo()]);
-            }
-
-            if ($message->getFile()) {
-                $this->bionic->emit('message.file', [$this, $timestamp, $message_token,
-                    $this->webHookEvent->getSender(), $message, $message->getFile()]);
-            }
+        } catch (\Exception $exception) {
+            $this->bionic->emit('exception', [$exception]);
         }
     }
 

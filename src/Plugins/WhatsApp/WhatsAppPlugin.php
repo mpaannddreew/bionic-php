@@ -15,6 +15,16 @@ use Andre\Bionic\Plugins\AbstractBionicPlugin;
 class WhatsAppPlugin extends AbstractBionicPlugin
 {
     /**
+     * @var WhatsAppWebHookEvent $webHookEvent
+     */
+    protected $webHookEvent;
+
+    /**
+     * @var string $access_token
+     */
+    protected $access_token;
+
+    /**
      * create a new web hook event from web hook data
      */
     protected function createWebHookEvent()
@@ -92,5 +102,14 @@ class WhatsAppPlugin extends AbstractBionicPlugin
         } catch (\Exception $exception){
             $this->bionic->emit('exception', [$exception]);
         }
+    }
+
+    /**
+     * check if access token has been provided before making any http request
+     */
+    protected function checkForAccessToken()
+    {
+        if (!$this->access_token)
+            throw new \InvalidArgumentException('An access token has not been specified!');
     }
 }

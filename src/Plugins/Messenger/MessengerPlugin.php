@@ -47,6 +47,11 @@ class MessengerPlugin extends AbstractBionicPlugin
     protected $graph_api_version = 'v2.10';
 
     /**
+     * @var MessengerWebHookEvent $webHookEvent
+     */
+    protected $webHookEvent;
+
+    /**
      * create new messenger plugin instance
      *
      * MessengerPlugin constructor.

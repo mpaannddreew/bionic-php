@@ -11,6 +11,12 @@ namespace Andre\Bionic\Plugins\Viber\Traits;
 
 trait WebhookHandler
 {
+    /**
+     * Set webhook
+     *
+     * @param $url
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function setWebhook($url)
     {
         $this->checkForAccessToken();
@@ -24,6 +30,11 @@ trait WebhookHandler
         ]);
     }
 
+    /**
+     * Remove webhook
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function removeWebhook()
     {
         $this->checkForAccessToken();
