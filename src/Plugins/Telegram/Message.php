@@ -402,7 +402,7 @@ class Message extends AbstractMessage
      */
     public function getText()
     {
-        if ($this->text) {
+        if ($this->text != null) {
             return Text::create(['text' => $this->text]);
         }
 
