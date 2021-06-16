@@ -118,6 +118,10 @@ class MessengerPlugin extends AbstractBionicPlugin
         $this->webHookEvent = MessengerWebHookEvent::create($this->webHookData);
     }
 
+    private function event($name) {
+        return $this->webHookEvent->getObject() . ".$name";
+    }
+
     /**
      * iterate over web hook event entry items
      */
@@ -125,26 +129,26 @@ class MessengerPlugin extends AbstractBionicPlugin
     {
         try {
             if ($entryItems = $this->webHookEvent->getEntryItems()) {
-                $this->bionic->emit('entry', [$this, $entryItems]);
+                $this->bionic->emit($this->event('entry'), [$this, $entryItems]);
 
                 foreach ($entryItems as $entryItem) {
-                    $this->bionic->emit('entry.item', [$this, $entryItem]);
+                    $this->bionic->emit($this->event('entry.item'), [$this, $entryItem]);
 
                     if ($standbyItems = $entryItem->getStandbyItems()) {
-                        $this->bionic->emit('standby', [$this, $standbyItems]);
+                        $this->bionic->emit($this->event('standby'), [$this, $standbyItems]);
 
                         foreach ($standbyItems as $standbyItem) {
-                            $this->bionic->emit('standby.item', [$this, $standbyItem]);
+                            $this->bionic->emit($this->event('standby.item'), [$this, $standbyItem]);
 
                             $this->emitAbstractChannelEvents($standbyItem, 'standby');
                         }
                     }
 
                     if ($messagingItems = $entryItem->getMessagingItems()) {
-                        $this->bionic->emit('messaging', [$this, $messagingItems]);
+                        $this->bionic->emit($this->event('messaging'), [$this, $messagingItems]);
 
                         foreach ($messagingItems as $messagingItem) {
-                            $this->bionic->emit('messaging.item', [$this, $messagingItem]);
+                            $this->bionic->emit($this->event('messaging.item'), [$this, $messagingItem]);
 
                             $this->emitAbstractChannelEvents($messagingItem);
 
@@ -152,37 +156,37 @@ class MessengerPlugin extends AbstractBionicPlugin
                             $recipient = $messagingItem->getRecipient();
 
                             if ($post_back = $messagingItem->getPostback())
-                                $this->bionic->emit('postback', [$this, $sender, $recipient, $post_back]);
+                                $this->bionic->emit($this->event('postback'), [$this, $sender, $recipient, $post_back]);
 
                             if ($referral = $messagingItem->getReferral())
-                                $this->bionic->emit('referral', [$this, $sender, $recipient, $referral]);
+                                $this->bionic->emit($this->event('referral'), [$this, $sender, $recipient, $referral]);
 
                             if ($optin = $messagingItem->getOptin())
-                                $this->bionic->emit('optin', [$this, $sender, $recipient, $optin]);
+                                $this->bionic->emit($this->event('optin'), [$this, $sender, $recipient, $optin]);
 
                             if ($account_linking = $messagingItem->getAccountLinking())
-                                $this->bionic->emit('account_linking', [$this, $sender, $recipient, $account_linking]);
+                                $this->bionic->emit($this->event('account_linking'), [$this, $sender, $recipient, $account_linking]);
 
                             if ($policy_enforcement = $messagingItem->getPolicyEnforcement())
-                                $this->bionic->emit('policy_enforcement', [$this, $recipient, $policy_enforcement]);
+                                $this->bionic->emit($this->event('policy_enforcement'), [$this, $recipient, $policy_enforcement]);
 
                             if ($payment = $messagingItem->getPayment())
-                                $this->bionic->emit('payment', [$this, $sender, $recipient, $payment]);
+                                $this->bionic->emit($this->event('payment'), [$this, $sender, $recipient, $payment]);
 
                             if ($checkout_update = $messagingItem->getCheckoutUpdate())
-                                $this->bionic->emit('checkout_update', [$this, $sender, $recipient, $checkout_update]);
+                                $this->bionic->emit($this->event('checkout_update'), [$this, $sender, $recipient, $checkout_update]);
 
                             if ($pre_checkout = $messagingItem->getPreCheckout())
-                                $this->bionic->emit('pre_checkout', [$this, $sender, $recipient, $pre_checkout]);
+                                $this->bionic->emit($this->event('pre_checkout'), [$this, $sender, $recipient, $pre_checkout]);
 
                             if ($pass_thread_control = $messagingItem->getPassThreadControl())
-                                $this->bionic->emit('pass_thread_control', [$this, $sender, $recipient, $pass_thread_control]);
+                                $this->bionic->emit($this->event('pass_thread_control'), [$this, $sender, $recipient, $pass_thread_control]);
 
                             if ($take_thread_control = $messagingItem->getTakeThreadControl())
-                                $this->bionic->emit('take_thread_control', [$this, $sender, $recipient, $take_thread_control]);
+                                $this->bionic->emit($this->event('take_thread_control'), [$this, $sender, $recipient, $take_thread_control]);
 
                             if ($app_roles = $messagingItem->getAppRoles())
-                                $this->bionic->emit('app_roles', [$this, $recipient, $app_roles]);
+                                $this->bionic->emit($this->event('app_roles'), [$this, $recipient, $app_roles]);
                         }
                     }
 
@@ -208,30 +212,30 @@ class MessengerPlugin extends AbstractBionicPlugin
 
             if ($message->isEcho())
             {
-                $this->bionic->emit('message.echo', [$this, $sender, $recipient, $message]);
+                $this->bionic->emit($this->event('message.echo'), [$this, $sender, $recipient, $message]);
             }else {
-                $this->bionic->emit('message', [$this, $sender, $recipient, $message, $channel]);
+                $this->bionic->emit($this->event('message'), [$this, $sender, $recipient, $message, $channel]);
 
                 if ($message->getText())
-                    $this->bionic->emit('message.text', [$this, $sender, $recipient, $message, $message->getText(), $message->getQuickReply(), $message->getNlp(), $channel]);
+                    $this->bionic->emit($this->event('message.text'), [$this, $sender, $recipient, $message, $message->getText(), $message->getQuickReply(), $message->getNlp(), $channel]);
 
                 if ($attachments = $message->getAttachmentItems())
                 {
-                    $this->bionic->emit('message.attachments', [$this, $sender, $recipient, $message, $attachments, $channel]);
+                    $this->bionic->emit($this->event('message.attachments'), [$this, $sender, $recipient, $message, $attachments, $channel]);
 
                     foreach ($attachments as $attachment)
                     {
-                        $this->bionic->emit('message.attachments.' . $attachment->getType(), [$this, $sender, $recipient, $message, $attachment, $channel]);
+                        $this->bionic->emit($this->event('message.attachments.' . $attachment->getType()), [$this, $sender, $recipient, $message, $attachment, $channel]);
                     }
                 }
             }
         }
 
         if ($delivery = $channelItem->getDelivery())
-            $this->bionic->emit('delivery', [$this, $sender, $recipient, $delivery, $channel]);
+            $this->bionic->emit($this->event('delivery'), [$this, $sender, $recipient, $delivery, $channel]);
 
         if ($read = $channelItem->getRead())
-            $this->bionic->emit('read', [$this, $sender, $recipient, $read, $channel]);
+            $this->bionic->emit($this->event('read'), [$this, $sender, $recipient, $read, $channel]);
     }
 
     /**

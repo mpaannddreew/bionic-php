@@ -118,7 +118,7 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
      */
     protected function hasExecuted()
     {
-        $this->executed = True;
+        $this->executed = true;
     }
 
     /**

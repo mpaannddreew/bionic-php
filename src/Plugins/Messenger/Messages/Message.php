@@ -49,7 +49,7 @@ class Message extends AbstractMessage
     /**
      * @var boolean $is_echo
      */
-    protected $is_echo = False;
+    protected $is_echo = false;
 
     /**
      * @var int $app_id
