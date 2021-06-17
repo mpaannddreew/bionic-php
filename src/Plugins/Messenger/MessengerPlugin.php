@@ -180,6 +180,9 @@ class MessengerPlugin extends AbstractBionicPlugin
                             if ($referral = $messagingItem->getReferral())
                                 $this->bionic->emit($this->event('referral'), [$this, $sender, $recipient, $referral]);
 
+                            if ($reaction = $messagingItem->getReaction())
+                                $this->bionic->emit($this->event('reaction'), [$this, $sender, $recipient, $reaction]);
+
                             if ($optin = $messagingItem->getOptin())
                                 $this->bionic->emit($this->event('optin'), [$this, $sender, $recipient, $optin]);
 
@@ -212,9 +215,6 @@ class MessengerPlugin extends AbstractBionicPlugin
 
                             if ($app_roles = $messagingItem->getAppRoles())
                                 $this->bionic->emit($this->event('app_roles'), [$this, $recipient, $app_roles]);
-
-                            if ($reaction = $messagingItem->getReaction())
-                                $this->bionic->emit($this->event('reaction'), [$this, $recipient, $reaction]);
                         }
                     }
 

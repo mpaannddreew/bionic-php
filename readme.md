@@ -151,10 +151,10 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 $config = [
     'page_access_token' => 'your page access token',
-    // 'graph_api_version' => 'v2.10' optional and defaults to v2.10
+    // 'graph_api_version' => 'v9.0' optional and defaults to v9.0
 ];
 
-// This only applies for only instagram and messenger where you need to specify the object type as the events prefix
+// This applies for only instagram and messenger where you need to specify the object type as the events prefix
 $object_type = "page"; // page or instagram
 
 $bionic = Bionic::initialize()
@@ -1183,6 +1183,82 @@ $bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipi
 });
 
 ```
+### Usage with Telegram
+
+```php
+<?php
+use Andre\Bionic\Bionic;
+use Andre\Bionic\Plugins\Telegram\TelegramPlugin as Plugin;
+use Andre\Bionic\Plugins\Telegram\Message as TelegramMessage;
+
+$data = json_decode(file_get_contents('php://input'), true);
+
+$config = [
+    'access_token' => 'your telegram access token',
+];
+
+
+$bionic = Bionic::initialize()
+    ->setPlugin(Plugin::create($config));
+
+// register your event listeners before calling the 'receive' method on the bionic instance
+// $bionic->listen($event_name, $event_listener);
+$bionic->listen('message', function (Plugin $plugin, $update_id, TelegramMessage $message) {
+            
+})->listen('channel-message', function (Plugin $plugin, $update_id, TelegramMessage $message) {
+            
+})->listen('edited-message', function (Plugin $plugin, $update_id, TelegramMessage $message) {
+            
+})->listen('edited-channel-message', function (Plugin $plugin, $update_id, TelegramMessage $message) {
+            
+});
+
+$bionic->receive($data);
+return http_response_code(200);
+```
+### Usage with Viber
+
+```php
+<?php
+use Andre\Bionic\Bionic;
+use Andre\Bionic\Plugins\Viber\ViberPlugin as Plugin;
+use Andre\Bionic\Plugins\Viber\Message as ViberMessage;
+use Andre\Bionic\Plugins\Viber\User as ViberUser;
+
+$data = json_decode(file_get_contents('php://input'), true);
+
+$config = [
+    'access_token' => 'your viber access token',
+];
+
+
+$bionic = Bionic::initialize()
+    ->setPlugin(Plugin::create($config));
+
+// register your event listeners before calling the 'receive' method on the bionic instance
+// $bionic->listen($event_name, $event_listener);
+$bionic->listen('webhook', function (Plugin $plugin, $timestamp, $message_token) {
+    
+})->listen('subscribed', function (Plugin $plugin, $timestamp, $message_token, ViberUser $user) {
+    
+})->listen('un-subscribed', function (Plugin $plugin, $timestamp, $message_token, $user_id) {
+    
+})->listen('conversation-started', function (Plugin $plugin, $timestamp, $message_token, $type, $context, ViberUser $user, $subscribed) {
+    
+})->listen('delivered', function (Plugin $plugin, $timestamp, $message_token, $user_id) {
+    
+})->listen('seen', function (Plugin $plugin, $timestamp, $message_token, $user_id) {
+    
+})->listen('failed', function (Plugin $plugin, $timestamp, $message_token, $user_id, $desc) {
+   
+})->listen('message', function (Plugin $plugin, $timestamp, $message_token, ViberUser $user, ViberMessage $message) {
+    
+});
+
+$bionic->receive($data);
+return http_response_code(200);
+```
+
 ### Exception Handling
 Any exceptions not caught when you are defining your event listeners logic are automatically captured. So remember to register a listener that listens for these exceptions.
 ```php
