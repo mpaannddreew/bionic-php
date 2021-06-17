@@ -24,6 +24,11 @@ class PassThreadControl extends AbstractThreadControl
     protected $new_owner_app_id;
 
     /**
+     * @var string $previous_owner_app_id
+     */
+    protected $previous_owner_app_id;
+
+    /**
      * get new owner app id
      *
      * @return string
@@ -31,5 +36,13 @@ class PassThreadControl extends AbstractThreadControl
     public function getNewOwnerAppId()
     {
         return $this->new_owner_app_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPreviousOwnerAppId()
+    {
+        return $this->previous_owner_app_id;
     }
 }

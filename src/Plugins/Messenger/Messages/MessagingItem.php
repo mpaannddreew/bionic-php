@@ -73,9 +73,24 @@ class MessagingItem extends AbstractChannelItem
     protected $take_thread_control = [];
 
     /**
+     * @var array $request_thread_control
+     */
+    protected $request_thread_control = [];
+
+    /**
+     * @var array $pass_metadata
+     */
+    protected $pass_metadata = [];
+
+    /**
      * @var array $app_roles
      */
     protected $app_roles = [];
+
+    /**
+     * @var array $reaction
+     */
+    protected $reaction = [];
 
     /**
      * MessagingItem constructor.
@@ -219,6 +234,32 @@ class MessagingItem extends AbstractChannelItem
     }
 
     /**
+     * get request thread control
+     *
+     * @return RequestThreadControl|null
+     */
+    public function getRequestThreadControl()
+    {
+        if ($this->request_thread_control)
+            return RequestThreadControl::create($this->request_thread_control);
+
+        return null;
+    }
+
+    /**
+     * get pass metadata
+     *
+     * @return PassMetaData|null
+     */
+    public function getPassMetadata()
+    {
+        if ($this->pass_metadata)
+            return PassMetaData::create($this->pass_metadata);
+
+        return null;
+    }
+
+    /**
      * get app roles
      *
      * @return AppRoles|null
@@ -228,6 +269,18 @@ class MessagingItem extends AbstractChannelItem
         if ($this->app_roles)
             return AppRoles::create($this->app_roles);
 
+        return null;
+    }
+
+    /**
+     * get reaction
+     *
+     * @return Reaction|null
+     */
+    public function getReaction()
+    {
+        if ($this->reaction)
+            return Reaction::create($this->reaction);
         return null;
     }
 }

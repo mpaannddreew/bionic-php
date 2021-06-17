@@ -22,6 +22,8 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Fallback;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\File;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Location;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Share;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\StoryMention;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Video;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
@@ -40,6 +42,16 @@ class Message extends AbstractMessage
      * @var string $text
      */
     protected $text;
+
+    /**
+     * @var boolean $is_unsupported
+     */
+    protected $is_unsupported = false;
+
+    /**
+     * @var boolean $is_deleted
+     */
+    protected $is_deleted = false;
 
     /**
      * @var int $seq
@@ -87,6 +99,11 @@ class Message extends AbstractMessage
     protected $nlp = [];
 
     /**
+     * @var array $referral
+     */
+    protected $referral = [];
+
+    /**
      * Message constructor.
      * @param $data
      */
@@ -118,6 +135,12 @@ class Message extends AbstractMessage
                     break;
                 case 'image':
                     $attachment = Image::create($attachment_item);
+                    break;
+                case 'share':
+                    $attachment = Share::create($attachment_item);
+                    break;
+                case 'story_mention':
+                    $attachment = StoryMention::create($attachment_item);
                     break;
                 case 'fallback':
                     $attachment = Fallback::create($attachment_item);
@@ -153,6 +176,26 @@ class Message extends AbstractMessage
             return Text::create()->setText($this->text);
 
         return null;
+    }
+
+    /**
+     * get is_unsupported
+     *
+     * @return bool
+     */
+    public function isUnsupported()
+    {
+        return $this->is_unsupported;
+    }
+
+    /**
+     * get is_deleted
+     *
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->is_deleted;
     }
 
     /**
@@ -252,5 +295,18 @@ class Message extends AbstractMessage
     public function getSeq()
     {
         return $this->seq;
+    }
+
+    /**
+     * get referral
+     *
+     * @return Referral|null
+     */
+    public function getReferral()
+    {
+        if ($this->referral)
+            return Referral::create($this->referral);
+
+        return null;
     }
 }

@@ -19,10 +19,25 @@ class ReplyTo extends AbstractMessage
     protected $mid;
 
     /**
+     * @var array $story
+     */
+    protected $story = [];
+
+    /**
      * @return mixed
      */
     public function getMid()
     {
         return $this->mid;
+    }
+
+    /**
+     * get story
+     *
+     * @return array
+     */
+    public function getStory()
+    {
+        return $this->story;
     }
 }

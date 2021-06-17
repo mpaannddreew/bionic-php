@@ -20,12 +20,6 @@ use Andre\Bionic\Plugins\Messenger\BotProfile\GetStarted;
 
 trait ManagesBotProfile
 {
-
-    /**
-     * @var string $messenger_profile_url
-     */
-    protected $messenger_profile_url = "https://graph.facebook.com/%s/me/messenger_profile?access_token=%s";
-
     /**
      * set privacy policy URL
      *
@@ -200,6 +194,6 @@ trait ManagesBotProfile
      */
     protected function messengerProfileFullUrl()
     {
-        return sprintf($this->messenger_profile_url, $this->graph_api_version, $this->page_access_token);
+        return sprintf($this->url . "/%s/me/messenger_profile?access_token=%s", $this->graph_api_version, $this->page_access_token);
     }
 }

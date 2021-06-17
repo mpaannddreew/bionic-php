@@ -26,11 +26,6 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 trait SendsMessages
 {
     /**
-     * @var string
-     */
-    protected $messaging_url = "https://graph.facebook.com/%s/me/messages?access_token=%s";
-
-    /**
      * echo shipping options
      *
      * @param array $shipping_list
@@ -171,6 +166,6 @@ trait SendsMessages
      */
     protected function messagingFullUrl()
     {
-        return sprintf($this->messaging_url, $this->graph_api_version, $this->page_access_token);
+        return sprintf($this->url . "/%s/me/messages?access_token=%s", $this->graph_api_version, $this->page_access_token);
     }
 }

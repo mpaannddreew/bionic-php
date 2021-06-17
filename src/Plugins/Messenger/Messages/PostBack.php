@@ -21,6 +21,11 @@ use Andre\Bionic\AbstractMessage;
 class PostBack extends AbstractMessage
 {
     /**
+     * @var $mid
+     */
+    protected $mid;
+
+    /**
      * @var string $title
      */
     protected $title;
@@ -34,6 +39,16 @@ class PostBack extends AbstractMessage
      * @var array $referral
      */
     protected $referral = [];
+
+    /**
+     * get mid
+     *
+     * @return mixed
+     */
+    public function getMid()
+    {
+        return $this->mid;
+    }
 
     /**
      * get title

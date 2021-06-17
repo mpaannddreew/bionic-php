@@ -19,17 +19,20 @@ namespace Andre\Bionic\Plugins\Messenger;
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
 use Andre\Bionic\Plugins\Messenger\Messages\AbstractChannelItem;
+use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
+use Andre\Bionic\Plugins\Messenger\Messages\MessagingItem;
+use Andre\Bionic\Plugins\Messenger\Traits\AccessesInstagram;
 use Andre\Bionic\Plugins\Messenger\Traits\AccessesUserProfile;
 use Andre\Bionic\Plugins\Messenger\Traits\ManagesBotProfile;
-use Andre\Bionic\Plugins\Messenger\Traits\PassesThreadControl;
+use Andre\Bionic\Plugins\Messenger\Traits\HandoverProtocol;
 use Andre\Bionic\Plugins\Messenger\Traits\SendsMessages;
-use Andre\Bionic\Plugins\Messenger\Traits\TakesThreadControl;
 use GuzzleHttp\Client as HttpClient;
 
 
 class MessengerPlugin extends AbstractBionicPlugin
 {
-    use AccessesUserProfile, ManagesBotProfile, SendsMessages, PassesThreadControl, TakesThreadControl;
+    use AccessesUserProfile, ManagesBotProfile, SendsMessages, HandoverProtocol, AccessesInstagram;
 
     /**
      * @var HttpClient
@@ -44,7 +47,12 @@ class MessengerPlugin extends AbstractBionicPlugin
     /**
      * @var string $graph_api_version
      */
-    protected $graph_api_version = 'v2.10';
+    protected $graph_api_version = 'v9.0';
+
+    /**
+     * @var string $url
+     */
+    protected $url = "https://graph.facebook.com";
 
     /**
      * @var MessengerWebHookEvent $webHookEvent
@@ -118,6 +126,12 @@ class MessengerPlugin extends AbstractBionicPlugin
         $this->webHookEvent = MessengerWebHookEvent::create($this->webHookData);
     }
 
+    /**
+     * create event name
+     *
+     * @param $name
+     * @return string
+     */
     private function event($name) {
         return $this->webHookEvent->getObject() . ".$name";
     }
@@ -127,6 +141,11 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function iterateOverEntryMessagesAndEmitEvents()
     {
+        /**
+         * @var EntryItem $entryItem
+         * @var MessagingItem $messagingItem
+         */
+
         try {
             if ($entryItems = $this->webHookEvent->getEntryItems()) {
                 $this->bionic->emit($this->event('entry'), [$this, $entryItems]);
@@ -185,15 +204,24 @@ class MessengerPlugin extends AbstractBionicPlugin
                             if ($take_thread_control = $messagingItem->getTakeThreadControl())
                                 $this->bionic->emit($this->event('take_thread_control'), [$this, $sender, $recipient, $take_thread_control]);
 
+                            if ($request_thread_control = $messagingItem->getRequestThreadControl())
+                                $this->bionic->emit($this->event('request_thread_control'), [$this, $sender, $recipient, $request_thread_control]);
+
+                            if ($pass_thread_metadata = $messagingItem->getPassMetadata())
+                                $this->bionic->emit($this->event('pass_thread_metadata'), [$this, $sender, $recipient, $pass_thread_metadata]);
+
                             if ($app_roles = $messagingItem->getAppRoles())
                                 $this->bionic->emit($this->event('app_roles'), [$this, $recipient, $app_roles]);
+
+                            if ($reaction = $messagingItem->getReaction())
+                                $this->bionic->emit($this->event('reaction'), [$this, $recipient, $reaction]);
                         }
                     }
 
                 }
             }
         } catch (\Exception $exception){
-            $this->bionic->emit('exception', [$exception]);
+            $this->bionic->emit($this->event('exception'), [$exception]);
         }
     }
 
@@ -205,6 +233,10 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function emitAbstractChannelEvents(AbstractChannelItem $channelItem, $channel="messaging")
     {
+        /**
+         * @var AbstractAttachment $attachment
+         */
+
         $sender = $channelItem->getSender();
         $recipient = $channelItem->getRecipient();
 
@@ -217,7 +249,7 @@ class MessengerPlugin extends AbstractBionicPlugin
                 $this->bionic->emit($this->event('message'), [$this, $sender, $recipient, $message, $channel]);
 
                 if ($message->getText())
-                    $this->bionic->emit($this->event('message.text'), [$this, $sender, $recipient, $message, $message->getText(), $message->getQuickReply(), $message->getNlp(), $channel]);
+                    $this->bionic->emit($this->event('message.text'), [$this, $sender, $recipient, $message, $message->getText(), $message->getQuickReply(), $message->getReplyTo(), $message->getReferral(), $message->getNlp(), $channel]);
 
                 if ($attachments = $message->getAttachmentItems())
                 {

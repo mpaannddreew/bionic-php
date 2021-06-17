@@ -22,24 +22,20 @@ use Andre\Bionic\Plugins\Messenger\UserProfile;
 trait AccessesUserProfile
 {
     /**
-     * @var string $profile_access_url
-     */
-    protected $profile_access_url = "https://graph.facebook.com/%s/%s?fields=first_name,last_name,profile_pic&access_token=%s";
-
-    /**
      * get user profile from facebook
      *
      * @param AbstractEndPoint $user
+     * @param string $fields
      * @return UserProfile|null
      */
-    public function getUserProfile(AbstractEndPoint $user)
+    public function getUserProfile(AbstractEndPoint $user, $fields = "first_name,last_name,profile_pic")
     {
         $this->checkForPageAccessTokenAndGraphApiVersion();
 
-        $this->profile_access_url = sprintf($this->profile_access_url, $this->graph_api_version, $user->getId(), $this->page_access_token);
+        $url = sprintf($this->url . "/%s/%s?fields=$fields&access_token=%s", $this->graph_api_version, $user->getId(), $this->page_access_token);
 
         try{
-            $response = $this->httpClient->get($this->profile_access_url)->getBody()->getContents();
+            $response = $this->httpClient->get($url)->getBody()->getContents();
             return UserProfile::create((array)json_decode($response));
         }catch (\Exception $exception){
             return null;

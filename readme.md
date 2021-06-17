@@ -7,15 +7,17 @@ It is driven by a very simple but powerful event dispatching library [Événemen
 ## Platform support
 
 * Facebook Messenger
-* more coming
+* Instagram
+* Telegram
+* Viber
 
 
-## Facebook Messenger
+## Facebook Messenger and Instagram
 
 ## What is covered
 
 * Create a FB Page
-* Create a FB Messenger app
+* Create a FB app
 * Create a webhook
 * Connect the Facebook app to the Facebook page
 * Setup Bionic
@@ -36,7 +38,7 @@ On the "Product Setup" page choose Messenger and click "Get Started".
 Now you need to create a token to give your app access to your Facebook page. Select the created page, grant permissions 
 and copy the generated token. You need that one later.
 
-### Create a webhook for the messenger app
+### Create a webhook for the Facebook app for either Messenger or Instagram
 
 Your application needs to have a webhook. This means a public URL that Facebook can communicate with. Every time a user 
 sends a message inside the FB chat, FB will send it to this URL which is the entry point to your application.
@@ -74,70 +76,6 @@ require 'vendor/autoload.php';
 use Andre\Bionic\Bionic;
 
 $bionic = Bionic::initialize();
-```
-
-### Usage with messenger
-
-```php
-<?php
-use Andre\Bionic\Bionic;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
-use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
-use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
-use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
-use Andre\Bionic\Plugins\Messenger\Messages\Message;
-
-/* validate verify token needed for setting up web hook */
-if (isset($_GET['hub_verify_token'])) {
-    if ($_GET['hub_verify_token'] === 'your verify token') {
-        echo $_GET['hub_challenge'];
-        return;
-    } else {
-        echo 'Invalid Verify Token';
-        return;
-    }
-}
-
-$data = json_decode(file_get_contents('php://input'), true);
-
-$config = [
-    'page_access_token' => 'your page access token',
-    // 'graph_api_version' => 'v2.10' optional and defaults to v2.10
-];
-
-$bionic = Bionic::initialize()
-    ->setPlugin(Plugin::create($config));
-
-// register your event listeners before calling the 'receive' method on the bionic instance
-// $bionic->listen($event_name, $event_listener);
-$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Image $image, $channel){
-    // $plugin - current plugin being used i.e. MessengerPlugin
-    // $sender - sender of the message i.e. Messenger user
-    // $recipient - recipient of the message i.e. Your facebook page
-    // $message - current message object
-    // $image - Image attachment that was sent
-    // $channel - event delivery channel, messaging or standby
-   
-    // this sends the attachment as a message back to the sender
-    $plugin->sendAttachment($image, $sender);
-})->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel) {
-      $text->getText();
-      if ($quickReply)
-          $quickReply->getPayload();
-  
-      if ($nlp)
-          $nlp->getEntities();
-  
-      $plugin->sendText($text, [], $sender);
-})->listen('exceptions', function (Exception $exception) {
-      
-});
-
-$bionic->receive($data);
-return http_response_code(200);
 ```
 ### Registering event listeners
 #### Syntax
@@ -182,6 +120,75 @@ class BotController{
 
 $bionic->listen($event_name, [BotController::class, 'function_name']);
 ```
+### Usage with messenger and Instagram
+
+```php
+<?php
+use Andre\Bionic\Bionic;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\ReplyTo;
+use Andre\Bionic\Plugins\Messenger\Messages\Referral;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
+use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
+use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Image;
+use Andre\Bionic\Plugins\Messenger\Messages\Message;
+
+/* validate verify token needed for setting up web hook */
+if (isset($_GET['hub_verify_token'])) {
+    if ($_GET['hub_verify_token'] === 'your verify token') {
+        echo $_GET['hub_challenge'];
+        return;
+    } else {
+        echo 'Invalid Verify Token';
+        return;
+    }
+}
+
+$data = json_decode(file_get_contents('php://input'), true);
+
+$config = [
+    'page_access_token' => 'your page access token',
+    // 'graph_api_version' => 'v2.10' optional and defaults to v2.10
+];
+
+// This only applies for only instagram and messenger where you need to specify the object type as the events prefix
+$object_type = "page"; // page or instagram
+
+$bionic = Bionic::initialize()
+    ->setPlugin(Plugin::create($config))
+    ->setEventPrefix($object_type);
+
+// register your event listeners before calling the 'receive' method on the bionic instance
+// $bionic->listen($event_name, $event_listener);
+$bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Image $image, $channel){
+    // $plugin - current plugin being used i.e. MessengerPlugin
+    // $sender - sender of the message i.e. Messenger user
+    // $recipient - recipient of the message i.e. Your facebook page
+    // $message - current message object
+    // $image - Image attachment that was sent
+    // $channel - event delivery channel, messaging or standby
+   
+    // this sends the attachment as a message back to the sender
+    $plugin->sendAttachment($image, $sender);
+})->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, ReplyTo $replyTo = null, Referral $referral = null, Nlp $nlp = null, $channel) {
+      $text->getText();
+      if ($quickReply)
+          $quickReply->getPayload();
+  
+      if ($nlp)
+          $nlp->getEntities();
+  
+      $plugin->sendText($text, [], $sender);
+})->listen('exceptions', function (Exception $exception) {
+      
+});
+
+$bionic->receive($data);
+return http_response_code(200);
+```
 ### Basic example
 
 ```php
@@ -198,7 +205,8 @@ $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $s
 });
 ```
 
-### Available events provided for messenger
+### Available events provided for messenger and Instagram
+#### Some events do not apply for Instagram, consult [documentation](https://developers.facebook.com/docs/messenger-platform/instagram)
 
 - entry
 ```php
@@ -206,6 +214,12 @@ $bionic->listen('message.attachments.image', function (Plugin $plugin, Sender $s
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 
 $bionic->listen('entry', function (Plugin $plugin, $entryItems){
+    
+     /**
+     * @var \Andre\Bionic\Plugins\Messenger\Messages\EntryItem $entryItem
+     * @var \Andre\Bionic\Plugins\Messenger\Messages\MessagingItem $messagingItem
+     */
+     
      // $entryItems is an array of Andre\Bionic\Plugins\Messenger\Messages\EntryItem::class
      foreach ($entryItems as $entryItem){
          foreach ($entryItem->getMessagingItems() as $messagingItem){
@@ -236,6 +250,10 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
 
 $bionic->listen('entry.item', function (Plugin $plugin, EntryItem $entryItem){
+    /**
+     * @var \Andre\Bionic\Plugins\Messenger\Messages\EntryItem $entryItem
+     * @var \Andre\Bionic\Plugins\Messenger\Messages\MessagingItem $messagingItem
+     */
     foreach ($entryItem->getMessagingItems() as $messagingItem){
          $messagingItem->getMessage();
          $messagingItem->getPostback();
@@ -262,6 +280,10 @@ $bionic->listen('entry.item', function (Plugin $plugin, EntryItem $entryItem){
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 
 $bionic->listen('messaging', function (Plugin $plugin, $messagingItems){
+    /**
+     * @var \Andre\Bionic\Plugins\Messenger\Messages\MessagingItem $messagingItem
+     */
+    
      // $messagingItems is an array of Andre\Bionic\Plugins\Messenger\Messages\MessagingItem::class
      foreach ($messagingItems as $messagingItem){
           $messagingItem->getMessage();
@@ -289,6 +311,10 @@ $bionic->listen('messaging', function (Plugin $plugin, $messagingItems){
 use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 
 $bionic->listen('standby', function (Plugin $plugin, $standbyItems){
+    /**
+     * @var \Andre\Bionic\Plugins\Messenger\Messages\StandbyItem $standbyItem
+     */
+    
      // $messagingItems is an array of Andre\Bionic\Plugins\Messenger\Messages\$standbyItems::class
      foreach ($standbyItems as $standbyItem){
           $standbyItem->getMessage();
@@ -304,6 +330,10 @@ use Andre\Bionic\Plugins\Messenger\MessengerPlugin as Plugin;
 use Andre\Bionic\Plugins\Messenger\Messages\MessagingItem;
 
 $bionic->listen('messaging.item', function (Plugin $plugin, MessagingItem $messagingItem){
+    /**
+     * @var \Andre\Bionic\Plugins\Messenger\Messages\MessagingItem $messagingItem
+     */
+    
     $messagingItem->getMessage();
     $messagingItem->getPostback();
     $messagingItem->getAccountLinking();
@@ -384,10 +414,12 @@ use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Sender;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
+use Andre\Bionic\Plugins\Messenger\Messages\Message\ReplyTo;
+use Andre\Bionic\Plugins\Messenger\Messages\Referral;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, Nlp $nlp = null, $channel){
+$bionic->listen('message.text', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Text $text, QuickReply $quickReply = null, ReplyTo $replyTo = null, Referral $referral = null, Nlp $nlp = null, $channel){
     $text->getText();
     if ($quickReply)
         $quickReply->getPayload();
@@ -440,6 +472,8 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
 $bionic->listen('message.attachments.audio', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Audio $audio, $channel){
     $audio->getPayload()->getUrl();
+    
+    // Sending audio is only supported on messenger
     $plugin->sendAttachment($audio, $sender);
 });
 ```
@@ -454,6 +488,8 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message;
 
 $bionic->listen('message.attachments.video', function (Plugin $plugin, Sender $sender, Recipient $recipient, Message $message, Video $video, $channel){
     $video->getPayload()->getUrl();
+    
+    // Sending videos is only supported on messenger
     $plugin->sendAttachment($video, $sender);
 });
 ```

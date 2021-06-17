@@ -16,6 +16,8 @@
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
 
+use Andre\Bionic\Plugins\Messenger\Messages\Message\Product;
+
 class Referral extends Optin
 {
     /**
@@ -27,6 +29,11 @@ class Referral extends Optin
      * @var string $type
      */
     protected $type;
+
+    /**
+     * @var array $product
+     */
+    protected $product = [];
 
     /**
      * get source
@@ -46,5 +53,18 @@ class Referral extends Optin
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * get product
+     *
+     * @return Product|null
+     */
+    public function getProduct()
+    {
+        if ($this->product)
+            return Product::create($this->product);
+
+        return null;
     }
 }

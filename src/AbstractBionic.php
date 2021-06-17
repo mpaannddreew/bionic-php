@@ -33,7 +33,7 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     /**
      * @var bool
      */
-    protected $executed = False;
+    protected $executed = false;
 
     /**
      * @var array
@@ -44,6 +44,11 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
      * @var array
      */
     protected $listen = [];
+
+    /**
+     * @var string|null
+     */
+    protected $eventPrefix = null;
 
     /**
      * create a new bionic instance
@@ -76,6 +81,18 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     }
 
     /**
+     * set events prefix
+     *
+     * @param null|string $eventPrefix
+     * @return AbstractBionic
+     */
+    public function setEventPrefix($eventPrefix = null)
+    {
+        $this->eventPrefix = $eventPrefix;
+        return $this;
+    }
+
+    /**
      * register an event listener
      *
      * @param $event
@@ -84,6 +101,9 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
      */
     public function listen($event, $listener)
     {
+        if (!is_null($this->eventPrefix))
+            $event = $this->eventPrefix . ".$event";
+
         $this->listen[$event][] = $listener;
         return $this;
     }

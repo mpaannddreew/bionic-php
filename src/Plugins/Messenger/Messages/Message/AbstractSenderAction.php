@@ -26,6 +26,10 @@ abstract class AbstractSenderAction extends AbstractMessage
 
     const TYPING_OFF = 'typing_off';
 
+    const REACT = 'react';
+
+    const UNREACT = 'unreact';
+
     /**
      * @var string $sender_action
      */

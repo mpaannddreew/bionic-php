@@ -35,6 +35,10 @@ abstract class AbstractAttachment extends AbstractMessage
 
     const TEMPLATE = 'template';
 
+    const SHARE = 'share';
+
+    const STORY_MENTION = 'story_mention';
+
     /**
      * @var string $type
      */

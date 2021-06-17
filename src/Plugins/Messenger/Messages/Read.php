@@ -31,6 +31,11 @@ class Read extends AbstractMessage
     protected $seq;
 
     /**
+     * @var string $mid
+     */
+    protected $mid;
+
+    /**
      * get watermark
      *
      * @return int
@@ -48,5 +53,15 @@ class Read extends AbstractMessage
     public function getSeq()
     {
         return $this->seq;
+    }
+
+    /**
+     * last message id read
+     *
+     * @return string
+     */
+    public function getMid()
+    {
+        return $this->mid;
     }
 }

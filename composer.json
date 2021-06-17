@@ -2,7 +2,7 @@
     "name": "andre/bionic",
     "type": "library",
     "description": "Bionic is a simple chat bot development library in PHP",
-    "keywords": ["library", "php", "chatbots", "messenger", "facebook", "messenger api"],
+    "keywords": ["library", "php", "chatbots", "messenger", "facebook", "messenger api", "telegram", "viber", "instagram"],
     "license": "MIT",
     "authors": [
         {
