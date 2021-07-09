@@ -26,6 +26,11 @@ class UserProfile extends AbstractMessage
     protected $id;
 
     /**
+     * @var string $name
+     */
+    protected $name;
+
+    /**
      * @var string $first_name
      */
     protected $first_name;
@@ -48,6 +53,16 @@ class UserProfile extends AbstractMessage
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
