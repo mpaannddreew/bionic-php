@@ -130,7 +130,7 @@ class Message extends AbstractMessage
                 case 'audio':
                     $attachment = Audio::create($attachment_item);
                     break;
-                case 'Video':
+                case 'video':
                     $attachment = Video::create($attachment_item);
                     break;
                 case 'image':
