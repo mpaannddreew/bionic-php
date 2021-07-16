@@ -34,7 +34,7 @@ trait WebhookHandler
      */
     public function deleteWebhook()
     {
-        return $this->httpClient->post($this->getToken() . 'deleteWebhook');
+        return $this->httpClient->post($this->getToken() . '/deleteWebhook');
     }
 
     /**
@@ -43,6 +43,6 @@ trait WebhookHandler
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function getWebhookInfo() {
-        return $this->httpClient->post($this->getToken() . 'getWebhookInfo');
+        return $this->httpClient->post($this->getToken() . '/getWebhookInfo');
     }
 }
