@@ -42,6 +42,11 @@ class EntryItem extends AbstractMessage
     protected $standby = [];
 
     /**
+     * @var array $changes
+     */
+    protected $changes = [];
+
+    /**
      * @var array $messaging_items
      */
     protected $messaging_items = [];
@@ -52,6 +57,11 @@ class EntryItem extends AbstractMessage
     protected $standby_items = [];
 
     /**
+     * @var array $changes_items
+     */
+    protected $changes_items = [];
+
+    /**
      * EntryMessage constructor.
      * @param $data
      */
@@ -60,6 +70,7 @@ class EntryItem extends AbstractMessage
         parent::__construct($data);
         $this->populateMessagingItems();
         $this->populateStandbyItems();
+        $this->populateChanges();
     }
 
     /**
@@ -81,6 +92,17 @@ class EntryItem extends AbstractMessage
         foreach ($this->standby as $standby_item)
         {
             array_push($this->standby_items, StandbyItem::create($standby_item));
+        }
+    }
+
+    /**
+     * populate changes items
+     */
+    protected function populateChanges()
+    {
+        foreach ($this->changes as $changes_item)
+        {
+            array_push($this->changes_items, Change::create($changes_item));
         }
     }
 
@@ -142,5 +164,25 @@ class EntryItem extends AbstractMessage
     public function getStandbyItems()
     {
         return $this->standby_items;
+    }
+
+    /**
+     * Get changes object
+     *
+     * @return array
+     */
+    public function getChanges()
+    {
+        return $this->changes;
+    }
+
+    /**
+     * Get changes items
+     *
+     * @return array
+     */
+    public function getChangesItems()
+    {
+        return $this->changes_items;
     }
 }

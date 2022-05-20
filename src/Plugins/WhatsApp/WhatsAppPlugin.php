@@ -11,6 +11,8 @@ namespace Andre\Bionic\Plugins\WhatsApp;
 
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
+use Andre\Bionic\Plugins\Messenger\Messages\Change;
+use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
 
 class WhatsAppPlugin extends AbstractBionicPlugin
 {
@@ -46,59 +48,84 @@ class WhatsAppPlugin extends AbstractBionicPlugin
 
     private function iterateOverObjectsAndEmitEvents()
     {
+        /**
+         * @var EntryItem $entryItem
+         * @var Change $change
+         * @var WhatsAppValue $value
+         * @var Message $message
+         */
         try {
-            if ($messages = $this->webHookEvent->getMessages()) {
-                $contacts = $this->webHookEvent->getContacts();
-                $this->bionic->emit('messages', [$this, $contacts, $messages]);
+            if ($entryItems = $this->webHookEvent->getEntryItems()) {
+                $this->bionic->emit('entry', [$this, $entryItems]);
 
-                foreach ($messages as $message) {
-                    $this->bionic->emit('message', [$this, $contacts, $message]);
+                foreach ($entryItems as $entryItem) {
+                    $this->bionic->emit('entry.item', [$this, $entryItem]);
 
-                    if ($text = $message->getText())
-                        $this->bionic->emit('message.text', [$this, $contacts, $text]);
+                    if ($changes = $entryItem->getChangesItems()) {
+                        $this->bionic->emit('changes', [$this, $changes]);
 
-                    if ($location = $message->getLocation())
-                        $this->bionic->emit('message.location', [$this, $contacts, $location]);
+                        foreach ($changes as $change) {
+                            $this->bionic->emit('change', [$this, $change]);
 
-                    if ($sent_contacts = $message->getContacts())
-                        $this->bionic->emit('message.contacts', [$this, $contacts, $sent_contacts]);
+                            if ($value = $change->getValue()) {
+                                $this->bionic->emit('change.value', [$this, $change, $value]);
 
-                    if ($errors = $message->getErrors())
-                        $this->bionic->emit('message.errors', [$this, $errors]);
+                                if ($messages = $value->getMessages()) {
+                                    $contacts = $value->getContacts();
+                                    $this->bionic->emit('messages', [$this, $contacts, $messages]);
 
-                    if ($image = $message->getImage())
-                        $this->bionic->emit('message.image', [$this, $image]);
+                                    foreach ($messages as $message) {
+                                        $this->bionic->emit('message', [$this, $contacts, $message]);
 
-                    if ($document = $message->getDocument())
-                        $this->bionic->emit('message.document', [$this, $document]);
+                                        if ($text = $message->getText())
+                                            $this->bionic->emit('message.text', [$this, $contacts, $text]);
 
-                    if ($voice = $message->getVoice())
-                        $this->bionic->emit('message.voice', [$this, $voice]);
+                                        if ($location = $message->getLocation())
+                                            $this->bionic->emit('message.location', [$this, $contacts, $location]);
 
-                    if ($sticker = $message->getSticker())
-                        $this->bionic->emit('message.sticker', [$this, $sticker]);
+                                        if ($sent_contacts = $message->getContacts())
+                                            $this->bionic->emit('message.contacts', [$this, $contacts, $sent_contacts]);
 
-                    if ($system = $message->getSystem())
-                        $this->bionic->emit('message.system', [$this, $system]);
+                                        if ($errors = $message->getErrors())
+                                            $this->bionic->emit('message.errors', [$this, $errors]);
+
+                                        if ($image = $message->getImage())
+                                            $this->bionic->emit('message.image', [$this, $image]);
+
+                                        if ($document = $message->getDocument())
+                                            $this->bionic->emit('message.document', [$this, $document]);
+
+                                        if ($voice = $message->getVoice())
+                                            $this->bionic->emit('message.voice', [$this, $voice]);
+
+                                        if ($sticker = $message->getSticker())
+                                            $this->bionic->emit('message.sticker', [$this, $sticker]);
+
+                                        if ($system = $message->getSystem())
+                                            $this->bionic->emit('message.system', [$this, $system]);
+                                    }
+                                }
+
+                                if ($statuses = $value->getStatuses()) {
+                                    $this->bionic->emit('statuses', [$this, $statuses]);
+
+                                    foreach ($statuses as $status) {
+                                        $this->bionic->emit('status', [$this, $status]);
+                                    }
+                                }
+
+                                if ($errors = $value->getErrors()) {
+                                    $this->bionic->emit('errors', [$this, $errors]);
+
+                                    foreach ($errors as $error) {
+                                        $this->bionic->emit('error', [$this, $error]);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
-            if ($statuses = $this->webHookEvent->getStatuses()) {
-                $this->bionic->emit('statuses', [$this, $statuses]);
-
-                foreach ($statuses as $status) {
-                    $this->bionic->emit('status', [$this, $status]);
-                }
-            }
-
-            if ($errors = $this->webHookEvent->getErrors()) {
-                $this->bionic->emit('errors', [$this, $errors]);
-
-                foreach ($errors as $error) {
-                    $this->bionic->emit('error', [$this, $error]);
-                }
-            }
-
         } catch (\Exception $exception){
             $this->bionic->emit('exception', [$exception]);
         }
