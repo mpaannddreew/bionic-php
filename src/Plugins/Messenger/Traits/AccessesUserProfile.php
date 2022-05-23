@@ -26,7 +26,7 @@ trait AccessesUserProfile
      *
      * @param AbstractEndPoint $user
      * @param string $fields
-     * @return UserProfile|null
+     * @return UserProfile
      */
     public function getUserProfile(AbstractEndPoint $user, $fields = "first_name,last_name,profile_pic")
     {
@@ -34,11 +34,7 @@ trait AccessesUserProfile
 
         $url = sprintf($this->url . "/%s/%s?fields=$fields&access_token=%s", $this->graph_api_version, $user->getId(), $this->page_access_token);
 
-        try{
-            $response = $this->httpClient->get($url)->getBody()->getContents();
-            return UserProfile::create((array)json_decode($response));
-        }catch (\Exception $exception){
-            return null;
-        }
+        $response = $this->httpClient->get($url)->getBody()->getContents();
+        return UserProfile::create((array)json_decode($response));
     }
 }

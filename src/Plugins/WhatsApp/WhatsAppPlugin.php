@@ -13,18 +13,85 @@ use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
 use Andre\Bionic\Plugins\Messenger\Messages\Change;
 use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
+use Andre\Bionic\Plugins\WhatsApp\Traits\HandlesMedia;
+use Andre\Bionic\Plugins\WhatsApp\Traits\SendsMessages;
+use GuzzleHttp\Client as HttpClient;
 
 class WhatsAppPlugin extends AbstractBionicPlugin
 {
+    use SendsMessages, HandlesMedia;
+
+    /**
+     * @var HttpClient $httpClient
+     */
+    protected $httpClient;
+
     /**
      * @var WhatsAppWebHookEvent $webHookEvent
      */
     protected $webHookEvent;
 
     /**
+     * @var string $graph_api_version
+     */
+    protected $graph_api_version = 'v13.0';
+
+    /**
+     * @var string $phone_number_id
+     */
+    protected $phone_number_id;
+
+    /**
      * @var string $access_token
      */
     protected $access_token;
+
+    /**
+     * @var string $url
+     */
+    protected $url = "https://graph.facebook.com";
+
+    /**
+     * create new whatsApp plugin instance
+     *
+     * MessengerPlugin constructor.
+     * @param array $config
+     */
+    public function __construct($config = [])
+    {
+        parent::__construct($config);
+        $this->httpClient = $this->newHttpClient();
+    }
+
+    /**
+     * Set phone number id
+     *
+     * @param string $phone_number_id
+     */
+    public function setPhoneNumberId($phone_number_id)
+    {
+        $this->phone_number_id = $phone_number_id;
+    }
+
+    /**
+     * set new access token
+     *
+     * @param string $access_token
+     */
+    public function setAccessToken($access_token)
+    {
+        $this->access_token = $access_token;
+    }
+
+    /**
+     * set new graph api version
+     *
+     * @param $graph_api_version
+     */
+    public function setGraphApiVersion($graph_api_version)
+    {
+        $this->graph_api_version = $graph_api_version;
+    }
 
     /**
      * create a new web hook event from web hook data
@@ -44,6 +111,21 @@ class WhatsAppPlugin extends AbstractBionicPlugin
         $this->bionic = $bionic;
         $this->runPluginTasks();
         $this->iterateOverObjectsAndEmitEvents();
+    }
+
+    /**
+     * create new http client
+     *
+     * @return HttpClient
+     */
+    protected function newHttpClient()
+    {
+        return new HttpClient([
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'verify' => false
+        ]);
     }
 
     private function iterateOverObjectsAndEmitEvents()
@@ -87,22 +169,22 @@ class WhatsAppPlugin extends AbstractBionicPlugin
                                             $this->bionic->emit('message.contacts', [$this, $contacts, $sent_contacts]);
 
                                         if ($errors = $message->getErrors())
-                                            $this->bionic->emit('message.errors', [$this, $errors]);
+                                            $this->bionic->emit('message.errors', [$this, $contacts, $errors]);
 
                                         if ($image = $message->getImage())
-                                            $this->bionic->emit('message.image', [$this, $image]);
+                                            $this->bionic->emit('message.image', [$this, $contacts, $image]);
 
                                         if ($document = $message->getDocument())
-                                            $this->bionic->emit('message.document', [$this, $document]);
+                                            $this->bionic->emit('message.document', [$this, $contacts, $document]);
 
                                         if ($voice = $message->getVoice())
-                                            $this->bionic->emit('message.voice', [$this, $voice]);
+                                            $this->bionic->emit('message.voice', [$this, $contacts, $voice]);
 
                                         if ($sticker = $message->getSticker())
-                                            $this->bionic->emit('message.sticker', [$this, $sticker]);
+                                            $this->bionic->emit('message.sticker', [$this, $contacts, $sticker]);
 
                                         if ($system = $message->getSystem())
-                                            $this->bionic->emit('message.system', [$this, $system]);
+                                            $this->bionic->emit('message.system', [$this, $contacts, $system]);
                                     }
                                 }
 
@@ -138,5 +220,14 @@ class WhatsAppPlugin extends AbstractBionicPlugin
     {
         if (!$this->access_token)
             throw new \InvalidArgumentException('An access token has not been specified!');
+    }
+
+    /**
+     * check if access token has been provided before making any http request
+     */
+    protected function checkForPhoneNumberId()
+    {
+        if (!$this->phone_number_id)
+            throw new \InvalidArgumentException('A phone number id has not been specified!');
     }
 }
