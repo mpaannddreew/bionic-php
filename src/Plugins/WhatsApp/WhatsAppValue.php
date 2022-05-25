@@ -109,6 +109,24 @@ class WhatsAppValue extends AbstractMessage
     }
 
     /**
+     * @return string
+     */
+    public function getMessagingProduct()
+    {
+        return $this->messaging_product;
+    }
+
+    /**
+     * Get meta data
+     *
+     * @return MetaData
+     */
+    public function getMetadata()
+    {
+        return MetaData::create($this->metadata);
+    }
+
+    /**
      * Get contacts
      *
      * @return array

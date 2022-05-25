@@ -150,57 +150,58 @@ class WhatsAppPlugin extends AbstractBionicPlugin
                             $this->bionic->emit('change', [$this, $change]);
 
                             if ($value = $change->getValue()) {
+                                $meta = $value->getMetadata();
+                                $contacts = $value->getContacts();
                                 $this->bionic->emit('change.value', [$this, $change, $value]);
 
                                 if ($messages = $value->getMessages()) {
-                                    $contacts = $value->getContacts();
-                                    $this->bionic->emit('messages', [$this, $contacts, $messages]);
+                                    $this->bionic->emit('messages', [$this, $meta, $contacts, $messages]);
 
                                     foreach ($messages as $message) {
-                                        $this->bionic->emit('message', [$this, $contacts, $message]);
+                                        $this->bionic->emit('message', [$this, $meta, $contacts, $message]);
 
                                         if ($text = $message->getText())
-                                            $this->bionic->emit('message.text', [$this, $contacts, $message, $text]);
+                                            $this->bionic->emit('message.text', [$this, $meta, $contacts, $message, $text]);
 
                                         if ($location = $message->getLocation())
-                                            $this->bionic->emit('message.location', [$this, $contacts, $message, $location]);
+                                            $this->bionic->emit('message.location', [$this, $meta, $contacts, $message, $location]);
 
                                         if ($sent_contacts = $message->getContacts())
-                                            $this->bionic->emit('message.contacts', [$this, $contacts, $message, $sent_contacts]);
+                                            $this->bionic->emit('message.contacts', [$this, $meta, $contacts, $message, $sent_contacts]);
 
                                         if ($errors = $message->getErrors())
-                                            $this->bionic->emit('message.errors', [$this, $contacts, $message, $errors]);
+                                            $this->bionic->emit('message.errors', [$this, $meta, $contacts, $message, $errors]);
 
                                         if ($image = $message->getImage())
-                                            $this->bionic->emit('message.image', [$this, $contacts, $message, $image]);
+                                            $this->bionic->emit('message.image', [$this, $meta, $contacts, $message, $image]);
 
                                         if ($document = $message->getDocument())
-                                            $this->bionic->emit('message.document', [$this, $contacts, $message, $document]);
+                                            $this->bionic->emit('message.document', [$this, $meta, $contacts, $message, $document]);
 
                                         if ($voice = $message->getVoice())
-                                            $this->bionic->emit('message.voice', [$this, $contacts, $message, $voice]);
+                                            $this->bionic->emit('message.voice', [$this, $meta, $contacts, $message, $voice]);
 
                                         if ($sticker = $message->getSticker())
-                                            $this->bionic->emit('message.sticker', [$this, $contacts, $message, $sticker]);
+                                            $this->bionic->emit('message.sticker', [$this, $meta, $contacts, $message, $sticker]);
 
                                         if ($system = $message->getSystem())
-                                            $this->bionic->emit('message.system', [$this, $contacts, $message, $system]);
+                                            $this->bionic->emit('message.system', [$this, $meta, $contacts, $message, $system]);
                                     }
                                 }
 
                                 if ($statuses = $value->getStatuses()) {
-                                    $this->bionic->emit('statuses', [$this, $statuses]);
+                                    $this->bionic->emit('statuses', [$this, $meta, $statuses]);
 
                                     foreach ($statuses as $status) {
-                                        $this->bionic->emit('status', [$this, $status]);
+                                        $this->bionic->emit('status', [$this, $meta, $status]);
                                     }
                                 }
 
                                 if ($errors = $value->getErrors()) {
-                                    $this->bionic->emit('errors', [$this, $errors]);
+                                    $this->bionic->emit('errors', [$this, $meta, $errors]);
 
                                     foreach ($errors as $error) {
-                                        $this->bionic->emit('error', [$this, $error]);
+                                        $this->bionic->emit('error', [$this, $meta, $error]);
                                     }
                                 }
                             }
