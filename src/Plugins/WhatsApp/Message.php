@@ -90,6 +90,9 @@ class Message extends AbstractMessage
         return $this->type;
     }
 
+    /**
+     * @return null|Context
+     */
     public function getContext() {
         if ($this->context) {
             return Context::create($this->context);
@@ -98,6 +101,9 @@ class Message extends AbstractMessage
         return null;
     }
 
+    /**
+     * @return null|Text
+     */
     public function getText() {
         if ($this->text) {
             return Text::create($this->text);
@@ -106,6 +112,9 @@ class Message extends AbstractMessage
         return null;
     }
 
+    /**
+     * @return null|Location
+     */
     public function getLocation() {
         if ($this->location) {
             return Location::create($this->location);
@@ -133,6 +142,9 @@ class Message extends AbstractMessage
         return null;
     }
 
+    /**
+     * @return null|Image
+     */
     public function getImage() {
         if ($this->image) {
             return Image::create($this->image);
@@ -141,6 +153,9 @@ class Message extends AbstractMessage
         return null;
     }
 
+    /**
+     * @return null|Document
+     */
     public function getDocument() {
         if ($this->document) {
             return Document::create($this->document);
@@ -149,6 +164,9 @@ class Message extends AbstractMessage
         return null;
     }
 
+    /**
+     * @return null|Voice
+     */
     public function getVoice() {
         if ($this->voice) {
             return Voice::create($this->voice);
@@ -157,6 +175,9 @@ class Message extends AbstractMessage
         return null;
     }
 
+    /**
+     * @return null|Sticker
+     */
     public function getSticker() {
         if ($this->sticker) {
             return Sticker::create($this->sticker);
@@ -165,6 +186,9 @@ class Message extends AbstractMessage
         return null;
     }
 
+    /**
+     * @return null|System
+     */
     public function getSystem() {
         if ($this->system) {
             return System::create($this->system);
