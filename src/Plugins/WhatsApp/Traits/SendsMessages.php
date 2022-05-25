@@ -26,6 +26,26 @@ trait SendsMessages
     }
 
     /**
+     * Mark message as read
+     *
+     * @param $message_id
+     * @return mixed
+     */
+    public function markRead($message_id) {
+        $this->checkForPhoneNumberId();
+
+        $this->checkForAccessToken();
+
+        return $this->httpClient->post($this->messagingFullUrl(), [
+            'json' => [
+                "messaging_product" => "whatsapp",
+                "status" => "read",
+                "message_id" => $message_id
+            ]
+        ]);
+    }
+
+    /**
      * send message
      *
      * @param $data

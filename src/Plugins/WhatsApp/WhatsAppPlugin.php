@@ -160,31 +160,31 @@ class WhatsAppPlugin extends AbstractBionicPlugin
                                         $this->bionic->emit('message', [$this, $contacts, $message]);
 
                                         if ($text = $message->getText())
-                                            $this->bionic->emit('message.text', [$this, $contacts, $text]);
+                                            $this->bionic->emit('message.text', [$this, $contacts, $message, $text]);
 
                                         if ($location = $message->getLocation())
-                                            $this->bionic->emit('message.location', [$this, $contacts, $location]);
+                                            $this->bionic->emit('message.location', [$this, $contacts, $message, $location]);
 
                                         if ($sent_contacts = $message->getContacts())
-                                            $this->bionic->emit('message.contacts', [$this, $contacts, $sent_contacts]);
+                                            $this->bionic->emit('message.contacts', [$this, $contacts, $message, $sent_contacts]);
 
                                         if ($errors = $message->getErrors())
-                                            $this->bionic->emit('message.errors', [$this, $contacts, $errors]);
+                                            $this->bionic->emit('message.errors', [$this, $contacts, $message, $errors]);
 
                                         if ($image = $message->getImage())
-                                            $this->bionic->emit('message.image', [$this, $contacts, $image]);
+                                            $this->bionic->emit('message.image', [$this, $contacts, $message, $image]);
 
                                         if ($document = $message->getDocument())
-                                            $this->bionic->emit('message.document', [$this, $contacts, $document]);
+                                            $this->bionic->emit('message.document', [$this, $contacts, $message, $document]);
 
                                         if ($voice = $message->getVoice())
-                                            $this->bionic->emit('message.voice', [$this, $contacts, $voice]);
+                                            $this->bionic->emit('message.voice', [$this, $contacts, $message, $voice]);
 
                                         if ($sticker = $message->getSticker())
-                                            $this->bionic->emit('message.sticker', [$this, $contacts, $sticker]);
+                                            $this->bionic->emit('message.sticker', [$this, $contacts, $message, $sticker]);
 
                                         if ($system = $message->getSystem())
-                                            $this->bionic->emit('message.system', [$this, $contacts, $system]);
+                                            $this->bionic->emit('message.system', [$this, $contacts, $message, $system]);
                                     }
                                 }
 
