@@ -19,10 +19,10 @@ trait HandlesMedia
      */
     protected function retrieveMediaURL($media_id)
     {
-        $url = sprintf($this->url . "/%s/%s?access_token=%s", $this->graph_api_version, $media_id, $this->access_token);
+        $url = sprintf($this->url . "/%s/%s", $this->graph_api_version, $media_id);
 
         $this->checkForAccessToken();
 
-        return $this->httpClient->get($url);
+        return $this->httpClient->get($url, ['headers' => ['Authorization' => 'Bearer ' . $this->access_token]]);
     }
 }

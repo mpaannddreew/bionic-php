@@ -59,6 +59,7 @@ trait SendsMessages
         $this->checkForAccessToken();
 
         $response = $this->httpClient->post($this->messagingFullUrl(), [
+            'headers' => ['Authorization' => 'Bearer ' . $this->access_token],
             'json' => array_merge($data, [
                 "messaging_product" => "whatsapp",
                 "recipient_type" => "individual",
@@ -75,6 +76,6 @@ trait SendsMessages
      */
     protected function messagingFullUrl()
     {
-        return sprintf($this->url . "/%s/%s/messages?access_token=%s", $this->graph_api_version, $this->phone_number_id, $this->access_token);
+        return sprintf($this->url . "/%s/%s/messages", $this->graph_api_version, $this->phone_number_id);
     }
 }
