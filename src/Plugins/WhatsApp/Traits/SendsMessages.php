@@ -10,7 +10,7 @@ namespace Andre\Bionic\Plugins\WhatsApp\Traits;
 
 
 use Andre\Bionic\AbstractMessage;
-use Andre\Bionic\Plugins\WhatsApp\Message;
+use Andre\Bionic\Plugins\WhatsApp\WhatsAppValue;
 
 trait SendsMessages
 {
@@ -20,7 +20,7 @@ trait SendsMessages
      * @param AbstractMessage $message
      * @param $recipient
      * @param $type
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return WhatsAppValue
      */
     public function sendMessage($type, AbstractMessage $message, $recipient) {
         return $this->send(['type' => $type, 'to' => $recipient, $type => $message->toArray()]);
@@ -38,6 +38,10 @@ trait SendsMessages
         $this->checkForAccessToken();
 
         return $this->httpClient->post($this->messagingFullUrl(), [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->access_token,
+                'Content-Type' =>  'application/json'
+            ],
             'json' => [
                 "messaging_product" => "whatsapp",
                 "status" => "read",
@@ -49,8 +53,8 @@ trait SendsMessages
     /**
      * send message
      *
-     * @param $data
-     * @return Message
+     * @param array $data
+     * @return WhatsAppValue
      */
     protected function send(array $data)
     {
@@ -66,7 +70,7 @@ trait SendsMessages
             ])
         ]);
 
-        return Message::create(json_decode($response->getBody()->getContents(), true));
+        return WhatsAppValue::create(json_decode($response->getBody()->getContents(), true));
     }
 
     /**
