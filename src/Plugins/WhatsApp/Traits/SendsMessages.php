@@ -56,7 +56,7 @@ trait SendsMessages
      * @param array $data
      * @return WhatsAppValue
      */
-    protected function send(array $data)
+    public function send(array $data)
     {
         $this->checkForPhoneNumberId();
 

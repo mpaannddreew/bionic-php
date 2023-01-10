@@ -17,7 +17,7 @@ trait HandlesMedia
      * @param $media_id
      * @return string
      */
-    protected function retrieveMediaURL($media_id)
+    public function retrieveMediaURL($media_id)
     {
         $url = sprintf($this->url . "/%s/%s", $this->graph_api_version, $media_id);
 
