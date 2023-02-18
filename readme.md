@@ -7,6 +7,7 @@ It is driven by a very simple but powerful event dispatching library [Événemen
 ## Platform support
 
 * Facebook Messenger
+* WhatsApp
 * Instagram
 * Telegram
 * Viber
