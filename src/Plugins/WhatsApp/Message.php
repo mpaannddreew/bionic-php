@@ -16,7 +16,8 @@ use Andre\Bionic\Plugins\WhatsApp\Messages\Location;
 use Andre\Bionic\Plugins\WhatsApp\Messages\Sticker;
 use Andre\Bionic\Plugins\WhatsApp\Messages\System;
 use Andre\Bionic\Plugins\WhatsApp\Messages\Text;
-use Andre\Bionic\Plugins\WhatsApp\Messages\Voice;
+use Andre\Bionic\Plugins\WhatsApp\Messages\Audio;
+use Andre\Bionic\Plugins\WhatsApp\Messages\Video;
 
 class Message extends AbstractMessage
 {
@@ -44,7 +45,9 @@ class Message extends AbstractMessage
 
     protected $document = [];
 
-    protected $voice = [];
+    protected $audio = [];
+
+    protected $video = [];
 
     protected $sticker = [];
 
@@ -165,11 +168,22 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return null|Voice
+     * @return null|Video
      */
-    public function getVoice() {
-        if ($this->voice) {
-            return Voice::create($this->voice);
+    public function getVideo() {
+        if ($this->video) {
+            return Video::create($this->video);
+        }
+
+        return null;
+    }
+
+    /**
+     * @return null|Audio
+     */
+    public function getAudio() {
+        if ($this->audio) {
+            return Audio::create($this->audio);
         }
 
         return null;

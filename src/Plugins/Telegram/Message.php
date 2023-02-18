@@ -398,7 +398,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return string
+     * @return Text|null
      */
     public function getText()
     {

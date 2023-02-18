@@ -13,7 +13,7 @@ use Andre\Bionic\AbstractMessage;
 
 abstract class Media extends AbstractMessage
 {
-    protected $file;
+    protected $caption;
 
     protected $id;
 
@@ -24,9 +24,9 @@ abstract class Media extends AbstractMessage
     /**
      * @return mixed
      */
-    public function getFile()
+    public function getCaption()
     {
-        return $this->file;
+        return $this->caption;
     }
 
     /**

@@ -9,7 +9,7 @@
 namespace Andre\Bionic\Plugins\WhatsApp\Messages;
 
 
-class Image extends Document
+class Image extends Media
 {
 
 }

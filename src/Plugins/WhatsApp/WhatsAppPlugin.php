@@ -178,7 +178,7 @@ class WhatsAppPlugin extends AbstractBionicPlugin
                                         if ($document = $message->getDocument())
                                             $this->bionic->emit('message.document', [$this, $meta, $contacts, $message, $document]);
 
-                                        if ($voice = $message->getVoice())
+                                        if ($voice = $message->getAudio())
                                             $this->bionic->emit('message.voice', [$this, $meta, $contacts, $message, $voice]);
 
                                         if ($sticker = $message->getSticker())

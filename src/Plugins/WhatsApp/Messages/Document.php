@@ -11,13 +11,13 @@ namespace Andre\Bionic\Plugins\WhatsApp\Messages;
 
 class Document extends Media
 {
-    protected $caption;
+    protected $filename;
 
     /**
      * @return mixed
      */
-    public function getCaption()
+    public function getFilename()
     {
-        return $this->caption;
+        return $this->filename;
     }
 }
