@@ -21,12 +21,13 @@ trait AccessesInstagram
     /**
      * @param $page_id
      * @param $fields
+     * @param string $platform
      * @param string|null $user_id
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function conversations($page_id, $fields, $user_id = null) {
+    public function conversations($page_id, $fields, $platform = "instagram", $user_id = null) {
         $this->checkForPageAccessTokenAndGraphApiVersion();
-        $url = sprintf($this->url . "/%s/$page_id/conversations?platform=instagram&access_token=%s&fields=$fields", $this->graph_api_version, $this->page_access_token);
+        $url = sprintf($this->url . "/%s/$page_id/conversations?platform={$platform}&access_token=%s&fields=$fields", $this->graph_api_version, $this->page_access_token);
 
         if (!is_null($user_id)) {
             $url = "$url&user_id=$user_id";
