@@ -70,8 +70,7 @@ class ViberPlugin extends AbstractBionicPlugin
             'base_uri' => 'https://chatapi.viber.com/pa/',
             'headers' => [
                 'Content-Type' => 'application/json'
-            ],
-            'verify' => false
+            ]
         ]);
     }
 

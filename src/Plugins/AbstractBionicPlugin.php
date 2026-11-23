@@ -14,6 +14,7 @@ namespace Andre\Bionic\Plugins;
 use Andre\Bionic\AbstractWebHookEvent;
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Contracts\PluginInterface;
+use GuzzleHttp\Client as HttpClient;
 
 abstract class AbstractBionicPlugin implements PluginInterface
 {
@@ -38,6 +39,11 @@ abstract class AbstractBionicPlugin implements PluginInterface
     protected $webHookData;
 
     /**
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    /**
      * AbstractBionicPlugin constructor.
      * @param array $config
      */
@@ -45,6 +51,24 @@ abstract class AbstractBionicPlugin implements PluginInterface
     {
         $this->config = $config;
         $this->setUpConfigurations();
+    }
+
+    /**
+     * Replace the HTTP client the plugin sends requests with, e.g. to add
+     * timeouts, a proxy, retry middleware or a mock handler in tests.
+     *
+     * Set the headers your platform needs (WhatsApp, Messenger, Telegram and
+     * Viber all expect 'Content-Type: application/json') and, for Telegram and
+     * Viber, the base_uri the plugin's own client uses.
+     *
+     * @param HttpClient $httpClient
+     * @return $this
+     */
+    public function setHttpClient(HttpClient $httpClient)
+    {
+        $this->httpClient = $httpClient;
+
+        return $this;
     }
 
     /**

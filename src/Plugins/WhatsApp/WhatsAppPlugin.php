@@ -124,8 +124,7 @@ class WhatsAppPlugin extends AbstractBionicPlugin
         return new HttpClient([
             'headers' => [
                 'Content-Type' => 'application/json'
-            ],
-            'verify' => false
+            ]
         ]);
     }
 

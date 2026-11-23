@@ -68,8 +68,7 @@ class TelegramPlugin extends AbstractBionicPlugin
             'base_uri' => 'https://api.telegram.org/',
             'headers' => [
                 'Content-Type' => 'application/json'
-            ],
-            'verify' => false
+            ]
         ]);
     }
 
