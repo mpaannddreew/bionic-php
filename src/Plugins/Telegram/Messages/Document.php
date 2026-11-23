@@ -31,7 +31,7 @@ class Document extends File
     protected $mime_type;
 
     /**
-     * @return PhotoSize
+     * @return PhotoSize|null
      */
     public function getThumb()
     {

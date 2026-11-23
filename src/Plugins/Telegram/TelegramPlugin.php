@@ -28,7 +28,7 @@ class TelegramPlugin extends AbstractBionicPlugin
     protected $httpClient;
 
     /**
-     * @var $access_token
+     * @var string
      */
     protected $access_token;
 

@@ -89,6 +89,6 @@ abstract class AbstractBionicPlugin implements PluginInterface
      */
     public static function create($config = [])
     {
-        return new static($config);
+        return new static($config); // @phpstan-ignore new.static (subclasses add their own constructors)
     }
 }

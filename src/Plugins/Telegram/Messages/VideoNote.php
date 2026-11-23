@@ -47,7 +47,7 @@ class VideoNote extends File
     }
 
     /**
-     * @return PhotoSize
+     * @return PhotoSize|null
      */
     public function getThumb()
     {

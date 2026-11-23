@@ -39,7 +39,7 @@ class Video extends PhotoSize
     }
 
     /**
-     * @return PhotoSize
+     * @return PhotoSize|null
      */
     public function getThumb()
     {

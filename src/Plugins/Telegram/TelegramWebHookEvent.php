@@ -84,7 +84,7 @@ class TelegramWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getMessage()
     {
@@ -96,7 +96,7 @@ class TelegramWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getEditedMessage()
     {
@@ -108,7 +108,7 @@ class TelegramWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getChannelPost()
     {
@@ -120,7 +120,7 @@ class TelegramWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getEditedChannelPost()
     {

@@ -13,8 +13,6 @@ namespace Andre\Bionic\Plugins\WhatsApp;
 
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
-use Andre\Bionic\Plugins\Messenger\Messages\Change;
-use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
 use Andre\Bionic\Plugins\WhatsApp\Traits\HandlesMedia;
 use Andre\Bionic\Plugins\WhatsApp\Traits\SendsMessages;
 use GuzzleHttp\Client as HttpClient;
@@ -133,12 +131,6 @@ class WhatsAppPlugin extends AbstractBionicPlugin
 
     private function iterateOverObjectsAndEmitEvents()
     {
-        /**
-         * @var EntryItem $entryItem
-         * @var Change $change
-         * @var WhatsAppValue $value
-         * @var Message $message
-         */
         try {
             if ($entryItems = $this->webHookEvent->getEntryItems()) {
                 $this->bionic->emit('entry', [$this, $entryItems]);

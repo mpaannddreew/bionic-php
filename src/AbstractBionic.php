@@ -183,6 +183,6 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
      */
     public static function initialize()
     {
-        return new static();
+        return new static(); // @phpstan-ignore new.static (subclasses add their own constructors)
     }
 }

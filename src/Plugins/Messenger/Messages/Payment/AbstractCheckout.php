@@ -57,7 +57,7 @@ abstract class AbstractCheckout extends AbstractMessage
     /**
      * get amount
      *
-     * @return Amount
+     * @return Amount|null
      */
     public function getAmount()
     {

@@ -63,7 +63,7 @@ class Game extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getPhoto()
     {
@@ -86,7 +86,7 @@ class Game extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getTextEntities()
     {
@@ -103,7 +103,7 @@ class Game extends AbstractMessage
     }
 
     /**
-     * @return Animation
+     * @return Animation|null
      */
     public function getAnimation()
     {

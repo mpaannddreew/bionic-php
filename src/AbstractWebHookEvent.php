@@ -48,6 +48,6 @@ abstract class AbstractWebHookEvent implements WebHookEventInterface
      */
     public static function create($data = [])
     {
-        return new static($data);
+        return new static($data); // @phpstan-ignore new.static (subclasses add their own constructors)
     }
 }

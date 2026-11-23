@@ -55,7 +55,7 @@ trait SendsMessages
      * @param AbstractEndPoint $recipient
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendPlainText($text, $quick_replies = [], AbstractEndPoint $recipient)
+    public function sendPlainText($text, $quick_replies, AbstractEndPoint $recipient)
     {
         return $this->sendText(Text::create(['text' => $text]), $quick_replies, $recipient);
     }
@@ -69,7 +69,7 @@ trait SendsMessages
      * @param string $message_type
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendText(Text $message, $quick_replies = [], AbstractEndPoint $recipient, $message_type = "RESPONSE")
+    public function sendText(Text $message, $quick_replies, AbstractEndPoint $recipient, $message_type = "RESPONSE")
     {
         $data = [
             'recipient' => $recipient->toArray(),

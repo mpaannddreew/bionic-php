@@ -276,7 +276,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return User
+     * @return User|null
      */
     public function getFrom()
     {
@@ -296,7 +296,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Chat
+     * @return Chat|null
      */
     public function getChat()
     {
@@ -308,7 +308,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return User
+     * @return User|null
      */
     public function getForwardFrom()
     {
@@ -320,7 +320,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Chat
+     * @return Chat|null
      */
     public function getForwardFromChat()
     {
@@ -364,7 +364,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getReplyToMessage()
     {
@@ -412,7 +412,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getEntities()
     {
@@ -429,7 +429,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Animation
+     * @return Animation|null
      */
     public function getAnimation()
     {
@@ -441,7 +441,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Audio
+     * @return Audio|null
      */
     public function getAudio()
     {
@@ -453,7 +453,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Document
+     * @return Document|null
      */
     public function getDocument()
     {
@@ -465,7 +465,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getPhoto()
     {
@@ -490,7 +490,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Video
+     * @return Video|null
      */
     public function getVideo()
     {
@@ -502,7 +502,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return VideoNote
+     * @return VideoNote|null
      */
     public function getVideoNote()
     {
@@ -514,7 +514,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Voice
+     * @return Voice|null
      */
     public function getVoice()
     {
@@ -534,7 +534,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getCaptionEntities()
     {
@@ -551,7 +551,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Contact
+     * @return Contact|null
      */
     public function getContact()
     {
@@ -563,7 +563,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Dice
+     * @return Dice|null
      */
     public function getDice()
     {
@@ -575,7 +575,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Game
+     * @return Game|null
      */
     public function getGame()
     {
@@ -595,7 +595,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Venue
+     * @return Venue|null
      */
     public function getVenue()
     {
@@ -607,7 +607,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Location
+     * @return Location|null
      */
     public function getLocation()
     {
@@ -619,7 +619,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getNewChatMembers()
     {
@@ -636,7 +636,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return User
+     * @return User|null
      */
     public function getLeftChatMember()
     {
@@ -656,7 +656,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getNewChatPhoto()
     {
@@ -721,7 +721,7 @@ class Message extends AbstractMessage
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getPinnedMessage()
     {

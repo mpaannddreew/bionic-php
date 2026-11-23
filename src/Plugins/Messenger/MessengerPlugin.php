@@ -14,9 +14,6 @@ namespace Andre\Bionic\Plugins\Messenger;
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
 use Andre\Bionic\Plugins\Messenger\Messages\AbstractChannelItem;
-use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
-use Andre\Bionic\Plugins\Messenger\Messages\MessagingItem;
 use Andre\Bionic\Plugins\Messenger\Traits\AccessesInstagram;
 use Andre\Bionic\Plugins\Messenger\Traits\AccessesUserProfile;
 use Andre\Bionic\Plugins\Messenger\Traits\ManagesBotProfile;
@@ -38,7 +35,7 @@ class MessengerPlugin extends AbstractBionicPlugin
     protected $httpClient;
 
     /**
-     * @var $page_access_token
+     * @var string
      */
     protected $page_access_token;
 
@@ -140,11 +137,6 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function iterateOverEntryMessagesAndEmitEvents()
     {
-        /**
-         * @var EntryItem $entryItem
-         * @var MessagingItem $messagingItem
-         */
-
         try {
             if ($entryItems = $this->webHookEvent->getEntryItems()) {
                 $this->bionic->emit($this->event('entry'), [$this, $entryItems]);
@@ -246,10 +238,6 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function emitAbstractChannelEvents(AbstractChannelItem $channelItem, $channel = "messaging")
     {
-        /**
-         * @var AbstractAttachment $attachment
-         */
-
         $sender = $channelItem->getSender();
         $recipient = $channelItem->getRecipient();
 

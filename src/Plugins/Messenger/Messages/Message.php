@@ -24,7 +24,6 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\ReplyTo;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
-use Exception;
 
 class Message extends AbstractMessage
 {
@@ -114,6 +113,8 @@ class Message extends AbstractMessage
     protected function populateAttachmentItems()
     {
         foreach ($this->attachments as $attachment_item) {
+            $attachment = null;
+
             switch ($attachment_item['type']) {
                 case 'location':
                     $attachment = Location::create($attachment_item);
@@ -143,9 +144,9 @@ class Message extends AbstractMessage
                     break;
             }
 
-            try {
-                array_push($this->attachment_items, $attachment);
-            } catch (Exception $exception) {
+            // Unknown attachment types are skipped.
+            if ($attachment !== null) {
+                $this->attachment_items[] = $attachment;
             }
         }
     }
@@ -153,7 +154,7 @@ class Message extends AbstractMessage
     /**
      * get mid
      *
-     * @return int mixed
+     * @return string
      */
     public function getMid()
     {
@@ -163,7 +164,7 @@ class Message extends AbstractMessage
     /**
      * get text
      *
-     * @return Text
+     * @return Text|null
      */
     public function getText()
     {

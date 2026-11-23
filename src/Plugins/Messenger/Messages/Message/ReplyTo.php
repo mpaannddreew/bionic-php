@@ -16,7 +16,7 @@ use Andre\Bionic\AbstractMessage;
 class ReplyTo extends AbstractMessage
 {
     /**
-     * @var $mid
+     * @var string
      */
     protected $mid;
 

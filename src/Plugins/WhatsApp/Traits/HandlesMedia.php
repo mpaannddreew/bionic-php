@@ -14,10 +14,12 @@ namespace Andre\Bionic\Plugins\WhatsApp\Traits;
 trait HandlesMedia
 {
     /**
-     * Retrieve media url
+     * Retrieve a media object (url, mime_type, sha256, file_size, id).
      *
-     * @param $media_id
-     * @return string
+     * Returns the raw HTTP response; see retrieveMedia() for the decoded array.
+     *
+     * @param string $media_id
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function retrieveMediaURL($media_id)
     {

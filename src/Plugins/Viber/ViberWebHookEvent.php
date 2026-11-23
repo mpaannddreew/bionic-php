@@ -103,7 +103,7 @@ class ViberWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return User
+     * @return User|null
      */
     public function getUser()
     {
@@ -147,7 +147,7 @@ class ViberWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return User
+     * @return User|null
      */
     public function getSender()
     {
@@ -159,7 +159,7 @@ class ViberWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getMessage()
     {

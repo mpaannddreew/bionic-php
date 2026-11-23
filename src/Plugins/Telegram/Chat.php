@@ -158,7 +158,7 @@ class Chat extends AbstractMessage
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getPinnedMessage()
     {

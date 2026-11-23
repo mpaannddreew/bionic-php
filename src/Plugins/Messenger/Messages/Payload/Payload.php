@@ -22,17 +22,17 @@ class Payload extends AbstractMessage
     protected $url;
 
     /**
-     * @var $sticker_id
+     * @var int
      */
     protected $sticker_id;
 
     /**
-     * @var $message_id
+     * @var string
      */
     protected $message_id;
 
     /**
-     * @var $reaction
+     * @var string
      */
     protected $reaction;
 
@@ -49,7 +49,7 @@ class Payload extends AbstractMessage
     /**
      * get sticker_id
      *
-     * @return string
+     * @return int
      */
     public function getStickerId()
     {
