@@ -6,6 +6,8 @@
          colors="true"
          failOnRisky="true"
          failOnWarning="true"
+         failOnDeprecation="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
          beStrictAboutOutputDuringTests="true">
     <testsuites>
         <testsuite name="Bionic">

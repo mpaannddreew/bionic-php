@@ -1,0 +1,36 @@
+{
+  "update_id": 10001,
+  "message": {
+    "message_id": 1366,
+    "from": {
+      "id": 1111111,
+      "is_bot": false,
+      "first_name": "Test",
+      "username": "Testusername"
+    },
+    "chat": {
+      "id": 1111111,
+      "first_name": "Test",
+      "username": "Testusername",
+      "type": "private"
+    },
+    "date": 1441645550,
+    "photo": [
+      {
+        "file_id": "AgACAgQAAxkBAAIBZ2Small",
+        "file_unique_id": "AQADsmall",
+        "file_size": 1234,
+        "width": 90,
+        "height": 67
+      },
+      {
+        "file_id": "AgACAgQAAxkBAAIBZ2Large",
+        "file_unique_id": "AQADlarge",
+        "file_size": 56789,
+        "width": 800,
+        "height": 600
+      }
+    ],
+    "caption": "Taj Mahal"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "update_id": 10002,
+  "edited_message": {
+    "message_id": 1367,
+    "from": {
+      "id": 1111111,
+      "is_bot": false,
+      "first_name": "Test"
+    },
+    "chat": {
+      "id": 1111111,
+      "first_name": "Test",
+      "type": "private"
+    },
+    "date": 1441645560,
+    "edit_date": 1441645600,
+    "location": {
+      "latitude": 27.175015,
+      "longitude": 78.042155
+    }
+  }
+}
