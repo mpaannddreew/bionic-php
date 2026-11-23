@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments;
 
-
 class StoryMention extends AbstractAttachment
 {
     /**

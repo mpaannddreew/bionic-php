@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp\Messages;
 
-
 class Audio extends Media
 {
     /**

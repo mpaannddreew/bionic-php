@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class Context extends AbstractMessage

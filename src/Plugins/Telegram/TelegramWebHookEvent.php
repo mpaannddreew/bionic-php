@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Telegram;
 
-
 use Andre\Bionic\AbstractWebHookEvent;
 
 class TelegramWebHookEvent extends AbstractWebHookEvent

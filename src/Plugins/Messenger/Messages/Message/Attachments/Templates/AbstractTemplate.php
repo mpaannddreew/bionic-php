@@ -11,12 +11,10 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates;
 
-
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
 
 abstract class AbstractTemplate extends AbstractAttachment
 {
-
     /**
      * set type
      */

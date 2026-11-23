@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Coordinates;
 

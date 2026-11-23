@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Viber;
 
-
 use Andre\Bionic\AbstractWebHookEvent;
 
 class ViberWebHookEvent extends AbstractWebHookEvent

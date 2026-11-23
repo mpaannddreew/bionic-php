@@ -11,8 +11,6 @@
 
 namespace Andre\Bionic;
 
-
-
 use Andre\Bionic\Contracts\BionicInterface;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
 use Evenement\EventEmitter;
@@ -51,7 +49,9 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
      *
      * AbstractBionicClient constructor.
      */
-    public function __construct(){}
+    public function __construct()
+    {
+    }
 
     /**
      * set plugin to use
@@ -97,8 +97,9 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
      */
     public function listen($event, $listener)
     {
-        if (!is_null($this->eventPrefix))
+        if (!is_null($this->eventPrefix)) {
             $event = $this->eventPrefix . ".$event";
+        }
 
         $this->listen[$event][] = $listener;
         return $this;
@@ -110,8 +111,8 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
      */
     protected function registerEventListeners()
     {
-        foreach ($this->listen as $event => $listeners){
-            foreach ($listeners as $listener){
+        foreach ($this->listen as $event => $listeners) {
+            foreach ($listeners as $listener) {
                 $this->on($event, $listener);
             }
         }
@@ -120,9 +121,11 @@ abstract class AbstractBionic extends EventEmitter implements BionicInterface
     /**
      * execute client
      */
-    public function execute(){
-        if ($this->isExecuted())
+    public function execute()
+    {
+        if ($this->isExecuted()) {
             return;
+        }
 
         $this->hasExecuted();
         $this->registerEventListeners();

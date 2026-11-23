@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger;
 
-
 use Andre\Bionic\AbstractWebHookEvent;
 use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
 
@@ -47,8 +46,7 @@ class MessengerWebHookEvent extends AbstractWebHookEvent
      */
     protected function populateEntryMessages()
     {
-        foreach ($this->entry as $entry_item)
-        {
+        foreach ($this->entry as $entry_item) {
             array_push($this->entry_items, EntryItem::create($entry_item));
         }
     }

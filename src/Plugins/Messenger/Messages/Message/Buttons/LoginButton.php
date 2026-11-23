@@ -11,10 +11,8 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
-
 class LoginButton extends AbstractButton
 {
-
     /**
      * @var string $url
      */

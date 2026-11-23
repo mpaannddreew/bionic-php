@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp\Messages;
 
-
 use Andre\Bionic\AbstractMessage;
 
 abstract class Media extends AbstractMessage

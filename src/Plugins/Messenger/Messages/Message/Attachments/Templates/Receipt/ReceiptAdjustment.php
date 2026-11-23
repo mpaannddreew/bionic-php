@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Receipt;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class ReceiptAdjustment extends AbstractMessage

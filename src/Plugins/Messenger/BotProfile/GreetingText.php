@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\BotProfile;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class GreetingText extends AbstractMessage

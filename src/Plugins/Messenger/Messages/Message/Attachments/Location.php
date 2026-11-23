@@ -11,8 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments;
 
-
-
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\LocationPayLoad;
 
 class Location extends AbstractAttachment
@@ -62,8 +60,9 @@ class Location extends AbstractAttachment
      */
     public function getPayload()
     {
-        if ($this->payload)
+        if ($this->payload) {
             return LocationPayLoad::create($this->payload);
+        }
 
         return null;
     }

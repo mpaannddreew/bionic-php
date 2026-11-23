@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Receipt;
 
-
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\AbstractTemplate;
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\ReceiptTemplatePayload;
 
@@ -24,8 +23,9 @@ class ReceiptTemplate extends AbstractTemplate
      */
     public function getPayload()
     {
-        if ($this->payload)
+        if ($this->payload) {
             return ReceiptTemplatePayload::create($this->payload);
+        }
 
         return null;
     }

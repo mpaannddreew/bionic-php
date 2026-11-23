@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Viber\Traits;
 
-
 trait WebhookHandler
 {
     /**

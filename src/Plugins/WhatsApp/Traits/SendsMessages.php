@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp\Traits;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\WhatsApp\WhatsAppValue;
 
@@ -25,7 +24,8 @@ trait SendsMessages
      * @param $type
      * @return WhatsAppValue
      */
-    public function sendMessage($type, AbstractMessage $message, $recipient) {
+    public function sendMessage($type, AbstractMessage $message, $recipient)
+    {
         return $this->send(['type' => $type, 'to' => $recipient, $type => $message->toArray()]);
     }
 
@@ -35,7 +35,8 @@ trait SendsMessages
      * @param $message_id
      * @return mixed
      */
-    public function markRead($message_id) {
+    public function markRead($message_id)
+    {
         $this->checkForPhoneNumberId();
 
         $this->checkForAccessToken();

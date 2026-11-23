@@ -11,10 +11,9 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payment;
 
-
 use Andre\Bionic\AbstractMessage;
 
-class PaymentCredential extends  AbstractMessage
+class PaymentCredential extends AbstractMessage
 {
     /**
      * @var string $provider_type

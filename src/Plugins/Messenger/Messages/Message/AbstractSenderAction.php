@@ -11,20 +11,19 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-
 use Andre\Bionic\AbstractMessage;
 
 abstract class AbstractSenderAction extends AbstractMessage
 {
-    const MARK_SEEN = 'mark_seen';
+    public const MARK_SEEN = 'mark_seen';
 
-    const TYPING_ON = 'typing_on';
+    public const TYPING_ON = 'typing_on';
 
-    const TYPING_OFF = 'typing_off';
+    public const TYPING_OFF = 'typing_off';
 
-    const REACT = 'react';
+    public const REACT = 'react';
 
-    const UNREACT = 'unreact';
+    public const UNREACT = 'unreact';
 
     /**
      * @var string $sender_action
@@ -38,7 +37,7 @@ abstract class AbstractSenderAction extends AbstractMessage
     public function __construct(array $data = [])
     {
         parent::__construct($data);
-        if(!$this->getSenderAction()){
+        if (!$this->getSenderAction()) {
             $this->setSenderAction();
             $this->data['sender_action'] = $this->getSenderAction();
         }

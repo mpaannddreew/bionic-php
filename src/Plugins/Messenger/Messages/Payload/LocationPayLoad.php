@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Coordinates;
 
@@ -29,8 +28,9 @@ class LocationPayLoad extends AbstractMessage
      */
     public function getCoordinates()
     {
-        if ($this->coordinates)
+        if ($this->coordinates) {
             return Coordinates::create($this->coordinates);
+        }
 
         return null;
     }

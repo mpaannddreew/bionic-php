@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
 
-
 class OpenGraphTemplatePayload extends GenericTemplatePayload
 {
     /**

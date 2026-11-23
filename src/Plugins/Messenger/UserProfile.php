@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class UserProfile extends AbstractMessage

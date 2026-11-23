@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Telegram;
 
-
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
 use Andre\Bionic\Plugins\Telegram\Traits\Messaging;
@@ -20,7 +19,8 @@ use GuzzleHttp\Client as HttpClient;
 
 class TelegramPlugin extends AbstractBionicPlugin
 {
-    use WebhookHandler, Messaging;
+    use WebhookHandler;
+    use Messaging;
 
     /**
      * @var HttpClient
@@ -78,7 +78,8 @@ class TelegramPlugin extends AbstractBionicPlugin
      *
      * @return string
      */
-    protected function getToken() {
+    protected function getToken()
+    {
         $this->checkForAccessToken();
 
         return urlencode("bot" . $this->access_token);
@@ -107,7 +108,8 @@ class TelegramPlugin extends AbstractBionicPlugin
     /**
      * Dispatch telegram webhook events
      */
-    protected function dispatchWebhookEvents() {
+    protected function dispatchWebhookEvents()
+    {
         $update_id = $this->webHookEvent->getUpdateId();
 
         try {
@@ -147,7 +149,8 @@ class TelegramPlugin extends AbstractBionicPlugin
      * @param $update_id
      * @param Message $message
      */
-    protected function messageEvents($type, $update_id, Message $message) {
+    protected function messageEvents($type, $update_id, Message $message)
+    {
         $user = $message->getFrom();
         $chat = $message->getChat();
         $caption = $message->getCaption();
@@ -198,7 +201,8 @@ class TelegramPlugin extends AbstractBionicPlugin
      */
     protected function checkForAccessToken()
     {
-        if (!$this->access_token)
+        if (!$this->access_token) {
             throw new \InvalidArgumentException('An access token has not been specified!');
+        }
     }
 }

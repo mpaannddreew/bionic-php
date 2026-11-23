@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Audio;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Fallback;
@@ -114,9 +113,8 @@ class Message extends AbstractMessage
      */
     protected function populateAttachmentItems()
     {
-        foreach ($this->attachments as $attachment_item)
-        {
-            switch ($attachment_item['type']){
+        foreach ($this->attachments as $attachment_item) {
+            switch ($attachment_item['type']) {
                 case 'location':
                     $attachment = Location::create($attachment_item);
                     break;
@@ -145,9 +143,10 @@ class Message extends AbstractMessage
                     break;
             }
 
-            try{
+            try {
                 array_push($this->attachment_items, $attachment);
-            }catch (Exception $exception){}
+            } catch (Exception $exception) {
+            }
         }
     }
 
@@ -168,8 +167,9 @@ class Message extends AbstractMessage
      */
     public function getText()
     {
-        if ($this->text != null)
+        if ($this->text != null) {
             return Text::create()->setText($this->text);
+        }
 
         return null;
     }
@@ -201,8 +201,9 @@ class Message extends AbstractMessage
      */
     public function getQuickReply()
     {
-        if ($this->quick_reply)
+        if ($this->quick_reply) {
             return QuickReply::create($this->quick_reply);
+        }
 
         return null;
     }
@@ -214,8 +215,9 @@ class Message extends AbstractMessage
      */
     public function getReplyTo()
     {
-        if ($this->reply_to)
+        if ($this->reply_to) {
             return ReplyTo::create($this->reply_to);
+        }
 
         return null;
     }
@@ -227,8 +229,9 @@ class Message extends AbstractMessage
      */
     public function getNlp()
     {
-        if ($this->nlp)
+        if ($this->nlp) {
             return Nlp::create($this->nlp);
+        }
 
         return null;
     }
@@ -300,8 +303,9 @@ class Message extends AbstractMessage
      */
     public function getReferral()
     {
-        if ($this->referral)
+        if ($this->referral) {
             return Referral::create($this->referral);
+        }
 
         return null;
     }

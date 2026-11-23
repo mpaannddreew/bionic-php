@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Telegram;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class Chat extends AbstractMessage

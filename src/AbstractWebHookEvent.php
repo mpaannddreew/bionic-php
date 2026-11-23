@@ -11,14 +11,14 @@
 
 namespace Andre\Bionic;
 
-
 use Andre\Bionic\Contracts\WebHookEventInterface;
 use Andre\Bionic\Traits\IsADataWrapper;
 use Andre\Bionic\Traits\SetsProperties;
 
 abstract class AbstractWebHookEvent implements WebHookEventInterface
 {
-    use IsADataWrapper, SetsProperties;
+    use IsADataWrapper;
+    use SetsProperties;
 
     /**
      * AbstractWebHookEvent constructor.

@@ -11,13 +11,10 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
-
-
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
 
 class ShareButton extends AbstractButton
 {
-
     /**
      * @var array $share_contents
      */

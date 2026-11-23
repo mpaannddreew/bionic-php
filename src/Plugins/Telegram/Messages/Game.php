@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Telegram\Messages;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Telegram\MessageEntity;
 use Andre\Bionic\Plugins\Telegram\PhotoSize;

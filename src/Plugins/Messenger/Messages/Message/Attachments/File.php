@@ -11,11 +11,8 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments;
 
-
-
 class File extends AbstractAttachment
 {
-
     /**
      * set type
      */

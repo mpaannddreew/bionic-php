@@ -11,12 +11,10 @@
 
 namespace Andre\Bionic\Plugins\Telegram;
 
-
 use Andre\Bionic\Plugins\Telegram\Messages\File;
 
 class PhotoSize extends File
 {
-
     /**
      * @var int $width
      */

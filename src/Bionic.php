@@ -11,8 +11,6 @@
 
 namespace Andre\Bionic;
 
-
 class Bionic extends AbstractBionic
 {
-
 }

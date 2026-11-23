@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class Optin extends AbstractMessage

@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp\Traits;
 
-
 trait HandlesMedia
 {
     /**

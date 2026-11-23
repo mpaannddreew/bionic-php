@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons\AbstractButton;
 
@@ -177,7 +176,7 @@ class TemplateElement extends AbstractMessage
      */
     public function setButtons($buttons)
     {
-        foreach ($buttons as $button){
+        foreach ($buttons as $button) {
             array_push($this->buttons, $button->toArray());
         }
         $this->data['buttons'] = $this->getButtons();

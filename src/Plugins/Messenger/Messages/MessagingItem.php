@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
-
 use Andre\Bionic\Plugins\Messenger\Messages\Payment\CheckoutUpdate;
 use Andre\Bionic\Plugins\Messenger\Messages\Payment\Payment;
 use Andre\Bionic\Plugins\Messenger\Messages\Payment\PreCheckout;
@@ -95,8 +94,9 @@ class MessagingItem extends AbstractChannelItem
     public function __construct(array $data = [])
     {
         parent::__construct($data);
-        if (array_key_exists('policy-enforcement', $this->data))
+        if (array_key_exists('policy-enforcement', $this->data)) {
             $this->policy_enforcement = $this->data['policy-enforcement'];
+        }
     }
 
     /**
@@ -106,8 +106,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getPostback()
     {
-        if ($this->postback)
+        if ($this->postback) {
             return PostBack::create($this->postback);
+        }
 
         return null;
     }
@@ -119,8 +120,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getReferral()
     {
-        if ($this->referral)
+        if ($this->referral) {
             return Referral::create($this->referral);
+        }
 
         return null;
     }
@@ -132,8 +134,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getOptin()
     {
-        if ($this->optin)
+        if ($this->optin) {
             return Optin::create($this->optin);
+        }
 
         return null;
     }
@@ -145,8 +148,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getAccountLinking()
     {
-        if ($this->account_linking)
+        if ($this->account_linking) {
             return AccountLinking::create($this->account_linking);
+        }
 
         return null;
     }
@@ -158,8 +162,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getPolicyEnforcement()
     {
-        if ($this->policy_enforcement)
+        if ($this->policy_enforcement) {
             return PolicyEnforcement::create($this->policy_enforcement);
+        }
 
         return null;
     }
@@ -171,8 +176,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getPayment()
     {
-        if ($this->payment)
+        if ($this->payment) {
             return Payment::create($this->payment);
+        }
 
         return null;
     }
@@ -184,8 +190,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getCheckoutUpdate()
     {
-        if ($this->checkout_update)
+        if ($this->checkout_update) {
             return CheckoutUpdate::create($this->checkout_update);
+        }
 
         return null;
     }
@@ -197,8 +204,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getPreCheckout()
     {
-        if ($this->pre_checkout)
+        if ($this->pre_checkout) {
             return PreCheckout::create($this->pre_checkout);
+        }
 
         return null;
     }
@@ -210,8 +218,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getPassThreadControl()
     {
-        if ($this->pass_thread_control)
+        if ($this->pass_thread_control) {
             return PassThreadControl::create($this->pass_thread_control);
+        }
 
         return null;
     }
@@ -223,8 +232,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getTakeThreadControl()
     {
-        if ($this->take_thread_control)
+        if ($this->take_thread_control) {
             return TakeThreadControl::create($this->take_thread_control);
+        }
 
         return null;
     }
@@ -236,8 +246,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getRequestThreadControl()
     {
-        if ($this->request_thread_control)
+        if ($this->request_thread_control) {
             return RequestThreadControl::create($this->request_thread_control);
+        }
 
         return null;
     }
@@ -249,8 +260,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getPassMetadata()
     {
-        if ($this->pass_metadata)
+        if ($this->pass_metadata) {
             return PassMetaData::create($this->pass_metadata);
+        }
 
         return null;
     }
@@ -262,8 +274,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getAppRoles()
     {
-        if ($this->app_roles)
+        if ($this->app_roles) {
             return AppRoles::create($this->app_roles);
+        }
 
         return null;
     }
@@ -275,8 +288,9 @@ class MessagingItem extends AbstractChannelItem
      */
     public function getReaction()
     {
-        if ($this->reaction)
+        if ($this->reaction) {
             return Reaction::create($this->reaction);
+        }
         return null;
     }
 }

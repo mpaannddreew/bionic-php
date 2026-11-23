@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Traits;
 
-
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\AbstractEndPoint;
 use Andre\Bionic\Plugins\Messenger\UserProfile;
 

@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp\Contacts;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class Contact extends AbstractMessage

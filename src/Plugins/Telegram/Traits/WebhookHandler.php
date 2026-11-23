@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Telegram\Traits;
 
-
 trait WebhookHandler
 {
     /**
@@ -45,7 +44,8 @@ trait WebhookHandler
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getWebhookInfo() {
+    public function getWebhookInfo()
+    {
         return $this->httpClient->post($this->getToken() . '/getWebhookInfo');
     }
 }

@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Viber\Traits;
 
-
 use Andre\Bionic\Plugins\Viber\Messages\ViberMessage;
 use Andre\Bionic\Plugins\Viber\Sender;
 
@@ -25,7 +24,8 @@ trait Messaging
      * @param ViberMessage $message
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendMessage($subscriber, Sender $sender, ViberMessage $message) {
+    public function sendMessage($subscriber, Sender $sender, ViberMessage $message)
+    {
         $this->checkForAccessToken();
 
         return $this->httpClient->post('send_message', [
@@ -46,7 +46,8 @@ trait Messaging
      * @param ViberMessage $message
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendBroadcast(array $subscribers, Sender $sender, ViberMessage $message) {
+    public function sendBroadcast(array $subscribers, Sender $sender, ViberMessage $message)
+    {
         $this->checkForAccessToken();
 
         return $this->httpClient->post('broadcast_message', [

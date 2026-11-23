@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Contracts;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\AbstractBionic;
 

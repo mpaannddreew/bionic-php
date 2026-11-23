@@ -11,24 +11,23 @@
 
 namespace Andre\Bionic\Plugins\Viber\Messages;
 
-
 use Andre\Bionic\AbstractMessage;
 
 abstract class ViberMessage extends AbstractMessage
 {
-    CONST TEXT = 'text';
+    public const TEXT = 'text';
 
-    CONST PICTURE = 'picture';
+    public const PICTURE = 'picture';
 
-    CONST VIDEO = 'video';
+    public const VIDEO = 'video';
 
-    CONST FILE = 'file';
+    public const FILE = 'file';
 
-    CONST CONTACT = 'contact';
+    public const CONTACT = 'contact';
 
-    CONST LOCATION = 'location';
+    public const LOCATION = 'location';
 
-    CONST URL = 'url';
+    public const URL = 'url';
 
     /**
      * @var string $type
@@ -48,7 +47,7 @@ abstract class ViberMessage extends AbstractMessage
      * set message type
      * @return void
      */
-    protected abstract function setType();
+    abstract protected function setType();
 
     /**
      * @return string

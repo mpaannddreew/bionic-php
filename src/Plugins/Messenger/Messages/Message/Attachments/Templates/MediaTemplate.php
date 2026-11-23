@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates;
 
-
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\MediaTemplatePayload;
 
 class MediaTemplate extends AbstractTemplate
@@ -23,8 +22,9 @@ class MediaTemplate extends AbstractTemplate
      */
     public function getPayload()
     {
-        if ($this->payload)
+        if ($this->payload) {
             return MediaTemplatePayload::create($this->payload);
+        }
 
         return null;
     }

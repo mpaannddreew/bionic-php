@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\WhatsApp\Messages\Document;
 use Andre\Bionic\Plugins\WhatsApp\Messages\Image;
@@ -99,7 +98,8 @@ class Message extends AbstractMessage
     /**
      * @return null|Context
      */
-    public function getContext() {
+    public function getContext()
+    {
         if ($this->context) {
             return Context::create($this->context);
         }
@@ -110,7 +110,8 @@ class Message extends AbstractMessage
     /**
      * @return null|Text
      */
-    public function getText() {
+    public function getText()
+    {
         if ($this->text) {
             return Text::create($this->text);
         }
@@ -121,14 +122,16 @@ class Message extends AbstractMessage
     /**
      * @return null|Location
      */
-    public function getLocation() {
+    public function getLocation()
+    {
         if ($this->location) {
             return Location::create($this->location);
         }
         return null;
     }
 
-    public function getContacts() {
+    public function getContacts()
+    {
         if ($this->contacts) {
             return $this->contacts;
         }
@@ -136,7 +139,8 @@ class Message extends AbstractMessage
         return null;
     }
 
-    public function getErrors() {
+    public function getErrors()
+    {
         if ($this->errors) {
             $errors = [];
             foreach ($this->errors as $error) {
@@ -151,7 +155,8 @@ class Message extends AbstractMessage
     /**
      * @return null|Image
      */
-    public function getImage() {
+    public function getImage()
+    {
         if ($this->image) {
             return Image::create($this->image);
         }
@@ -162,7 +167,8 @@ class Message extends AbstractMessage
     /**
      * @return null|Document
      */
-    public function getDocument() {
+    public function getDocument()
+    {
         if ($this->document) {
             return Document::create($this->document);
         }
@@ -173,7 +179,8 @@ class Message extends AbstractMessage
     /**
      * @return null|Video
      */
-    public function getVideo() {
+    public function getVideo()
+    {
         if ($this->video) {
             return Video::create($this->video);
         }
@@ -184,7 +191,8 @@ class Message extends AbstractMessage
     /**
      * @return null|Audio
      */
-    public function getAudio() {
+    public function getAudio()
+    {
         if ($this->audio) {
             return Audio::create($this->audio);
         }
@@ -195,7 +203,8 @@ class Message extends AbstractMessage
     /**
      * @return null|Sticker
      */
-    public function getSticker() {
+    public function getSticker()
+    {
         if ($this->sticker) {
             return Sticker::create($this->sticker);
         }
@@ -206,7 +215,8 @@ class Message extends AbstractMessage
     /**
      * @return null|System
      */
-    public function getSystem() {
+    public function getSystem()
+    {
         if ($this->system) {
             return System::create($this->system);
         }

@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payment;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class UserInformation extends AbstractMessage
@@ -43,8 +42,9 @@ class UserInformation extends AbstractMessage
      */
     public function getShippingAddress()
     {
-        if ($this->shipping_address)
+        if ($this->shipping_address) {
             return ShippingAddress::create($this->shipping_address);
+        }
 
         return null;
     }

@@ -11,10 +11,8 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
-
 class CallButton extends AbstractButton
 {
-
     /**
      * @var string $title
      */

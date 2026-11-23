@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\Payload;
 
 abstract class AbstractReaction extends AbstractSenderAction

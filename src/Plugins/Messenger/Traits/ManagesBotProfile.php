@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Traits;
 
-
 use Andre\Bionic\Plugins\Messenger\BotProfile\GetStarted;
 
 trait ManagesBotProfile
@@ -55,7 +54,7 @@ trait ManagesBotProfile
     public function setGreetingText($greetings = [])
     {
         $data = [];
-        foreach ($greetings as $greeting){
+        foreach ($greetings as $greeting) {
             array_push($data, $greeting->toArray());
         }
 
@@ -99,7 +98,7 @@ trait ManagesBotProfile
     public function setPersistentMenu($persistent_menus = [])
     {
         $data = [];
-        foreach ($persistent_menus as $persistentMenu){
+        foreach ($persistent_menus as $persistentMenu) {
             array_push($data, $persistentMenu->toArray());
         }
 
@@ -123,21 +122,23 @@ trait ManagesBotProfile
 
         if ($greetings) {
             $_data = [];
-            foreach ($greetings as $greeting){
+            foreach ($greetings as $greeting) {
                 array_push($_data, $greeting->toArray());
             }
             $data['greeting'] = $_data;
         }
 
-        if ($getStarted)
+        if ($getStarted) {
             $data['get_started'] = $getStarted->toArray();
+        }
 
-        if ($domains)
+        if ($domains) {
             $data['whitelisted_domains'] = $domains;
+        }
 
-        if ($persistent_menus){
+        if ($persistent_menus) {
             $_data = [];
-            foreach ($persistent_menus as $persistent_menu){
+            foreach ($persistent_menus as $persistent_menu) {
                 array_push($_data, $persistent_menu->toArray());
             }
             $data['persistent_menu'] = $_data;

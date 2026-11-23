@@ -11,8 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments;
 
-
-
 class Fallback extends AbstractAttachment
 {
     /**

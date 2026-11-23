@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
 
-
 class ButtonTemplatePayload extends AbstractTemplatePayload
 {
     /**
@@ -73,7 +72,7 @@ class ButtonTemplatePayload extends AbstractTemplatePayload
      */
     public function setButtons($buttons)
     {
-        foreach ($buttons as $button){
+        foreach ($buttons as $button) {
             array_push($this->buttons, $button->toArray());
         }
         $this->data['buttons'] = $this->getButtons();

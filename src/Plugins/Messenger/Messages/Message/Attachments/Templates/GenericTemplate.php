@@ -11,12 +11,10 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates;
 
-
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\GenericTemplatePayload;
 
 class GenericTemplate extends AbstractTemplate
 {
-
     /**
      * get payload
      *
@@ -24,8 +22,9 @@ class GenericTemplate extends AbstractTemplate
      */
     public function getPayload()
     {
-        if ($this->payload)
+        if ($this->payload) {
             return GenericTemplatePayload::create($this->payload);
+        }
 
         return null;
     }

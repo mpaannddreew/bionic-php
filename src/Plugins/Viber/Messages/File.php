@@ -11,8 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Viber\Messages;
 
-
-
 class File extends ViberMessage
 {
     /**

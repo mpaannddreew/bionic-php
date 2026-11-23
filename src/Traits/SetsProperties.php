@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Traits;
 
-
 trait SetsProperties
 {
     /**
@@ -21,9 +20,10 @@ trait SetsProperties
      */
     protected function setProperties()
     {
-        foreach ($this->data as $key => $value){
-            if (property_exists($this, $key))
+        foreach ($this->data as $key => $value) {
+            if (property_exists($this, $key)) {
                 $this->{$key} = $value;
+            }
         }
     }
 }

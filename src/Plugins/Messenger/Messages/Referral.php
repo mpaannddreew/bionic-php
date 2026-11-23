@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
-
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Product;
 
 class Referral extends Optin
@@ -58,8 +57,9 @@ class Referral extends Optin
      */
     public function getProduct()
     {
-        if ($this->product)
+        if ($this->product) {
             return Product::create($this->product);
+        }
 
         return null;
     }

@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Contracts;
 
-
 interface DataWrapperInterface
 {
     /**

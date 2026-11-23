@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Telegram;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Telegram\Messages\Animation;
 use Andre\Bionic\Plugins\Telegram\Messages\Audio;
@@ -126,7 +125,7 @@ class Message extends AbstractMessage
     /**
      * @var array $photo
      */
-    protected  $photo = [];
+    protected $photo = [];
 
     /**
      * @var array $sticker

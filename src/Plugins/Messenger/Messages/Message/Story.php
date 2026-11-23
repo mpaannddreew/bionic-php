@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class Story extends AbstractMessage

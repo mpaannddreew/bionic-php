@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\WhatsApp\Contacts\Contact;
 
@@ -78,7 +77,8 @@ class WhatsAppValue extends AbstractMessage
     /**
      * populate contacts
      */
-    protected function populateContacts() {
+    protected function populateContacts()
+    {
         foreach ($this->contacts as $contact) {
             array_push($this->contact_objects, Contact::create($contact));
         }
@@ -87,7 +87,8 @@ class WhatsAppValue extends AbstractMessage
     /**
      * populate messages
      */
-    protected function populateMessages() {
+    protected function populateMessages()
+    {
         foreach ($this->messages as $message) {
             array_push($this->message_objects, Message::create($message));
         }
@@ -96,7 +97,8 @@ class WhatsAppValue extends AbstractMessage
     /**
      * populate statuses
      */
-    protected function populateStatuses() {
+    protected function populateStatuses()
+    {
         foreach ($this->statuses as $status) {
             array_push($this->status_objects, Status::create($status));
         }
@@ -105,7 +107,8 @@ class WhatsAppValue extends AbstractMessage
     /**
      * populate errors
      */
-    protected function populateErrors() {
+    protected function populateErrors()
+    {
         foreach ($this->errors as $error) {
             array_push($this->error_objects, Error::create($error));
         }
@@ -134,7 +137,8 @@ class WhatsAppValue extends AbstractMessage
      *
      * @return array
      */
-    public function getContacts() {
+    public function getContacts()
+    {
         return $this->contact_objects;
     }
 
@@ -143,7 +147,8 @@ class WhatsAppValue extends AbstractMessage
      *
      * @return array
      */
-    public function getMessages() {
+    public function getMessages()
+    {
         return $this->message_objects;
     }
 
@@ -152,7 +157,8 @@ class WhatsAppValue extends AbstractMessage
      *
      * @return array
      */
-    public function getStatuses() {
+    public function getStatuses()
+    {
         return $this->status_objects;
     }
 
@@ -161,7 +167,8 @@ class WhatsAppValue extends AbstractMessage
      *
      * @return array
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->error_objects;
     }
 }

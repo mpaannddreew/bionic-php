@@ -11,10 +11,8 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-
 class TypingOff extends AbstractSenderAction
 {
-
     /**
      * set sender action
      */

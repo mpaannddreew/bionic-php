@@ -11,8 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payment;
 
-
 class PreCheckout extends AbstractCheckout
 {
-
 }

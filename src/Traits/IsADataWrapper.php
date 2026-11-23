@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Traits;
 
-
 trait IsADataWrapper
 {
     /**
@@ -24,7 +23,8 @@ trait IsADataWrapper
      *
      * @return array
      */
-    public function toArray(){
+    public function toArray()
+    {
         return $this->data;
     }
 
@@ -34,7 +34,8 @@ trait IsADataWrapper
      * @param int $options
      * @return string
      */
-    public function toJson($options = 0){
+    public function toJson($options = 0)
+    {
         return json_encode($this->toArray(), $options);
     }
 
@@ -43,7 +44,8 @@ trait IsADataWrapper
      *
      * @return string
      */
-    public function __toString(){
+    public function __toString()
+    {
         return $this->toJson();
     }
 }

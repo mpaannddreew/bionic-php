@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Traits;
 
-
 trait AccessesInstagram
 {
     /**
@@ -21,7 +20,8 @@ trait AccessesInstagram
      * @param string|null $user_id
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function conversations($page_id, $fields, $platform = "instagram", $user_id = null) {
+    public function conversations($page_id, $fields, $platform = "instagram", $user_id = null)
+    {
         $this->checkForPageAccessTokenAndGraphApiVersion();
         $url = sprintf($this->url . "/%s/$page_id/conversations?platform={$platform}&access_token=%s&fields=$fields", $this->graph_api_version, $this->page_access_token);
 
@@ -37,7 +37,8 @@ trait AccessesInstagram
      * @param $fields
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function thread($thread_id, $fields) {
+    public function thread($thread_id, $fields)
+    {
         $this->checkForPageAccessTokenAndGraphApiVersion();
         $url = sprintf($this->url . "/%s/$thread_id?access_token=%s&fields=$fields", $this->graph_api_version, $this->page_access_token);
 
@@ -50,7 +51,8 @@ trait AccessesInstagram
      * @param $fields
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function message($message_id, $fields) {
+    public function message($message_id, $fields)
+    {
         $this->checkForPageAccessTokenAndGraphApiVersion();
         $url = sprintf($this->url . "/%s/$message_id?access_token=%s&fields=$fields", $this->graph_api_version, $this->page_access_token);
 

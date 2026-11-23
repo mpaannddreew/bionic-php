@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Telegram\Messages;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class Text extends AbstractMessage

@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payment;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class Shipping extends AbstractMessage

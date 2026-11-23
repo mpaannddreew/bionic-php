@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class PostBack extends AbstractMessage
@@ -73,8 +72,9 @@ class PostBack extends AbstractMessage
      */
     public function getReferral()
     {
-        if ($this->referral)
+        if ($this->referral) {
             return Referral::create($this->referral);
+        }
 
         return null;
     }

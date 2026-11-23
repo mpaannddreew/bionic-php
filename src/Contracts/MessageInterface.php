@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Contracts;
 
-
 interface MessageInterface extends DataWrapperInterface
 {
     /**

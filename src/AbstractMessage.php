@@ -11,14 +11,14 @@
 
 namespace Andre\Bionic;
 
-
 use Andre\Bionic\Contracts\MessageInterface;
 use Andre\Bionic\Traits\IsADataWrapper;
 use Andre\Bionic\Traits\SetsProperties;
 
 abstract class AbstractMessage implements MessageInterface
 {
-    use IsADataWrapper, SetsProperties;
+    use IsADataWrapper;
+    use SetsProperties;
 
     /**
      * new message instance

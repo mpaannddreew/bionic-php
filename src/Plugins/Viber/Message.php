@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Viber;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Viber\Messages\Contact;
 use Andre\Bionic\Plugins\Viber\Messages\File;
@@ -87,7 +86,8 @@ class Message extends AbstractMessage
     /**
      * @return Text|null
      */
-    public function getText() {
+    public function getText()
+    {
         if ($this->type === 'text') {
             return Text::create(['text' => $this->text]);
         }
@@ -98,7 +98,8 @@ class Message extends AbstractMessage
     /**
      * @return Image|null
      */
-    public function getImage() {
+    public function getImage()
+    {
         if ($this->type === 'picture') {
             return Image::create(['text' => $this->text, 'media' => $this->media]);
         }
@@ -109,7 +110,8 @@ class Message extends AbstractMessage
     /**
      * @return Url|null
      */
-    public function getUrl() {
+    public function getUrl()
+    {
         if ($this->type === 'url') {
             return Url::create(['media' => $this->media]);
         }
@@ -120,7 +122,8 @@ class Message extends AbstractMessage
     /**
      * @return Location|null
      */
-    public function getLocation() {
+    public function getLocation()
+    {
         if ($this->location) {
             return Location::create($this->location);
         }
@@ -131,7 +134,8 @@ class Message extends AbstractMessage
     /**
      * @return Contact|null
      */
-    public function getContact() {
+    public function getContact()
+    {
         if ($this->contact) {
             return Contact::create($this->contact);
         }
@@ -142,7 +146,8 @@ class Message extends AbstractMessage
     /**
      * @return Video|null
      */
-    public function getVideo() {
+    public function getVideo()
+    {
         if ($this->type === 'video') {
             return Video::create(['duration' => $this->duration, 'media' => $this->media]);
         }
@@ -153,7 +158,8 @@ class Message extends AbstractMessage
     /**
      * @return File|null
      */
-    public function getFile() {
+    public function getFile()
+    {
         if ($this->type === 'file') {
             return File::create(['size' => $this->file_size, 'media' => $this->media, 'file_name' => $this->file_name]);
         }

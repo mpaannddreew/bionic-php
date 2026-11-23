@@ -29,7 +29,7 @@ trait SendsMessages
     public function sendShippingOptions($shipping_list = [])
     {
         $data = [];
-        foreach ($shipping_list as $item){
+        foreach ($shipping_list as $item) {
             array_push($data, $item->toArray());
         }
 
@@ -77,10 +77,9 @@ trait SendsMessages
             'messaging_type' => $message_type
         ];
 
-        if ($quick_replies)
-        {
+        if ($quick_replies) {
             $data['message']['quick_replies'] = [];
-            foreach ($quick_replies as $quick_reply){
+            foreach ($quick_replies as $quick_reply) {
                 array_push($data['message']['quick_replies'], $quick_reply->toArray());
             }
         }
@@ -113,9 +112,9 @@ trait SendsMessages
      * @param AbstractEndPoint $recipient
      * @param string $type
      */
-    public function sendAction(AbstractEndPoint $recipient, $type = 'mark_seen'){
-        switch ($type)
-        {
+    public function sendAction(AbstractEndPoint $recipient, $type = 'mark_seen')
+    {
+        switch ($type) {
             case 'typing_off':
                 $action = TypingOff::create();
                 break;

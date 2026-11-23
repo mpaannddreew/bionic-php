@@ -11,6 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
-
 class TakeThreadControl extends PassThreadControl
-{}
+{
+}

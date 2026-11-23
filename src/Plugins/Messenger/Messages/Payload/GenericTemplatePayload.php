@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
 
-
 class GenericTemplatePayload extends AbstractTemplatePayload
 {
     /**
@@ -45,7 +44,7 @@ class GenericTemplatePayload extends AbstractTemplatePayload
      */
     public function setElements($elements)
     {
-        foreach ($elements as $element){
+        foreach ($elements as $element) {
             array_push($this->elements, $element->toArray());
         }
         $this->data['elements'] = $this->getElements();

@@ -11,10 +11,8 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
-
 class LogoutButton extends AbstractButton
 {
-
     /**
      * set button type
      */

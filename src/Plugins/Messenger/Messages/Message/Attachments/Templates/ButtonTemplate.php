@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates;
 
-
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\ButtonTemplatePayload;
 
 class ButtonTemplate extends AbstractTemplate
@@ -23,8 +22,9 @@ class ButtonTemplate extends AbstractTemplate
      */
     public function getPayload()
     {
-        if ($this->payload)
+        if ($this->payload) {
             return ButtonTemplatePayload::create($this->payload);
+        }
 
         return null;
     }

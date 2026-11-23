@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins;
 
-
 use Andre\Bionic\AbstractWebHookEvent;
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Contracts\PluginInterface;
@@ -54,8 +53,9 @@ abstract class AbstractBionicPlugin implements PluginInterface
     protected function setUpConfigurations()
     {
         foreach ($this->config as $key => $value) {
-            if (property_exists($this, $key))
+            if (property_exists($this, $key)) {
                 $this->{$key} = $value;
+            }
         }
     }
 

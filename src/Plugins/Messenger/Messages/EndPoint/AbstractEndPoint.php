@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\EndPoint;
 
-
 use Andre\Bionic\AbstractMessage;
 
 abstract class AbstractEndPoint extends AbstractMessage

@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Viber\Traits;
 
-
 trait AccountHandler
 {
     /**
@@ -19,7 +18,8 @@ trait AccountHandler
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getAccountInfo() {
+    public function getAccountInfo()
+    {
         $this->checkForAccessToken();
 
         return $this->httpClient->post('get_account_info', [
@@ -33,7 +33,8 @@ trait AccountHandler
      * @param $subscriber
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getUserDetails($subscriber) {
+    public function getUserDetails($subscriber)
+    {
         $this->checkForAccessToken();
 
         return $this->httpClient->post('get_user_details', [
@@ -50,7 +51,8 @@ trait AccountHandler
      * @param $subscribers
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getOnline($subscribers) {
+    public function getOnline($subscribers)
+    {
         $this->checkForAccessToken();
 
         return $this->httpClient->post('get_online', [

@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp\Messages;
 
-
 class Document extends Media
 {
     protected $filename;

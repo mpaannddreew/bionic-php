@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
-
 class BuyButton extends PostBackButton
 {
     /**
@@ -32,7 +31,7 @@ class BuyButton extends PostBackButton
     /**
      * @var bool $is_test_payment
      */
-    protected $is_test_payment = False;
+    protected $is_test_payment = false;
 
     /**
      * @var string $merchant_name

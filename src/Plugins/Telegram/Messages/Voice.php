@@ -11,7 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Telegram\Messages;
 
-
 class Voice extends File
 {
     /**

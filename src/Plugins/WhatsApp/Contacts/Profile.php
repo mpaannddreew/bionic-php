@@ -11,14 +11,14 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp\Contacts;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class Profile extends AbstractMessage
 {
     protected $name;
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 }

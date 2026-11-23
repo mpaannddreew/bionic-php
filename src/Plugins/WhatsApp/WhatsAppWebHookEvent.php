@@ -11,7 +11,8 @@
 
 namespace Andre\Bionic\Plugins\WhatsApp;
 
-
 use Andre\Bionic\Plugins\Messenger\MessengerWebHookEvent;
 
-class WhatsAppWebHookEvent extends MessengerWebHookEvent {}
+class WhatsAppWebHookEvent extends MessengerWebHookEvent
+{
+}

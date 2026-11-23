@@ -11,8 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
-
-
 class Delivery extends Read
 {
     /**

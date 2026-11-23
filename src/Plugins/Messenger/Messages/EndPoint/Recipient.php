@@ -11,8 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\EndPoint;
 
-
 class Recipient extends AbstractEndPoint
 {
-
 }
