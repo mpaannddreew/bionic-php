@@ -116,7 +116,7 @@ trait ManagesBotProfile
      * @param array $persistent_menus
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function setProperties($greetings = [], GetStarted $getStarted = null, $domains = [], $persistent_menus = [])
+    public function setProperties($greetings = [], ?GetStarted $getStarted = null, $domains = [], $persistent_menus = [])
     {
         $data = [];
 
