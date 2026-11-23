@@ -1,9 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: hp
- * Date: 20/05/2022
- * Time: 15:18
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\WhatsApp;
