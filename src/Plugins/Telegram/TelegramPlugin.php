@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpaannddreew
- * Date: 6/2/20
- * Time: 2:40 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\Telegram;
-
 
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
@@ -17,7 +19,8 @@ use GuzzleHttp\Client as HttpClient;
 
 class TelegramPlugin extends AbstractBionicPlugin
 {
-    use WebhookHandler, Messaging;
+    use WebhookHandler;
+    use Messaging;
 
     /**
      * @var HttpClient
@@ -25,7 +28,7 @@ class TelegramPlugin extends AbstractBionicPlugin
     protected $httpClient;
 
     /**
-     * @var $access_token
+     * @var string
      */
     protected $access_token;
 
@@ -65,8 +68,7 @@ class TelegramPlugin extends AbstractBionicPlugin
             'base_uri' => 'https://api.telegram.org/',
             'headers' => [
                 'Content-Type' => 'application/json'
-            ],
-            'verify' => false
+            ]
         ]);
     }
 
@@ -75,7 +77,8 @@ class TelegramPlugin extends AbstractBionicPlugin
      *
      * @return string
      */
-    protected function getToken() {
+    protected function getToken()
+    {
         $this->checkForAccessToken();
 
         return urlencode("bot" . $this->access_token);
@@ -104,7 +107,8 @@ class TelegramPlugin extends AbstractBionicPlugin
     /**
      * Dispatch telegram webhook events
      */
-    protected function dispatchWebhookEvents() {
+    protected function dispatchWebhookEvents()
+    {
         $update_id = $this->webHookEvent->getUpdateId();
 
         try {
@@ -144,7 +148,8 @@ class TelegramPlugin extends AbstractBionicPlugin
      * @param $update_id
      * @param Message $message
      */
-    protected function messageEvents($type, $update_id, Message $message) {
+    protected function messageEvents($type, $update_id, Message $message)
+    {
         $user = $message->getFrom();
         $chat = $message->getChat();
         $caption = $message->getCaption();
@@ -195,7 +200,8 @@ class TelegramPlugin extends AbstractBionicPlugin
      */
     protected function checkForAccessToken()
     {
-        if (!$this->access_token)
+        if (!$this->access_token) {
             throw new \InvalidArgumentException('An access token has not been specified!');
+        }
     }
 }

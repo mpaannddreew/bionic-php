@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-11
- * Time: 11:01 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
-
 
 class BuyButton extends PostBackButton
 {
@@ -36,7 +31,7 @@ class BuyButton extends PostBackButton
     /**
      * @var bool $is_test_payment
      */
-    protected $is_test_payment = False;
+    protected $is_test_payment = false;
 
     /**
      * @var string $merchant_name

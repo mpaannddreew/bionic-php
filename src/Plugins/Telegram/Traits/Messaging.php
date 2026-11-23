@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpaannddreew
- * Date: 6/3/20
- * Time: 7:25 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\Telegram\Traits;
-
 
 use Andre\Bionic\Plugins\Telegram\Message;
 use Andre\Bionic\Plugins\Telegram\Messages\Contact;
@@ -18,13 +20,13 @@ use Andre\Bionic\Plugins\Telegram\User;
 
 trait Messaging
 {
-
     /**
      * Get bot information
      *
      * @return User
      */
-    public function getMe() {
+    public function getMe()
+    {
         $response = $this->httpClient->post($this->getToken() . "/getMe");
 
         return User::create(json_decode($response->getBody()->getContents())->result);
@@ -36,7 +38,8 @@ trait Messaging
      * @param \Psr\Http\Message\ResponseInterface $response
      * @return Message
      */
-    protected function message(\Psr\Http\Message\ResponseInterface $response) {
+    protected function message(\Psr\Http\Message\ResponseInterface $response)
+    {
         return Message::create(json_decode($response->getBody()->getContents())->result);
     }
 
@@ -47,7 +50,8 @@ trait Messaging
      * @param Text $text
      * @return Message
      */
-    public function sendText($chat, Text $text) {
+    public function sendText($chat, Text $text)
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendMessage', [
             'json' => array_merge(['chat_id' => $chat], $text->toArray())
         ]));
@@ -61,7 +65,8 @@ trait Messaging
      * @param string $caption
      * @return Message
      */
-    public function sendPhoto($chat, $photo, $caption = '') {
+    public function sendPhoto($chat, $photo, $caption = '')
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendPhoto', [
             'json' => [
                 'chat_id' => $chat,
@@ -79,7 +84,8 @@ trait Messaging
      * @param string $caption
      * @return Message
      */
-    public function sendAudio($chat, $audio, $caption = '') {
+    public function sendAudio($chat, $audio, $caption = '')
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendAudio', [
             'json' => [
                 'chat_id' => $chat,
@@ -97,7 +103,8 @@ trait Messaging
      * @param string $caption
      * @return Message
      */
-    public function sendDocument($chat, $document, $caption = '') {
+    public function sendDocument($chat, $document, $caption = '')
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendDocument', [
             'json' => [
                 'chat_id' => $chat,
@@ -115,7 +122,8 @@ trait Messaging
      * @param string $caption
      * @return Message
      */
-    public function sendVideo($chat, $video, $caption = '') {
+    public function sendVideo($chat, $video, $caption = '')
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendVideo', [
             'json' => [
                 'chat_id' => $chat,
@@ -133,7 +141,8 @@ trait Messaging
      * @param string $caption
      * @return Message
      */
-    public function sendAnimation($chat, $animation, $caption = '') {
+    public function sendAnimation($chat, $animation, $caption = '')
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendAnimation', [
             'json' => [
                 'chat_id' => $chat,
@@ -151,7 +160,8 @@ trait Messaging
      * @param string $caption
      * @return Message
      */
-    public function sendVoice($chat, $voice, $caption = '') {
+    public function sendVoice($chat, $voice, $caption = '')
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendVoice', [
             'json' => [
                 'chat_id' => $chat,
@@ -168,7 +178,8 @@ trait Messaging
      * @param Contact $contact
      * @return Message
      */
-    public function sendContact($chat, Contact $contact) {
+    public function sendContact($chat, Contact $contact)
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendContact', [
             'json' => array_merge(['chat_id' => $chat], $contact->toArray())
         ]));
@@ -181,7 +192,8 @@ trait Messaging
      * @param Location $location
      * @return Message
      */
-    public function sendLocation($chat, Location $location) {
+    public function sendLocation($chat, Location $location)
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendLocation', [
             'json' => array_merge(['chat_id' => $chat], $location->toArray())
         ]));
@@ -194,7 +206,8 @@ trait Messaging
      * @param Venue $venue
      * @return Message
      */
-    public function sendVenue($chat, Venue $venue) {
+    public function sendVenue($chat, Venue $venue)
+    {
         return $this->message($this->httpClient->post($this->getToken() . '/sendVenue', [
             'json' => array_merge([
                 'chat_id' => $chat,

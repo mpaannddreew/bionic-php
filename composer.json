@@ -1,8 +1,22 @@
 {
     "name": "andre/bionic",
     "type": "library",
-    "description": "Bionic is a simple chat bot development library in PHP",
-    "keywords": ["library", "php", "chatbots", "messenger", "facebook", "messenger api", "telegram", "viber", "instagram"],
+    "description": "Event-driven chatbot and messaging library for PHP: WhatsApp Cloud API, Messenger, Instagram, Telegram and Viber webhooks and messaging",
+    "keywords": [
+        "library",
+        "php",
+        "chatbots",
+        "whatsapp",
+        "whatsapp-cloud-api",
+        "webhooks",
+        "messenger",
+        "facebook",
+        "messenger api",
+        "instagram",
+        "telegram",
+        "viber"
+    ],
+    "homepage": "https://github.com/mpaannddreew/bionic-php",
     "license": "MIT",
     "authors": [
         {
@@ -10,13 +24,41 @@
             "email": "andrewmvp007@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/mpaannddreew/bionic-php/issues",
+        "source": "https://github.com/mpaannddreew/bionic-php"
+    },
     "require": {
+        "php": "^8.2",
+        "ext-json": "*",
         "evenement/evenement": "^3.0",
-        "guzzlehttp/guzzle": "^7.2"
+        "guzzlehttp/guzzle": "^7.15.2"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5"
     },
     "autoload": {
         "psr-4": {
             "Andre\\Bionic\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Andre\\Bionic\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse --no-progress --memory-limit=512M",
+        "lint": "php-cs-fixer fix --dry-run --diff",
+        "lint:fix": "php-cs-fixer fix"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "sort-packages": true
     }
 }

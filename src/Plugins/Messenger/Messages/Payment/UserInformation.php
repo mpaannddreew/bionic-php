@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-11
- * Time: 11:57 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payment;
-
 
 use Andre\Bionic\AbstractMessage;
 
@@ -47,8 +42,9 @@ class UserInformation extends AbstractMessage
      */
     public function getShippingAddress()
     {
-        if ($this->shipping_address)
+        if ($this->shipping_address) {
             return ShippingAddress::create($this->shipping_address);
+        }
 
         return null;
     }

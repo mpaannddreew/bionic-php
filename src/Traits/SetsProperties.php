@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-03
- * Time: 9:00 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,7 +11,6 @@
 
 namespace Andre\Bionic\Traits;
 
-
 trait SetsProperties
 {
     /**
@@ -25,9 +20,10 @@ trait SetsProperties
      */
     protected function setProperties()
     {
-        foreach ($this->data as $key => $value){
-            if (property_exists($this, $key))
+        foreach ($this->data as $key => $value) {
+            if (property_exists($this, $key)) {
                 $this->{$key} = $value;
+            }
         }
     }
 }

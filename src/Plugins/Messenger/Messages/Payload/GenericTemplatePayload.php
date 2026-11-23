@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-05
- * Time: 6:08 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
-
 
 class GenericTemplatePayload extends AbstractTemplatePayload
 {
@@ -49,7 +44,7 @@ class GenericTemplatePayload extends AbstractTemplatePayload
      */
     public function setElements($elements)
     {
-        foreach ($elements as $element){
+        foreach ($elements as $element) {
             array_push($this->elements, $element->toArray());
         }
         $this->data['elements'] = $this->getElements();

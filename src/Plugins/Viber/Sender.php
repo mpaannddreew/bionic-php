@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpaannddreew
- * Date: 6/1/20
- * Time: 9:28 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\Viber;
-
 
 use Andre\Bionic\AbstractMessage;
 

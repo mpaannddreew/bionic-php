@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-11
- * Time: 11:38 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payment;
-
 
 class Payment extends AbstractCheckout
 {
@@ -35,8 +30,9 @@ class Payment extends AbstractCheckout
      */
     public function getPaymentCredential()
     {
-        if ($this->payment_credential)
+        if ($this->payment_credential) {
             return PaymentCredential::create($this->payment_credential);
+        }
 
         return null;
     }

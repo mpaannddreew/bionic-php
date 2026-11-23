@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-06
- * Time: 4:24 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\BotProfile;
-
 
 use Andre\Bionic\AbstractMessage;
 

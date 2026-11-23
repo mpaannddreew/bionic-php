@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpande
- * Date: 5/3/20
- * Time: 9:50 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\WhatsApp\Messages;
-
 
 use Andre\Bionic\AbstractMessage;
 
@@ -20,6 +22,11 @@ abstract class Media extends AbstractMessage
     protected $mime_type;
 
     protected $sha256;
+
+    /**
+     * @var string
+     */
+    protected $url;
 
     /**
      * @return mixed
@@ -53,4 +60,14 @@ abstract class Media extends AbstractMessage
         return $this->sha256;
     }
 
+    /**
+     * Media URL included in incoming webhooks. Download it with
+     * WhatsAppPlugin::downloadMedia(); it expires after 5 minutes.
+     *
+     * @return string|null
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
 }

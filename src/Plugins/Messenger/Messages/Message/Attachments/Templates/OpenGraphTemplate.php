@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-11
- * Time: 10:44 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates;
-
 
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\OpenGraphTemplatePayload;
 
@@ -27,8 +22,9 @@ class OpenGraphTemplate extends AbstractTemplate
      */
     public function getPayload()
     {
-        if ($this->payload)
+        if ($this->payload) {
             return OpenGraphTemplatePayload::create($this->payload);
+        }
 
         return null;
     }

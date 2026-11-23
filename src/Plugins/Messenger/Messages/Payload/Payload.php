@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-03
- * Time: 2:24 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
-
 
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Coordinates;
@@ -27,17 +22,17 @@ class Payload extends AbstractMessage
     protected $url;
 
     /**
-     * @var $sticker_id
+     * @var int
      */
     protected $sticker_id;
 
     /**
-     * @var $message_id
+     * @var string
      */
     protected $message_id;
 
     /**
-     * @var $reaction
+     * @var string
      */
     protected $reaction;
 
@@ -54,7 +49,7 @@ class Payload extends AbstractMessage
     /**
      * get sticker_id
      *
-     * @return string
+     * @return int
      */
     public function getStickerId()
     {

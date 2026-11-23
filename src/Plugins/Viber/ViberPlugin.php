@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpaannddreew
- * Date: 6/1/20
- * Time: 7:50 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\Viber;
-
 
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
@@ -18,7 +20,9 @@ use GuzzleHttp\Client as HttpClient;
 
 class ViberPlugin extends AbstractBionicPlugin
 {
-    use WebhookHandler, Messaging, AccountHandler;
+    use WebhookHandler;
+    use Messaging;
+    use AccountHandler;
 
     /**
      * @var HttpClient
@@ -26,7 +30,7 @@ class ViberPlugin extends AbstractBionicPlugin
     protected $httpClient;
 
     /**
-     * @var $access_token
+     * @var string
      */
     protected $access_token;
 
@@ -66,8 +70,7 @@ class ViberPlugin extends AbstractBionicPlugin
             'base_uri' => 'https://chatapi.viber.com/pa/',
             'headers' => [
                 'Content-Type' => 'application/json'
-            ],
-            'verify' => false
+            ]
         ]);
     }
 
@@ -103,24 +106,31 @@ class ViberPlugin extends AbstractBionicPlugin
         $message_token = $this->webHookEvent->getMessageToken();
 
         try {
-            if ($event == 'webhook')
+            if ($event == 'webhook') {
                 $this->bionic->emit('webhook', [$this, $timestamp, $message_token]);
-            if ($event == 'subscribed')
+            }
+            if ($event == 'subscribed') {
                 $this->bionic->emit('subscribed', [$this, $timestamp, $message_token, $this->webHookEvent->getUser()]);
-            if ($event == 'unsubscribed')
+            }
+            if ($event == 'unsubscribed') {
                 $this->bionic->emit('un-subscribed', [$this, $timestamp, $message_token,
                     $this->webHookEvent->getUserId()]);
-            if ($event == 'conversation_started')
+            }
+            if ($event == 'conversation_started') {
                 $this->bionic->emit('conversation-started', [$this, $timestamp, $message_token,
                     $this->webHookEvent->getType(), $this->webHookEvent->getContext(), $this->webHookEvent->getUser(),
                     $this->webHookEvent->isSubscribed()]);
-            if ($event == 'delivered')
+            }
+            if ($event == 'delivered') {
                 $this->bionic->emit('delivered', [$this, $timestamp, $message_token, $this->webHookEvent->getUserId()]);
-            if ($event == 'seen')
+            }
+            if ($event == 'seen') {
                 $this->bionic->emit('seen', [$this, $timestamp, $message_token, $this->webHookEvent->getUserId()]);
-            if ($event == 'failed')
+            }
+            if ($event == 'failed') {
                 $this->bionic->emit('failed', [$this, $timestamp, $message_token, $this->webHookEvent->getUserId(),
                     $this->webHookEvent->getDesc()]);
+            }
             if ($event == 'message') {
                 $message = $this->webHookEvent->getMessage();
                 $sender = $this->webHookEvent->getSender();
@@ -164,7 +174,8 @@ class ViberPlugin extends AbstractBionicPlugin
      */
     protected function checkForAccessToken()
     {
-        if (!$this->access_token)
+        if (!$this->access_token) {
             throw new \InvalidArgumentException('An access token has not been specified!');
+        }
     }
 }

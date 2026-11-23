@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-05
- * Time: 11:12 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,13 +11,10 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
-
-
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
 
 class ShareButton extends AbstractButton
 {
-
     /**
      * @var array $share_contents
      */

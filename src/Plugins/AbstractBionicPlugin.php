@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-02
- * Time: 11:35 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,10 +11,10 @@
 
 namespace Andre\Bionic\Plugins;
 
-
 use Andre\Bionic\AbstractWebHookEvent;
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Contracts\PluginInterface;
+use GuzzleHttp\Client as HttpClient;
 
 abstract class AbstractBionicPlugin implements PluginInterface
 {
@@ -43,6 +39,11 @@ abstract class AbstractBionicPlugin implements PluginInterface
     protected $webHookData;
 
     /**
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    /**
      * AbstractBionicPlugin constructor.
      * @param array $config
      */
@@ -53,13 +54,32 @@ abstract class AbstractBionicPlugin implements PluginInterface
     }
 
     /**
+     * Replace the HTTP client the plugin sends requests with, e.g. to add
+     * timeouts, a proxy, retry middleware or a mock handler in tests.
+     *
+     * Set the headers your platform needs (WhatsApp, Messenger, Telegram and
+     * Viber all expect 'Content-Type: application/json') and, for Telegram and
+     * Viber, the base_uri the plugin's own client uses.
+     *
+     * @param HttpClient $httpClient
+     * @return $this
+     */
+    public function setHttpClient(HttpClient $httpClient)
+    {
+        $this->httpClient = $httpClient;
+
+        return $this;
+    }
+
+    /**
      * setup plugin configurations
      */
     protected function setUpConfigurations()
     {
         foreach ($this->config as $key => $value) {
-            if (property_exists($this, $key))
+            if (property_exists($this, $key)) {
                 $this->{$key} = $value;
+            }
         }
     }
 
@@ -93,6 +113,6 @@ abstract class AbstractBionicPlugin implements PluginInterface
      */
     public static function create($config = [])
     {
-        return new static($config);
+        return new static($config); // @phpstan-ignore new.static (subclasses add their own constructors)
     }
 }

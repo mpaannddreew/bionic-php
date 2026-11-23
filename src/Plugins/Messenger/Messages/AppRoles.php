@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-12
- * Time: 10:37 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
-
 
 use Andre\Bionic\AbstractMessage;
 
@@ -38,11 +33,12 @@ class AppRoles extends AbstractMessage
     {
         parent::__construct($data);
 
-        if (count($this->data) == 1){
-            try{
+        if (count($this->data) == 1) {
+            try {
                 $this->app_id = array_keys($this->data)[0];
                 $this->app_roles = array_values($this->data)[0];
-            }catch (\Exception $exception){}
+            } catch (\Exception $exception) {
+            }
         }
     }
 

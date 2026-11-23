@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-06
- * Time: 2:35 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Traits;
-
 
 use Andre\Bionic\Plugins\Messenger\BotProfile\GetStarted;
 
@@ -59,7 +54,7 @@ trait ManagesBotProfile
     public function setGreetingText($greetings = [])
     {
         $data = [];
-        foreach ($greetings as $greeting){
+        foreach ($greetings as $greeting) {
             array_push($data, $greeting->toArray());
         }
 
@@ -103,7 +98,7 @@ trait ManagesBotProfile
     public function setPersistentMenu($persistent_menus = [])
     {
         $data = [];
-        foreach ($persistent_menus as $persistentMenu){
+        foreach ($persistent_menus as $persistentMenu) {
             array_push($data, $persistentMenu->toArray());
         }
 
@@ -121,27 +116,29 @@ trait ManagesBotProfile
      * @param array $persistent_menus
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function setProperties($greetings = [], GetStarted $getStarted = null, $domains = [], $persistent_menus = [])
+    public function setProperties($greetings = [], ?GetStarted $getStarted = null, $domains = [], $persistent_menus = [])
     {
         $data = [];
 
         if ($greetings) {
             $_data = [];
-            foreach ($greetings as $greeting){
+            foreach ($greetings as $greeting) {
                 array_push($_data, $greeting->toArray());
             }
             $data['greeting'] = $_data;
         }
 
-        if ($getStarted)
+        if ($getStarted) {
             $data['get_started'] = $getStarted->toArray();
+        }
 
-        if ($domains)
+        if ($domains) {
             $data['whitelisted_domains'] = $domains;
+        }
 
-        if ($persistent_menus){
+        if ($persistent_menus) {
             $_data = [];
-            foreach ($persistent_menus as $persistent_menu){
+            foreach ($persistent_menus as $persistent_menu) {
                 array_push($_data, $persistent_menu->toArray());
             }
             $data['persistent_menu'] = $_data;

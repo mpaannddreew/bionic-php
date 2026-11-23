@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-08
- * Time: 1:07 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -33,7 +29,7 @@ trait SendsMessages
     public function sendShippingOptions($shipping_list = [])
     {
         $data = [];
-        foreach ($shipping_list as $item){
+        foreach ($shipping_list as $item) {
             array_push($data, $item->toArray());
         }
 
@@ -59,7 +55,7 @@ trait SendsMessages
      * @param AbstractEndPoint $recipient
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendPlainText($text, $quick_replies = [], AbstractEndPoint $recipient)
+    public function sendPlainText($text, $quick_replies, AbstractEndPoint $recipient)
     {
         return $this->sendText(Text::create(['text' => $text]), $quick_replies, $recipient);
     }
@@ -73,7 +69,7 @@ trait SendsMessages
      * @param string $message_type
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendText(Text $message, $quick_replies = [], AbstractEndPoint $recipient, $message_type = "RESPONSE")
+    public function sendText(Text $message, $quick_replies, AbstractEndPoint $recipient, $message_type = "RESPONSE")
     {
         $data = [
             'recipient' => $recipient->toArray(),
@@ -81,10 +77,9 @@ trait SendsMessages
             'messaging_type' => $message_type
         ];
 
-        if ($quick_replies)
-        {
+        if ($quick_replies) {
             $data['message']['quick_replies'] = [];
-            foreach ($quick_replies as $quick_reply){
+            foreach ($quick_replies as $quick_reply) {
                 array_push($data['message']['quick_replies'], $quick_reply->toArray());
             }
         }
@@ -117,9 +112,9 @@ trait SendsMessages
      * @param AbstractEndPoint $recipient
      * @param string $type
      */
-    public function sendAction(AbstractEndPoint $recipient, $type = 'mark_seen'){
-        switch ($type)
-        {
+    public function sendAction(AbstractEndPoint $recipient, $type = 'mark_seen')
+    {
+        switch ($type) {
             case 'typing_off':
                 $action = TypingOff::create();
                 break;

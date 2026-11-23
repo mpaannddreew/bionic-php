@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-03
- * Time: 6:53 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
-
 
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Product;
 
@@ -62,8 +57,9 @@ class Referral extends Optin
      */
     public function getProduct()
     {
-        if ($this->product)
+        if ($this->product) {
             return Product::create($this->product);
+        }
 
         return null;
     }

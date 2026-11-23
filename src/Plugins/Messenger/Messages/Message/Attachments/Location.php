@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-03
- * Time: 4:23 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,8 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments;
-
-
 
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\LocationPayLoad;
 
@@ -66,8 +60,9 @@ class Location extends AbstractAttachment
      */
     public function getPayload()
     {
-        if ($this->payload)
+        if ($this->payload) {
             return LocationPayLoad::create($this->payload);
+        }
 
         return null;
     }

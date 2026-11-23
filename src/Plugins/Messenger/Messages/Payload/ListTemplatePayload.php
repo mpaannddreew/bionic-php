@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-05
- * Time: 6:08 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
-
 
 class ListTemplatePayload extends GenericTemplatePayload
 {
@@ -77,7 +72,7 @@ class ListTemplatePayload extends GenericTemplatePayload
      */
     public function setButtons($buttons)
     {
-        foreach ($buttons as $button){
+        foreach ($buttons as $button) {
             array_push($this->buttons, $button->toArray());
         }
         $this->data['buttons'] = $this->getButtons();

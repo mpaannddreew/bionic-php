@@ -1,25 +1,26 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpande
- * Date: 5/2/20
- * Time: 10:32 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\WhatsApp;
 
-
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
-use Andre\Bionic\Plugins\Messenger\Messages\Change;
-use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
 use Andre\Bionic\Plugins\WhatsApp\Traits\HandlesMedia;
 use Andre\Bionic\Plugins\WhatsApp\Traits\SendsMessages;
 use GuzzleHttp\Client as HttpClient;
 
 class WhatsAppPlugin extends AbstractBionicPlugin
 {
-    use SendsMessages, HandlesMedia;
+    use SendsMessages;
+    use HandlesMedia;
 
     /**
      * @var HttpClient $httpClient
@@ -34,7 +35,7 @@ class WhatsAppPlugin extends AbstractBionicPlugin
     /**
      * @var string $graph_api_version
      */
-    protected $graph_api_version = 'v13.0';
+    protected $graph_api_version = 'v27.0';
 
     /**
      * @var string $phone_number_id
@@ -123,19 +124,12 @@ class WhatsAppPlugin extends AbstractBionicPlugin
         return new HttpClient([
             'headers' => [
                 'Content-Type' => 'application/json'
-            ],
-            'verify' => false
+            ]
         ]);
     }
 
     private function iterateOverObjectsAndEmitEvents()
     {
-        /**
-         * @var EntryItem $entryItem
-         * @var Change $change
-         * @var WhatsAppValue $value
-         * @var Message $message
-         */
         try {
             if ($entryItems = $this->webHookEvent->getEntryItems()) {
                 $this->bionic->emit('entry', [$this, $entryItems]);
@@ -160,32 +154,53 @@ class WhatsAppPlugin extends AbstractBionicPlugin
                                     foreach ($messages as $message) {
                                         $this->bionic->emit('message', [$this, $meta, $contacts, $message]);
 
-                                        if ($text = $message->getText())
+                                        if ($text = $message->getText()) {
                                             $this->bionic->emit('message.text', [$this, $meta, $contacts, $message, $text]);
+                                        }
 
-                                        if ($location = $message->getLocation())
+                                        if ($location = $message->getLocation()) {
                                             $this->bionic->emit('message.location', [$this, $meta, $contacts, $message, $location]);
+                                        }
 
-                                        if ($sent_contacts = $message->getContacts())
+                                        if ($sent_contacts = $message->getContacts()) {
                                             $this->bionic->emit('message.contacts', [$this, $meta, $contacts, $message, $sent_contacts]);
+                                        }
 
-                                        if ($errors = $message->getErrors())
+                                        if ($errors = $message->getErrors()) {
                                             $this->bionic->emit('message.errors', [$this, $meta, $contacts, $message, $errors]);
+                                        }
 
-                                        if ($image = $message->getImage())
+                                        if ($image = $message->getImage()) {
                                             $this->bionic->emit('message.image', [$this, $meta, $contacts, $message, $image]);
+                                        }
 
-                                        if ($document = $message->getDocument())
+                                        if ($video = $message->getVideo()) {
+                                            $this->bionic->emit('message.video', [$this, $meta, $contacts, $message, $video]);
+                                        }
+
+                                        if ($document = $message->getDocument()) {
                                             $this->bionic->emit('message.document', [$this, $meta, $contacts, $message, $document]);
+                                        }
 
-                                        if ($voice = $message->getAudio())
+                                        if ($voice = $message->getAudio()) {
                                             $this->bionic->emit('message.voice', [$this, $meta, $contacts, $message, $voice]);
+                                        }
 
-                                        if ($sticker = $message->getSticker())
+                                        if ($sticker = $message->getSticker()) {
                                             $this->bionic->emit('message.sticker', [$this, $meta, $contacts, $message, $sticker]);
+                                        }
 
-                                        if ($system = $message->getSystem())
+                                        if ($system = $message->getSystem()) {
                                             $this->bionic->emit('message.system', [$this, $meta, $contacts, $message, $system]);
+                                        }
+
+                                        if ($interactive = $message->getInteractive()) {
+                                            $this->bionic->emit('message.interactive', [$this, $meta, $contacts, $message, $interactive]);
+                                        }
+
+                                        if ($button = $message->getButton()) {
+                                            $this->bionic->emit('message.button', [$this, $meta, $contacts, $message, $button]);
+                                        }
                                     }
                                 }
 
@@ -194,6 +209,10 @@ class WhatsAppPlugin extends AbstractBionicPlugin
 
                                     foreach ($statuses as $status) {
                                         $this->bionic->emit('status', [$this, $meta, $status]);
+
+                                        if ($status->getStatus()) {
+                                            $this->bionic->emit('status.' . $status->getStatus(), [$this, $meta, $status]);
+                                        }
                                     }
                                 }
 
@@ -209,7 +228,7 @@ class WhatsAppPlugin extends AbstractBionicPlugin
                     }
                 }
             }
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $this->bionic->emit('exception', [$exception]);
         }
     }
@@ -219,8 +238,9 @@ class WhatsAppPlugin extends AbstractBionicPlugin
      */
     protected function checkForAccessToken()
     {
-        if (!$this->access_token)
+        if (!$this->access_token) {
             throw new \InvalidArgumentException('An access token has not been specified!');
+        }
     }
 
     /**
@@ -228,7 +248,8 @@ class WhatsAppPlugin extends AbstractBionicPlugin
      */
     protected function checkForPhoneNumberId()
     {
-        if (!$this->phone_number_id)
+        if (!$this->phone_number_id) {
             throw new \InvalidArgumentException('A phone number id has not been specified!');
+        }
     }
 }

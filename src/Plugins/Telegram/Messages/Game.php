@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpaannddreew
- * Date: 6/3/20
- * Time: 5:18 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\Telegram\Messages;
-
 
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Telegram\MessageEntity;
@@ -61,7 +63,7 @@ class Game extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getPhoto()
     {
@@ -84,7 +86,7 @@ class Game extends AbstractMessage
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getTextEntities()
     {
@@ -101,7 +103,7 @@ class Game extends AbstractMessage
     }
 
     /**
-     * @return Animation
+     * @return Animation|null
      */
     public function getAnimation()
     {

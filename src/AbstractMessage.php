@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-02
- * Time: 12:10 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,14 +11,14 @@
 
 namespace Andre\Bionic;
 
-
 use Andre\Bionic\Contracts\MessageInterface;
 use Andre\Bionic\Traits\IsADataWrapper;
 use Andre\Bionic\Traits\SetsProperties;
 
 abstract class AbstractMessage implements MessageInterface
 {
-    use IsADataWrapper, SetsProperties;
+    use IsADataWrapper;
+    use SetsProperties;
 
     /**
      * new message instance
@@ -54,6 +50,6 @@ abstract class AbstractMessage implements MessageInterface
      */
     public static function create($data = [])
     {
-        return new static($data);
+        return new static($data); // @phpstan-ignore new.static (subclasses add their own constructors)
     }
 }

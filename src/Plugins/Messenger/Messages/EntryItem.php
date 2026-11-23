@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-03
- * Time: 11:24 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,8 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
-
-
 
 use Andre\Bionic\AbstractMessage;
 
@@ -78,8 +72,7 @@ class EntryItem extends AbstractMessage
      */
     protected function populateMessagingItems()
     {
-        foreach ($this->messaging as $messaging_item)
-        {
+        foreach ($this->messaging as $messaging_item) {
             array_push($this->messaging_items, MessagingItem::create($messaging_item));
         }
     }
@@ -89,8 +82,7 @@ class EntryItem extends AbstractMessage
      */
     protected function populateStandbyItems()
     {
-        foreach ($this->standby as $standby_item)
-        {
+        foreach ($this->standby as $standby_item) {
             array_push($this->standby_items, StandbyItem::create($standby_item));
         }
     }
@@ -100,8 +92,7 @@ class EntryItem extends AbstractMessage
      */
     protected function populateChanges()
     {
-        foreach ($this->changes as $changes_item)
-        {
+        foreach ($this->changes as $changes_item) {
             array_push($this->changes_items, Change::create($changes_item));
         }
     }

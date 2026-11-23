@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-11
- * Time: 4:02 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
-
 
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\Recipient;
@@ -59,8 +54,9 @@ abstract class AbstractChannelItem extends AbstractMessage
      */
     public function getSender()
     {
-        if ($this->sender)
+        if ($this->sender) {
             return Sender::create($this->sender);
+        }
 
         return null;
     }
@@ -92,8 +88,9 @@ abstract class AbstractChannelItem extends AbstractMessage
      */
     public function getMessage()
     {
-        if ($this->message)
+        if ($this->message) {
             return Message::create($this->message);
+        }
 
         return null;
     }
@@ -105,8 +102,9 @@ abstract class AbstractChannelItem extends AbstractMessage
      */
     public function getDelivery()
     {
-        if ($this->delivery)
+        if ($this->delivery) {
             return Delivery::create($this->delivery);
+        }
 
         return null;
     }
@@ -118,8 +116,9 @@ abstract class AbstractChannelItem extends AbstractMessage
      */
     public function getRead()
     {
-        if ($this->read)
+        if ($this->read) {
             return Read::create($this->read);
+        }
 
         return null;
     }

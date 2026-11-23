@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-03
- * Time: 6:50 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,13 +11,12 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
-
 use Andre\Bionic\AbstractMessage;
 
 class PostBack extends AbstractMessage
 {
     /**
-     * @var $mid
+     * @var string
      */
     protected $mid;
 
@@ -77,8 +72,9 @@ class PostBack extends AbstractMessage
      */
     public function getReferral()
     {
-        if ($this->referral)
+        if ($this->referral) {
             return Referral::create($this->referral);
+        }
 
         return null;
     }

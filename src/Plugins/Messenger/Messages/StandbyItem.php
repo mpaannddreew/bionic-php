@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-11
- * Time: 4:10 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,8 +11,6 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
 
-
 class StandbyItem extends AbstractChannelItem
 {
-
 }

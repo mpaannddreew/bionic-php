@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-05
- * Time: 5:37 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,22 +11,21 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
 
-
 use Andre\Bionic\AbstractMessage;
 
 abstract class AbstractTemplatePayload extends AbstractMessage
 {
-    const BUTTON = 'button';
+    public const BUTTON = 'button';
 
-    const LIST_ = 'list';
+    public const LIST_ = 'list';
 
-    const GENERIC = 'generic';
+    public const GENERIC = 'generic';
 
-    const OPEN_GRAPH = 'open_graph';
-    
-    const RECEIPT = 'receipt';
+    public const OPEN_GRAPH = 'open_graph';
 
-    const MEDIA = 'media';
+    public const RECEIPT = 'receipt';
+
+    public const MEDIA = 'media';
 
     /**
      * @var string $template_type
@@ -44,7 +39,7 @@ abstract class AbstractTemplatePayload extends AbstractMessage
     public function __construct(array $data = [])
     {
         parent::__construct($data);
-        if(!$this->getTemplateType()){
+        if (!$this->getTemplateType()) {
             $this->setTemplateType();
             $this->data['template_type'] = $this->getTemplateType();
         }

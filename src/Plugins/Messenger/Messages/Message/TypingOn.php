@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-04
- * Time: 1:28 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,10 +11,8 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message;
 
-
 class TypingOn extends AbstractSenderAction
 {
-
     /**
      * set sender action
      */

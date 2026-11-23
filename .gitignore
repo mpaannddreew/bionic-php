@@ -1,3 +1,5 @@
 /vendor/
 .idea
 apidocs
+/.phpunit.cache/
+/.php-cs-fixer.cache

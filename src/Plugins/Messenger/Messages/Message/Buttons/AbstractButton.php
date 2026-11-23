@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-04
- * Time: 10:32 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,24 +11,23 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
-
 use Andre\Bionic\AbstractMessage;
 
 abstract class AbstractButton extends AbstractMessage
 {
-    const WEB_URL = 'web_url';
+    public const WEB_URL = 'web_url';
 
-    const POST_BACK = 'postback';
+    public const POST_BACK = 'postback';
 
-    const ELEMENT_SHARE = 'element_share';
+    public const ELEMENT_SHARE = 'element_share';
 
-    const PHONE_NUMBER = 'phone_number';
+    public const PHONE_NUMBER = 'phone_number';
 
-    const ACCOUNT_LINK = 'account_link';
+    public const ACCOUNT_LINK = 'account_link';
 
-    const ACCOUNT_UNLINK = 'account_unlink';
+    public const ACCOUNT_UNLINK = 'account_unlink';
 
-    const PAYMENT = 'payment';
+    public const PAYMENT = 'payment';
 
     /**
      * @var string $type
@@ -46,8 +41,7 @@ abstract class AbstractButton extends AbstractMessage
     public function __construct(array $data = [])
     {
         parent::__construct($data);
-        if(!$this->getType())
-        {
+        if (!$this->getType()) {
             $this->setType();
             $this->data['type'] = $this->getType();
         }

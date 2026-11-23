@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-05
- * Time: 11:18 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,10 +11,8 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Buttons;
 
-
 class LogoutButton extends AbstractButton
 {
-
     /**
      * set button type
      */

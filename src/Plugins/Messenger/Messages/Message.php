@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-03
- * Time: 12:50 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages;
-
 
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Audio;
@@ -29,7 +24,6 @@ use Andre\Bionic\Plugins\Messenger\Messages\Message\Nlp;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\QuickReply;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\ReplyTo;
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Text;
-use Exception;
 
 class Message extends AbstractMessage
 {
@@ -118,9 +112,10 @@ class Message extends AbstractMessage
      */
     protected function populateAttachmentItems()
     {
-        foreach ($this->attachments as $attachment_item)
-        {
-            switch ($attachment_item['type']){
+        foreach ($this->attachments as $attachment_item) {
+            $attachment = null;
+
+            switch ($attachment_item['type']) {
                 case 'location':
                     $attachment = Location::create($attachment_item);
                     break;
@@ -149,16 +144,17 @@ class Message extends AbstractMessage
                     break;
             }
 
-            try{
-                array_push($this->attachment_items, $attachment);
-            }catch (Exception $exception){}
+            // Unknown attachment types are skipped.
+            if ($attachment !== null) {
+                $this->attachment_items[] = $attachment;
+            }
         }
     }
 
     /**
      * get mid
      *
-     * @return int mixed
+     * @return string
      */
     public function getMid()
     {
@@ -168,12 +164,13 @@ class Message extends AbstractMessage
     /**
      * get text
      *
-     * @return Text
+     * @return Text|null
      */
     public function getText()
     {
-        if ($this->text != null)
+        if ($this->text != null) {
             return Text::create()->setText($this->text);
+        }
 
         return null;
     }
@@ -205,8 +202,9 @@ class Message extends AbstractMessage
      */
     public function getQuickReply()
     {
-        if ($this->quick_reply)
+        if ($this->quick_reply) {
             return QuickReply::create($this->quick_reply);
+        }
 
         return null;
     }
@@ -218,8 +216,9 @@ class Message extends AbstractMessage
      */
     public function getReplyTo()
     {
-        if ($this->reply_to)
+        if ($this->reply_to) {
             return ReplyTo::create($this->reply_to);
+        }
 
         return null;
     }
@@ -231,8 +230,9 @@ class Message extends AbstractMessage
      */
     public function getNlp()
     {
-        if ($this->nlp)
+        if ($this->nlp) {
             return Nlp::create($this->nlp);
+        }
 
         return null;
     }
@@ -304,8 +304,9 @@ class Message extends AbstractMessage
      */
     public function getReferral()
     {
-        if ($this->referral)
+        if ($this->referral) {
             return Referral::create($this->referral);
+        }
 
         return null;
     }

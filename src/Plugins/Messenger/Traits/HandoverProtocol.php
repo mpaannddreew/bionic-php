@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-12
- * Time: 10:03 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Traits;
-
 
 use Andre\Bionic\Plugins\Messenger\Messages\EndPoint\AbstractEndPoint;
 
@@ -35,8 +30,9 @@ trait HandoverProtocol
             'target_app_id' => $target_app_id
         ];
 
-        if ($metadata)
+        if ($metadata) {
             $data['metadata'] = $metadata;
+        }
 
         $url = sprintf($this->url . "/%s/me/pass_thread_control?access_token=%s", $this->graph_api_version, $this->page_access_token);
 
@@ -56,8 +52,9 @@ trait HandoverProtocol
             'recipient' => $recipient->toArray()
         ];
 
-        if (!is_null($metadata))
+        if (!is_null($metadata)) {
             $data['metadata'] = $metadata;
+        }
 
         $url = sprintf($this->url . "/%s/me/take_thread_control?access_token=%s", $this->graph_api_version, $this->page_access_token);
 
@@ -77,8 +74,9 @@ trait HandoverProtocol
             'recipient' => $recipient->toArray()
         ];
 
-        if (!is_null($metadata))
+        if (!is_null($metadata)) {
             $data['metadata'] = $metadata;
+        }
 
         $url = sprintf($this->url . "/%s/me/request_thread_control?access_token=%s", $this->graph_api_version, $this->page_access_token);
 
@@ -88,7 +86,8 @@ trait HandoverProtocol
     /**
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function nonPrimaryReceivers() {
+    public function nonPrimaryReceivers()
+    {
         $this->checkForPageAccessTokenAndGraphApiVersion();
 
         $url = sprintf($this->url . "/%s/me/secondary_receivers?fields=id,name&platform=instagram&access_token=%s", $this->graph_api_version, $this->page_access_token);
@@ -100,7 +99,8 @@ trait HandoverProtocol
      * @param AbstractEndPoint $recipient
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getThreadOwner(AbstractEndPoint $recipient) {
+    public function getThreadOwner(AbstractEndPoint $recipient)
+    {
         $this->checkForPageAccessTokenAndGraphApiVersion();
 
         $url = sprintf($this->url . "/%s/me/thread_owner?recipient=%s&access_token=%s", $this->graph_api_version, $recipient->getId(), $this->page_access_token);

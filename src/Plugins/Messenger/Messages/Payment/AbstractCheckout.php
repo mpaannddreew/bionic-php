@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-11
- * Time: 3:26 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payment;
-
 
 use Andre\Bionic\AbstractMessage;
 
@@ -52,8 +47,9 @@ abstract class AbstractCheckout extends AbstractMessage
      */
     public function getRequestedUserInfo()
     {
-        if ($this->requested_user_info)
+        if ($this->requested_user_info) {
             return UserInformation::create($this->requested_user_info);
+        }
 
         return null;
     }
@@ -61,12 +57,13 @@ abstract class AbstractCheckout extends AbstractMessage
     /**
      * get amount
      *
-     * @return Amount
+     * @return Amount|null
      */
     public function getAmount()
     {
-        if ($this->amount)
+        if ($this->amount) {
             return Amount::create($this->amount);
+        }
 
         return null;
     }

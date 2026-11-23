@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-02
- * Time: 11:30 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,13 +11,9 @@
 
 namespace Andre\Bionic\Plugins\Messenger;
 
-
 use Andre\Bionic\AbstractBionic;
 use Andre\Bionic\Plugins\AbstractBionicPlugin;
 use Andre\Bionic\Plugins\Messenger\Messages\AbstractChannelItem;
-use Andre\Bionic\Plugins\Messenger\Messages\EntryItem;
-use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\AbstractAttachment;
-use Andre\Bionic\Plugins\Messenger\Messages\MessagingItem;
 use Andre\Bionic\Plugins\Messenger\Traits\AccessesInstagram;
 use Andre\Bionic\Plugins\Messenger\Traits\AccessesUserProfile;
 use Andre\Bionic\Plugins\Messenger\Traits\ManagesBotProfile;
@@ -29,10 +21,13 @@ use Andre\Bionic\Plugins\Messenger\Traits\HandoverProtocol;
 use Andre\Bionic\Plugins\Messenger\Traits\SendsMessages;
 use GuzzleHttp\Client as HttpClient;
 
-
 class MessengerPlugin extends AbstractBionicPlugin
 {
-    use AccessesUserProfile, ManagesBotProfile, SendsMessages, HandoverProtocol, AccessesInstagram;
+    use AccessesUserProfile;
+    use ManagesBotProfile;
+    use SendsMessages;
+    use HandoverProtocol;
+    use AccessesInstagram;
 
     /**
      * @var HttpClient
@@ -40,14 +35,14 @@ class MessengerPlugin extends AbstractBionicPlugin
     protected $httpClient;
 
     /**
-     * @var $page_access_token
+     * @var string
      */
     protected $page_access_token;
 
     /**
      * @var string $graph_api_version
      */
-    protected $graph_api_version = 'v9.0';
+    protected $graph_api_version = 'v27.0';
 
     /**
      * @var string $url
@@ -113,8 +108,7 @@ class MessengerPlugin extends AbstractBionicPlugin
         return new HttpClient([
             'headers' => [
                 'Content-Type' => 'application/json'
-            ],
-            'verify' => false
+            ]
         ]);
     }
 
@@ -132,7 +126,8 @@ class MessengerPlugin extends AbstractBionicPlugin
      * @param $name
      * @return string
      */
-    private function event($name) {
+    private function event($name)
+    {
         return $this->webHookEvent->getObject() . ".$name";
     }
 
@@ -141,11 +136,6 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function iterateOverEntryMessagesAndEmitEvents()
     {
-        /**
-         * @var EntryItem $entryItem
-         * @var MessagingItem $messagingItem
-         */
-
         try {
             if ($entryItems = $this->webHookEvent->getEntryItems()) {
                 $this->bionic->emit($this->event('entry'), [$this, $entryItems]);
@@ -174,53 +164,67 @@ class MessengerPlugin extends AbstractBionicPlugin
                             $sender = $messagingItem->getSender();
                             $recipient = $messagingItem->getRecipient();
 
-                            if ($post_back = $messagingItem->getPostback())
+                            if ($post_back = $messagingItem->getPostback()) {
                                 $this->bionic->emit($this->event('postback'), [$this, $sender, $recipient, $post_back]);
+                            }
 
-                            if ($referral = $messagingItem->getReferral())
+                            if ($referral = $messagingItem->getReferral()) {
                                 $this->bionic->emit($this->event('referral'), [$this, $sender, $recipient, $referral]);
+                            }
 
-                            if ($reaction = $messagingItem->getReaction())
+                            if ($reaction = $messagingItem->getReaction()) {
                                 $this->bionic->emit($this->event('reaction'), [$this, $sender, $recipient, $reaction]);
+                            }
 
-                            if ($optin = $messagingItem->getOptin())
+                            if ($optin = $messagingItem->getOptin()) {
                                 $this->bionic->emit($this->event('optin'), [$this, $sender, $recipient, $optin]);
+                            }
 
-                            if ($account_linking = $messagingItem->getAccountLinking())
+                            if ($account_linking = $messagingItem->getAccountLinking()) {
                                 $this->bionic->emit($this->event('account_linking'), [$this, $sender, $recipient, $account_linking]);
+                            }
 
-                            if ($policy_enforcement = $messagingItem->getPolicyEnforcement())
+                            if ($policy_enforcement = $messagingItem->getPolicyEnforcement()) {
                                 $this->bionic->emit($this->event('policy_enforcement'), [$this, $recipient, $policy_enforcement]);
+                            }
 
-                            if ($payment = $messagingItem->getPayment())
+                            if ($payment = $messagingItem->getPayment()) {
                                 $this->bionic->emit($this->event('payment'), [$this, $sender, $recipient, $payment]);
+                            }
 
-                            if ($checkout_update = $messagingItem->getCheckoutUpdate())
+                            if ($checkout_update = $messagingItem->getCheckoutUpdate()) {
                                 $this->bionic->emit($this->event('checkout_update'), [$this, $sender, $recipient, $checkout_update]);
+                            }
 
-                            if ($pre_checkout = $messagingItem->getPreCheckout())
+                            if ($pre_checkout = $messagingItem->getPreCheckout()) {
                                 $this->bionic->emit($this->event('pre_checkout'), [$this, $sender, $recipient, $pre_checkout]);
+                            }
 
-                            if ($pass_thread_control = $messagingItem->getPassThreadControl())
+                            if ($pass_thread_control = $messagingItem->getPassThreadControl()) {
                                 $this->bionic->emit($this->event('pass_thread_control'), [$this, $sender, $recipient, $pass_thread_control]);
+                            }
 
-                            if ($take_thread_control = $messagingItem->getTakeThreadControl())
+                            if ($take_thread_control = $messagingItem->getTakeThreadControl()) {
                                 $this->bionic->emit($this->event('take_thread_control'), [$this, $sender, $recipient, $take_thread_control]);
+                            }
 
-                            if ($request_thread_control = $messagingItem->getRequestThreadControl())
+                            if ($request_thread_control = $messagingItem->getRequestThreadControl()) {
                                 $this->bionic->emit($this->event('request_thread_control'), [$this, $sender, $recipient, $request_thread_control]);
+                            }
 
-                            if ($pass_thread_metadata = $messagingItem->getPassMetadata())
+                            if ($pass_thread_metadata = $messagingItem->getPassMetadata()) {
                                 $this->bionic->emit($this->event('pass_thread_metadata'), [$this, $sender, $recipient, $pass_thread_metadata]);
+                            }
 
-                            if ($app_roles = $messagingItem->getAppRoles())
+                            if ($app_roles = $messagingItem->getAppRoles()) {
                                 $this->bionic->emit($this->event('app_roles'), [$this, $recipient, $app_roles]);
+                            }
                         }
                     }
 
                 }
             }
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $this->bionic->emit($this->event('exception'), [$exception]);
         }
     }
@@ -231,43 +235,39 @@ class MessengerPlugin extends AbstractBionicPlugin
      * @param AbstractChannelItem $channelItem
      * @param string $channel
      */
-    protected function emitAbstractChannelEvents(AbstractChannelItem $channelItem, $channel="messaging")
+    protected function emitAbstractChannelEvents(AbstractChannelItem $channelItem, $channel = "messaging")
     {
-        /**
-         * @var AbstractAttachment $attachment
-         */
-
         $sender = $channelItem->getSender();
         $recipient = $channelItem->getRecipient();
 
-        if ($message = $channelItem->getMessage()){
+        if ($message = $channelItem->getMessage()) {
 
-            if ($message->isEcho())
-            {
+            if ($message->isEcho()) {
                 $this->bionic->emit($this->event('message.echo'), [$this, $sender, $recipient, $message]);
-            }else {
+            } else {
                 $this->bionic->emit($this->event('message'), [$this, $sender, $recipient, $message, $channel]);
 
-                if ($message->getText())
+                if ($message->getText()) {
                     $this->bionic->emit($this->event('message.text'), [$this, $sender, $recipient, $message, $message->getText(), $message->getQuickReply(), $message->getReplyTo(), $message->getReferral(), $message->getNlp(), $channel]);
+                }
 
-                if ($attachments = $message->getAttachmentItems())
-                {
+                if ($attachments = $message->getAttachmentItems()) {
                     $this->bionic->emit($this->event('message.attachments'), [$this, $sender, $recipient, $message, $attachments, $channel]);
 
-                    foreach ($attachments as $attachment)
-                    {
+                    foreach ($attachments as $attachment) {
                         $this->bionic->emit($this->event('message.attachments.' . $attachment->getType()), [$this, $sender, $recipient, $message, $attachment, $channel]);
                     }
                 }
             }
         }
 
-        if ($delivery = $channelItem->getDelivery())
+        if ($delivery = $channelItem->getDelivery()) {
             $this->bionic->emit($this->event('delivery'), [$this, $sender, $recipient, $delivery, $channel]);
+        }
 
-        if ($read = $channelItem->getRead())
+        if ($read = $channelItem->getRead()) {
             $this->bionic->emit($this->event('read'), [$this, $sender, $recipient, $read, $channel]);
+        }
     }
 
     /**
@@ -275,10 +275,12 @@ class MessengerPlugin extends AbstractBionicPlugin
      */
     protected function checkForPageAccessTokenAndGraphApiVersion()
     {
-        if (!$this->page_access_token)
+        if (!$this->page_access_token) {
             throw new \InvalidArgumentException('A facebook page access token has not been specified!');
+        }
 
-        if (!$this->graph_api_version)
+        if (!$this->graph_api_version) {
             throw new \InvalidArgumentException('A graph api version number has not been specified!');
+        }
     }
 }

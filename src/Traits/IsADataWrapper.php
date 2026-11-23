@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-02
- * Time: 11:20 AM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Traits;
-
 
 trait IsADataWrapper
 {
@@ -28,7 +23,8 @@ trait IsADataWrapper
      *
      * @return array
      */
-    public function toArray(){
+    public function toArray()
+    {
         return $this->data;
     }
 
@@ -38,7 +34,8 @@ trait IsADataWrapper
      * @param int $options
      * @return string
      */
-    public function toJson($options = 0){
+    public function toJson($options = 0)
+    {
         return json_encode($this->toArray(), $options);
     }
 
@@ -47,7 +44,8 @@ trait IsADataWrapper
      *
      * @return string
      */
-    public function __toString(){
+    public function __toString()
+    {
         return $this->toJson();
     }
 }

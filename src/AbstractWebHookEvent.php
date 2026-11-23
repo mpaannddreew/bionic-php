@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-02
- * Time: 12:15 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,14 +11,14 @@
 
 namespace Andre\Bionic;
 
-
 use Andre\Bionic\Contracts\WebHookEventInterface;
 use Andre\Bionic\Traits\IsADataWrapper;
 use Andre\Bionic\Traits\SetsProperties;
 
 abstract class AbstractWebHookEvent implements WebHookEventInterface
 {
-    use IsADataWrapper, SetsProperties;
+    use IsADataWrapper;
+    use SetsProperties;
 
     /**
      * AbstractWebHookEvent constructor.
@@ -52,6 +48,6 @@ abstract class AbstractWebHookEvent implements WebHookEventInterface
      */
     public static function create($data = [])
     {
-        return new static($data);
+        return new static($data); // @phpstan-ignore new.static (subclasses add their own constructors)
     }
 }

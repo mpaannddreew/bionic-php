@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpaannddreew
- * Date: 6/2/20
- * Time: 2:40 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\Telegram;
-
 
 use Andre\Bionic\AbstractWebHookEvent;
 
@@ -82,7 +84,7 @@ class TelegramWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getMessage()
     {
@@ -94,7 +96,7 @@ class TelegramWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getEditedMessage()
     {
@@ -106,7 +108,7 @@ class TelegramWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getChannelPost()
     {
@@ -118,7 +120,7 @@ class TelegramWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getEditedChannelPost()
     {

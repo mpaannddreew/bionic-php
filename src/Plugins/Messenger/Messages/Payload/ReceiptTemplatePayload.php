@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-12
- * Time: 1:26 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Payload;
-
 
 use Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates\Receipt\ReceiptSummary;
 use Andre\Bionic\Plugins\Messenger\Messages\Payment\ShippingAddress;
@@ -224,8 +219,9 @@ class ReceiptTemplatePayload extends AbstractTemplatePayload
      */
     public function getAddress()
     {
-        if ($this->address)
+        if ($this->address) {
             return ShippingAddress::create($this->address);
+        }
 
         return null;
     }
@@ -250,8 +246,9 @@ class ReceiptTemplatePayload extends AbstractTemplatePayload
      */
     public function getSummary()
     {
-        if ($this->summary)
+        if ($this->summary) {
             return ReceiptSummary::create($this->summary);
+        }
 
         return null;
     }
@@ -287,7 +284,7 @@ class ReceiptTemplatePayload extends AbstractTemplatePayload
      */
     public function setAdjustments($adjustments = [])
     {
-        foreach ($adjustments as $adjustment){
+        foreach ($adjustments as $adjustment) {
             array_push($this->adjustments, $adjustment->toArray());
         }
         $this->data['adjustments'] = $this->getAdjustments();
@@ -310,7 +307,7 @@ class ReceiptTemplatePayload extends AbstractTemplatePayload
      */
     public function setElements($elements)
     {
-        foreach ($elements as $element){
+        foreach ($elements as $element) {
             array_push($this->elements, $element->toArray());
         }
         $this->data['elements'] = $this->getElements();

@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-12
- * Time: 8:12 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -14,7 +10,6 @@
  */
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments\Templates;
-
 
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\MediaTemplatePayload;
 
@@ -27,8 +22,9 @@ class MediaTemplate extends AbstractTemplate
      */
     public function getPayload()
     {
-        if ($this->payload)
+        if ($this->payload) {
             return MediaTemplatePayload::create($this->payload);
+        }
 
         return null;
     }

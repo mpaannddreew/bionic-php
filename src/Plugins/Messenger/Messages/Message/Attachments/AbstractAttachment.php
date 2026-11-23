@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andre
- * Date: 2017-11-03
- * Time: 1:52 PM
- *
+
+/*
  * This file is part of Bionic.
  *
  * (c) Mpande Andrew <andrewmvp007@gmail.com>
@@ -15,29 +11,28 @@
 
 namespace Andre\Bionic\Plugins\Messenger\Messages\Message\Attachments;
 
-
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\Messenger\Messages\Payload\Payload;
 
 abstract class AbstractAttachment extends AbstractMessage
 {
-    const IMAGE = 'image';
+    public const IMAGE = 'image';
 
-    const AUDIO = 'audio';
+    public const AUDIO = 'audio';
 
-    const VIDEO = 'video';
+    public const VIDEO = 'video';
 
-    const LOCATION = 'location';
+    public const LOCATION = 'location';
 
-    const FILE = 'file';
+    public const FILE = 'file';
 
-    const FALLBACK = 'fallback';
+    public const FALLBACK = 'fallback';
 
-    const TEMPLATE = 'template';
+    public const TEMPLATE = 'template';
 
-    const SHARE = 'share';
+    public const SHARE = 'share';
 
-    const STORY_MENTION = 'story_mention';
+    public const STORY_MENTION = 'story_mention';
 
     /**
      * @var string $type
@@ -79,8 +74,9 @@ abstract class AbstractAttachment extends AbstractMessage
      */
     public function getPayload()
     {
-        if ($this->payload)
+        if ($this->payload) {
             return Payload::create($this->payload);
+        }
 
         return null;
     }

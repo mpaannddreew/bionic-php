@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpaannddreew
- * Date: 6/1/20
- * Time: 8:41 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\Viber;
-
 
 use Andre\Bionic\AbstractWebHookEvent;
 
@@ -101,7 +103,7 @@ class ViberWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return User
+     * @return User|null
      */
     public function getUser()
     {
@@ -145,7 +147,7 @@ class ViberWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return User
+     * @return User|null
      */
     public function getSender()
     {
@@ -157,7 +159,7 @@ class ViberWebHookEvent extends AbstractWebHookEvent
     }
 
     /**
-     * @return Message
+     * @return Message|null
      */
     public function getMessage()
     {

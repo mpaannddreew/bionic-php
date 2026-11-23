@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: hp
- * Date: 23/05/2022
- * Time: 13:04
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\WhatsApp\Traits;
-
 
 use Andre\Bionic\AbstractMessage;
 use Andre\Bionic\Plugins\WhatsApp\WhatsAppValue;
@@ -22,7 +24,8 @@ trait SendsMessages
      * @param $type
      * @return WhatsAppValue
      */
-    public function sendMessage($type, AbstractMessage $message, $recipient) {
+    public function sendMessage($type, AbstractMessage $message, $recipient)
+    {
         return $this->send(['type' => $type, 'to' => $recipient, $type => $message->toArray()]);
     }
 
@@ -32,7 +35,8 @@ trait SendsMessages
      * @param $message_id
      * @return mixed
      */
-    public function markRead($message_id) {
+    public function markRead($message_id)
+    {
         $this->checkForPhoneNumberId();
 
         $this->checkForAccessToken();

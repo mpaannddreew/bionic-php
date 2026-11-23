@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mpande
- * Date: 5/3/20
- * Time: 10:41 PM
+
+/*
+ * This file is part of Bionic.
+ *
+ * (c) Mpande Andrew <andrewmvp007@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Andre\Bionic\Plugins\WhatsApp;
-
 
 use Andre\Bionic\AbstractMessage;
 
@@ -20,6 +22,16 @@ class Error extends AbstractMessage
     protected $details;
 
     protected $href;
+
+    /**
+     * @var string
+     */
+    protected $message;
+
+    /**
+     * @var array
+     */
+    protected $error_data = [];
 
     /**
      * @return mixed
@@ -38,11 +50,14 @@ class Error extends AbstractMessage
     }
 
     /**
-     * @return mixed
+     * Error details. Current Graph API versions send them in
+     * error_data.details; older ones sent a top-level details field.
+     *
+     * @return string|null
      */
     public function getDetails()
     {
-        return $this->details;
+        return $this->details ?? ($this->error_data['details'] ?? null);
     }
 
     /**
@@ -51,5 +66,21 @@ class Error extends AbstractMessage
     public function getHref()
     {
         return $this->href;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrorData()
+    {
+        return $this->error_data;
     }
 }
