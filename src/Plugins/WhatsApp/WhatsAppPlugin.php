@@ -35,7 +35,7 @@ class WhatsAppPlugin extends AbstractBionicPlugin
     /**
      * @var string $graph_api_version
      */
-    protected $graph_api_version = 'v13.0';
+    protected $graph_api_version = 'v27.0';
 
     /**
      * @var string $phone_number_id

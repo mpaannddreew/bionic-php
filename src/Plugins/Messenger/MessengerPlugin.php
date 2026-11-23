@@ -42,7 +42,7 @@ class MessengerPlugin extends AbstractBionicPlugin
     /**
      * @var string $graph_api_version
      */
-    protected $graph_api_version = 'v9.0';
+    protected $graph_api_version = 'v27.0';
 
     /**
      * @var string $url
