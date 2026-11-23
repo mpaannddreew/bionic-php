@@ -174,6 +174,10 @@ class WhatsAppPlugin extends AbstractBionicPlugin
                                             $this->bionic->emit('message.image', [$this, $meta, $contacts, $message, $image]);
                                         }
 
+                                        if ($video = $message->getVideo()) {
+                                            $this->bionic->emit('message.video', [$this, $meta, $contacts, $message, $video]);
+                                        }
+
                                         if ($document = $message->getDocument()) {
                                             $this->bionic->emit('message.document', [$this, $meta, $contacts, $message, $document]);
                                         }
@@ -189,6 +193,14 @@ class WhatsAppPlugin extends AbstractBionicPlugin
                                         if ($system = $message->getSystem()) {
                                             $this->bionic->emit('message.system', [$this, $meta, $contacts, $message, $system]);
                                         }
+
+                                        if ($interactive = $message->getInteractive()) {
+                                            $this->bionic->emit('message.interactive', [$this, $meta, $contacts, $message, $interactive]);
+                                        }
+
+                                        if ($button = $message->getButton()) {
+                                            $this->bionic->emit('message.button', [$this, $meta, $contacts, $message, $button]);
+                                        }
                                     }
                                 }
 
@@ -197,6 +209,10 @@ class WhatsAppPlugin extends AbstractBionicPlugin
 
                                     foreach ($statuses as $status) {
                                         $this->bionic->emit('status', [$this, $meta, $status]);
+
+                                        if ($status->getStatus()) {
+                                            $this->bionic->emit('status.' . $status->getStatus(), [$this, $meta, $status]);
+                                        }
                                     }
                                 }
 

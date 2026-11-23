@@ -24,6 +24,16 @@ class Sticker extends AbstractMessage
     protected $sha256;
 
     /**
+     * @var string
+     */
+    protected $url;
+
+    /**
+     * @var bool
+     */
+    protected $animated = false;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -53,5 +63,24 @@ class Sticker extends AbstractMessage
     public function getSha256()
     {
         return $this->sha256;
+    }
+
+    /**
+     * Media URL included in incoming webhooks. Download it with
+     * WhatsAppPlugin::downloadMedia(); it expires after 5 minutes.
+     *
+     * @return string|null
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAnimated()
+    {
+        return (bool) $this->animated;
     }
 }

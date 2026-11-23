@@ -24,6 +24,11 @@ abstract class Media extends AbstractMessage
     protected $sha256;
 
     /**
+     * @var string
+     */
+    protected $url;
+
+    /**
      * @return mixed
      */
     public function getCaption()
@@ -55,4 +60,14 @@ abstract class Media extends AbstractMessage
         return $this->sha256;
     }
 
+    /**
+     * Media URL included in incoming webhooks. Download it with
+     * WhatsAppPlugin::downloadMedia(); it expires after 5 minutes.
+     *
+     * @return string|null
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
 }

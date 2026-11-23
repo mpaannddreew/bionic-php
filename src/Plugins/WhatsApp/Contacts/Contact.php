@@ -38,6 +38,11 @@ class Contact extends AbstractMessage
     protected $urls = [];
 
     /**
+     * @var string
+     */
+    protected $user_id;
+
+    /**
      * @return Profile
      */
     public function getProfile()
@@ -123,5 +128,15 @@ class Contact extends AbstractMessage
     public function getUrls()
     {
         return $this->urls;
+    }
+
+    /**
+     * The user's business-scoped user ID (BSUID)
+     *
+     * @return string|null
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
     }
 }

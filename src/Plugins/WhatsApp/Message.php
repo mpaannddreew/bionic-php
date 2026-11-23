@@ -12,8 +12,10 @@
 namespace Andre\Bionic\Plugins\WhatsApp;
 
 use Andre\Bionic\AbstractMessage;
+use Andre\Bionic\Plugins\WhatsApp\Messages\Button;
 use Andre\Bionic\Plugins\WhatsApp\Messages\Document;
 use Andre\Bionic\Plugins\WhatsApp\Messages\Image;
+use Andre\Bionic\Plugins\WhatsApp\Messages\Interactive;
 use Andre\Bionic\Plugins\WhatsApp\Messages\Location;
 use Andre\Bionic\Plugins\WhatsApp\Messages\Sticker;
 use Andre\Bionic\Plugins\WhatsApp\Messages\System;
@@ -54,6 +56,21 @@ class Message extends AbstractMessage
     protected $sticker = [];
 
     protected $system = [];
+
+    /**
+     * @var string
+     */
+    protected $from_user_id;
+
+    /**
+     * @var array
+     */
+    protected $interactive = [];
+
+    /**
+     * @var array
+     */
+    protected $button = [];
 
     /**
      * @return mixed
@@ -219,6 +236,44 @@ class Message extends AbstractMessage
     {
         if ($this->system) {
             return System::create($this->system);
+        }
+
+        return null;
+    }
+
+    /**
+     * The sender's business-scoped user ID (BSUID)
+     *
+     * @return string|null
+     */
+    public function getFromUserId()
+    {
+        return $this->from_user_id;
+    }
+
+    /**
+     * A reply to an interactive (button or list) message
+     *
+     * @return null|Interactive
+     */
+    public function getInteractive()
+    {
+        if ($this->interactive) {
+            return Interactive::create($this->interactive);
+        }
+
+        return null;
+    }
+
+    /**
+     * A tap on a template's quick-reply button
+     *
+     * @return null|Button
+     */
+    public function getButton()
+    {
+        if ($this->button) {
+            return Button::create($this->button);
         }
 
         return null;

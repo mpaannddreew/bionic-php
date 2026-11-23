@@ -24,6 +24,31 @@ class Status extends AbstractMessage
     protected $timestamp;
 
     /**
+     * @var string
+     */
+    protected $recipient_user_id;
+
+    /**
+     * @var string
+     */
+    protected $biz_opaque_callback_data;
+
+    /**
+     * @var array
+     */
+    protected $conversation = [];
+
+    /**
+     * @var array
+     */
+    protected $pricing = [];
+
+    /**
+     * @var array
+     */
+    protected $errors = [];
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -53,5 +78,53 @@ class Status extends AbstractMessage
     public function getTimestamp()
     {
         return $this->timestamp;
+    }
+
+    /**
+     * The recipient's business-scoped user ID (BSUID)
+     *
+     * @return string|null
+     */
+    public function getRecipientUserId()
+    {
+        return $this->recipient_user_id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBizOpaqueCallbackData()
+    {
+        return $this->biz_opaque_callback_data;
+    }
+
+    /**
+     * Conversation details (id, expiration_timestamp, origin.type), when Meta includes them
+     *
+     * @return array
+     */
+    public function getConversation()
+    {
+        return $this->conversation;
+    }
+
+    /**
+     * Pricing details (billable, pricing_model, type, category), when Meta includes them
+     *
+     * @return array
+     */
+    public function getPricing()
+    {
+        return $this->pricing;
+    }
+
+    /**
+     * Why a message failed (only on "failed" statuses)
+     *
+     * @return Error[]
+     */
+    public function getErrors()
+    {
+        return array_map(fn ($error) => Error::create($error), $this->errors);
     }
 }

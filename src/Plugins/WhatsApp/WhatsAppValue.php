@@ -72,6 +72,7 @@ class WhatsAppValue extends AbstractMessage
         $this->populateContacts();
         $this->populateMessages();
         $this->populateStatuses();
+        $this->populateErrors();
     }
 
     /**
